@@ -142,7 +142,7 @@ export default function Search() {
         </View>
 
         {/* CLOSE SERVICES SECTION */}
-        <View style={styles.closeServicesContainer}>
+        <View>
           <View style={styles.closeServicesHeader}>
             <Text style={styles.title}>Serviços mais próximos</Text>
           </View>
@@ -225,8 +225,6 @@ const styles = StyleSheet.create({
   },
   closeServiceRowContainer: {
     gap: 20,
-  },
-  closeServicesContainer: {
     marginBottom: 20,
   },
   closeServicesHeader: {
