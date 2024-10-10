@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     borderWidth: 1,
-    borderRadius: 4,
+    borderRadius: 8,
     paddingLeft: 10,
     paddingRight: 50,
     paddingVertical: 10,

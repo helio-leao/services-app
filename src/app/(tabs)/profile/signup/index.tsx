@@ -1,4 +1,5 @@
 import { Image } from "expo-image";
+import { router } from "expo-router";
 import {
   StyleSheet,
   SafeAreaView,
@@ -24,14 +25,17 @@ export default function Signup() {
           <Text style={styles.title}>Cadastre seus serviços</Text>
           <Text style={styles.text}>
             Faça parte da maior rede de prestadores de serviços da região. Se
-            destaque e aumente sua clientela diáriamente.
+            destaque e aumente sua clientela diariamente.
           </Text>
         </View>
       </View>
 
       {/* BUTTONS SECTION */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push("/profile/signup/phone")}
+        >
           <Text style={styles.buttonText}>Vamos começar</Text>
         </TouchableOpacity>
       </View>
