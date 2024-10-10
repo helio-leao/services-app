@@ -1,4 +1,3 @@
-import { router } from "expo-router";
 import { useState } from "react";
 import {
   StyleSheet,
@@ -9,32 +8,29 @@ import {
   TextInput,
 } from "react-native";
 
-export default function Phone() {
-  const [phone, setPhone] = useState("");
+export default function Email() {
+  const [email, setEmail] = useState("");
 
   return (
     <SafeAreaView style={styles.screenContainer}>
       {/* TEXT AND INPUT SECTION */}
       <View style={styles.textContainer}>
-        <Text style={styles.title}>Insira o seu número de celular.</Text>
+        <Text style={styles.title}>Entre com seu email.</Text>
         <Text style={{ marginBottom: 20 }}>
-          Seu número será seu acesso ao aplicativo.
+          Seu email será o nosso canal de comunicação.
         </Text>
-        <Text style={styles.title}>Celular</Text>
+        <Text style={styles.title}>E-mail</Text>
         <TextInput
           style={styles.input}
-          placeholder="(DDD) 99999-9999"
-          onChangeText={setPhone}
-          value={phone}
+          placeholder="Insira seu email"
+          onChangeText={setEmail}
+          value={email}
         />
       </View>
 
       {/* BUTTONS SECTION */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => router.push("/profile/signup/email")}
-        >
+        <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Continuar</Text>
         </TouchableOpacity>
       </View>
