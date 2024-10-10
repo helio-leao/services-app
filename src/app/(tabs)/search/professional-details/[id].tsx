@@ -1,6 +1,15 @@
 import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
-import { StyleSheet, SafeAreaView, ScrollView, View, Text } from "react-native";
+import {
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  View,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import Entypo from "@expo/vector-icons/Entypo";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 const professionalDetails = {
   image:
@@ -27,6 +36,7 @@ export default function Search() {
   return (
     <SafeAreaView style={styles.screenContainer}>
       <ScrollView>
+        {/* ICONS SECTION */}
         <View style={styles.sectionContainer}>
           <View style={styles.professionalDataContainer}>
             <Image
@@ -41,12 +51,7 @@ export default function Search() {
                 gap: 10,
               }}
             >
-              <Image
-                source={
-                  "https://s3-alpha-sig.figma.com/img/682a/a7c5/e9b3642868e0622aa9f7857aeb51ce1e?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=mz-7022f3HUgDyKOixVrpW7UJA4uMPfW9JkhZ1Ja6ODO1z5PXBlf2Mj1Rnvq0mKijZeyg-H-2SCfP810D7kIl8yc8aswabCEfdX5PAfxFH4ZnFBHaIqtl1qEsFsKL008LFfFYxSLYZQy6PDc3Z7A-zT5OtqLf5ugd-QUlYtqTHbda8jN2-b8AYS6fyLq1ZwzWT7GQusDqpJ5NaAT~c5dJkhnX5mcr-vK3~dMINa7o0~iczg9hmc42b4hEkz0V5GZuQFew0R~ZgHJaWg8vvMdtL1fNtqF36HuXIH7e0cABv-vZ3jlupuK1BaOOkng5bu~hmssxpGfLhRK-ggqODagrw__"
-                }
-                style={{ width: 50, height: 50 }}
-              />
+              <FontAwesome name="star" size={50} color="#ee0" />
               <Text>
                 {professionalDetails.rating} ({professionalDetails.ratingCount})
                 Avaliações
@@ -55,8 +60,9 @@ export default function Search() {
           </View>
         </View>
 
+        {/* PROFESSIONAL INFO SECTION */}
         <View style={[styles.sectionContainer, { paddingHorizontal: 40 }]}>
-          <Text>
+          <Text style={styles.subtitle}>
             {professionalDetails.name} ({id})
           </Text>
           <Text>{professionalDetails.address}</Text>
@@ -65,6 +71,7 @@ export default function Search() {
           </Text>
         </View>
 
+        {/* PROFESSIONAL QUALIFICATIONS SECTION */}
         <View style={styles.sectionContainer}>
           <Text>Serviços:</Text>
           <View style={{ paddingHorizontal: 20 }}>
@@ -74,6 +81,7 @@ export default function Search() {
           </View>
         </View>
 
+        {/* PROFESSIONAL CONTACTS SECTION */}
         <View style={styles.sectionContainer}>
           <Text>Contatos:</Text>
           <View style={{ paddingHorizontal: 20 }}>
@@ -81,6 +89,17 @@ export default function Search() {
             <Text>Email: {professionalDetails.email}</Text>
           </View>
         </View>
+
+        {/* CONTACT PROFESSIONAL SECTION */}
+        <TouchableOpacity
+          style={[
+            styles.sectionContainer,
+            { flexDirection: "row", gap: 10, alignItems: "center" },
+          ]}
+        >
+          <Text>Falar com {professionalDetails.name}</Text>
+          <Entypo name="chat" size={24} color="black" />
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
@@ -99,5 +118,9 @@ const styles = StyleSheet.create({
   professionalDataContainer: {
     paddingHorizontal: 20,
     flexDirection: "row",
+  },
+  subtitle: {
+    fontSize: 16,
+    fontWeight: "600",
   },
 });

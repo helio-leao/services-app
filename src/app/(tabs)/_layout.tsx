@@ -3,7 +3,7 @@ import Feather from "@expo/vector-icons/Feather";
 
 export default function Layout() {
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}>
       <Tabs.Screen
         name="search"
         options={{
