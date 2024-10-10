@@ -1,3 +1,4 @@
+import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import {
   StyleSheet,
@@ -9,6 +10,7 @@ import {
 } from "react-native";
 
 export default function Email() {
+  const params = useLocalSearchParams();
   const [email, setEmail] = useState("");
 
   return (
@@ -23,6 +25,7 @@ export default function Email() {
         <TextInput
           style={styles.input}
           placeholder="Insira seu email"
+          keyboardType="email-address"
           onChangeText={setEmail}
           value={email}
         />

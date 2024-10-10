@@ -24,6 +24,7 @@ export default function Phone() {
         <TextInput
           style={styles.input}
           placeholder="(DDD) 99999-9999"
+          keyboardType="number-pad"
           onChangeText={setPhone}
           value={phone}
         />
@@ -33,7 +34,12 @@ export default function Phone() {
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => router.push("/profile/signup/email")}
+          onPress={() =>
+            router.push({
+              pathname: "/profile/signup/email",
+              params: { phone },
+            })
+          }
         >
           <Text style={styles.buttonText}>Continuar</Text>
         </TouchableOpacity>
