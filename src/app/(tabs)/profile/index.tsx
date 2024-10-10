@@ -1,8 +1,8 @@
 import { Image } from "expo-image";
+import { router } from "expo-router";
 import {
   StyleSheet,
   SafeAreaView,
-  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -28,7 +28,10 @@ export default function Profile() {
 
       {/* BUTTONS SECTION */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push("/profile/signup")}
+        >
           <Text style={styles.buttonText}>Seja um prestador de serviços</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
