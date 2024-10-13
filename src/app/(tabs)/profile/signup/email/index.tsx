@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import {
   StyleSheet,
@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 export default function Email() {
-  const params = useLocalSearchParams();
+  const { phone } = useLocalSearchParams();
   const [email, setEmail] = useState("");
 
   return (
@@ -33,7 +33,15 @@ export default function Email() {
 
       {/* BUTTONS SECTION */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            router.push({
+              pathname: "/profile/signup/service-category",
+              params: { phone, email },
+            })
+          }
+        >
           <Text style={styles.buttonText}>Continuar</Text>
         </TouchableOpacity>
       </View>
