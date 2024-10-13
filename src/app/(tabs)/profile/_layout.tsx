@@ -15,6 +15,10 @@ export default function Layout() {
         name="signup/service-subcategory/index"
         options={{ title: "Subcategoria" }}
       />
+      <Stack.Screen
+        name="signup/personal-data/index"
+        options={{ title: "Dados Pessoais" }}
+      />
     </Stack>
   );
 }

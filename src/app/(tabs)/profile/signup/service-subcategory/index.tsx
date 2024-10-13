@@ -77,12 +77,12 @@ export default function ServiceSubcategory() {
             { backgroundColor: !selectedSubcategory ? "#888" : "#000" },
           ]}
           disabled={!selectedSubcategory}
-          // onPress={() =>
-          //   router.push({
-          //     pathname: "/profile/signup/service-subcategory",
-          //     params: { ...params, selectedSubcategory },
-          //   })
-          // }
+          onPress={() =>
+            router.push({
+              pathname: "/profile/signup/personal-data",
+              params: { ...params, selectedSubcategory },
+            })
+          }
         >
           <Text style={styles.buttonText}>Continuar</Text>
         </TouchableOpacity>
