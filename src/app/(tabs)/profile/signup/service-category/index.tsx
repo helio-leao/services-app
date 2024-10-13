@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
   selectButton: {
-    padding: 20,
+    padding: 14,
     flexDirection: "row",
     alignItems: "center",
     gap: 20,

@@ -9,6 +9,7 @@ import {
   View,
   TextInput,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 
 export default function PersonalData() {
   const params = useLocalSearchParams();
@@ -38,11 +39,17 @@ export default function PersonalData() {
           value={cep}
         />
         <Text style={styles.title}>Sexo</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setGender}
-          value={gender}
-        />
+
+        <View style={{ borderWidth: 1, borderRadius: 8 }}>
+          <Picker
+            selectedValue={gender}
+            onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
+          >
+            <Picker.Item label="Masculino" value="MASCULINO" />
+            <Picker.Item label="Feminino" value="FEMININO" />
+            <Picker.Item label="Outros" value="OUTROS" />
+          </Picker>
+        </View>
       </View>
 
       {/* BUTTONS SECTION */}
@@ -86,17 +93,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     width: 300,
     alignSelf: "center",
-  },
-  selectImage: {
-    width: 40,
-    height: 40,
-  },
-  selectButton: {
-    padding: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 20,
-    borderRadius: 8,
   },
   buttonsContainer: {
     gap: 10,
