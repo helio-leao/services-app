@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 export default function Email() {
-  const { phone } = useLocalSearchParams();
+  const params = useLocalSearchParams();
   const [email, setEmail] = useState("");
 
   return (
@@ -38,7 +38,7 @@ export default function Email() {
           onPress={() =>
             router.push({
               pathname: "/profile/signup/service-category",
-              params: { phone, email },
+              params: { ...params, email },
             })
           }
         >

@@ -11,6 +11,10 @@ export default function Layout() {
         name="signup/service-category/index"
         options={{ title: "Categoria" }}
       />
+      <Stack.Screen
+        name="signup/service-subcategory/index"
+        options={{ title: "Subcategoria" }}
+      />
     </Stack>
   );
 }
