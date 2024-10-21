@@ -19,6 +19,11 @@ export default function Layout() {
         name="signup/personal-data/index"
         options={{ title: "Dados Pessoais" }}
       />
+
+      <Stack.Screen
+        name="signin/edit-data/index"
+        options={{ title: "Perfil" }}
+      />
     </Stack>
   );
 }

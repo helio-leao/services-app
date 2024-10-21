@@ -9,6 +9,7 @@ import {
   View,
   TextInput,
   ScrollView,
+  Alert,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
@@ -83,12 +84,18 @@ export default function PersonalData() {
         <View style={styles.buttonsContainer}>
           <TouchableOpacity
             style={styles.button}
-            // onPress={() =>
-            //   router.push({
-            //     pathname: "/profile/signup/service-subcategory",
-            //     params: { ...params, selectedSubcategory },
-            //   })
-            // }
+            onPress={() => {
+              Alert.alert(
+                "Parabéns!\nSeu cadastro foi concluído.",
+                "Agora você pode prestar seus serviços e aumentar sua cartela de clientes com segurança e rapidez.",
+                [
+                  {
+                    text: "Ok! Entendi",
+                    onPress: () => {},
+                  },
+                ]
+              );
+            }}
           >
             <Text style={styles.buttonText}>Continuar</Text>
           </TouchableOpacity>
