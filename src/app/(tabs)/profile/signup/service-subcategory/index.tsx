@@ -1,92 +1,122 @@
 import { Image } from "expo-image";
-import { router } from "expo-router";
-import { useLocalSearchParams } from "expo-router";
-import { useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
   Text,
   TouchableOpacity,
   View,
+  ScrollView,
+  ActivityIndicator,
+  Alert,
 } from "react-native";
+import axios from "axios";
+import ServiceSubcategory from "@/src/types/ServiceSubcategory";
 
-const categories = [
-  {
-    name: "Trabalhos Acadêmicos",
-    picture:
-      "https://s3-alpha-sig.figma.com/img/860f/a6eb/da444b507ed4d835220eef7eaeb6f61f?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=FpmEY4Mlow~zlMbUjkokqumN8YIA4d6SIrlWXVbE8gesOsU868U2vs2mA0UFVJR3VIaxArGKqasQ3gGVeRmf0CiX8m-5UXoUAndp7FQLqmB9TnERytNKVoQO4dn8NTFIyuk~ZxIjd--rjFiHM7UwcVnz9WcE4BL4JnOs9Rnwt~2yOWUGBfq-x-MQjiAXIoGOFhHu4cAqY-h7MSSwQHx23rVTWt7GE9f~d4UUJV0PStVJFe6zFmm18MOERGj2UGEtZ0V1ztyqYiMRwPyyZKaRXW-LrPCcUOCYhmfvhMdpaRZev4QzBnU5BXiQTZPRhWRYg2LROi-9TRGNTAmDsacSUQ__",
-  },
-  {
-    name: "Idiomas",
-    picture:
-      "https://s3-alpha-sig.figma.com/img/860f/a6eb/da444b507ed4d835220eef7eaeb6f61f?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=FpmEY4Mlow~zlMbUjkokqumN8YIA4d6SIrlWXVbE8gesOsU868U2vs2mA0UFVJR3VIaxArGKqasQ3gGVeRmf0CiX8m-5UXoUAndp7FQLqmB9TnERytNKVoQO4dn8NTFIyuk~ZxIjd--rjFiHM7UwcVnz9WcE4BL4JnOs9Rnwt~2yOWUGBfq-x-MQjiAXIoGOFhHu4cAqY-h7MSSwQHx23rVTWt7GE9f~d4UUJV0PStVJFe6zFmm18MOERGj2UGEtZ0V1ztyqYiMRwPyyZKaRXW-LrPCcUOCYhmfvhMdpaRZev4QzBnU5BXiQTZPRhWRYg2LROi-9TRGNTAmDsacSUQ__",
-  },
-  {
-    name: "Reforço Escolar",
-    picture:
-      "https://s3-alpha-sig.figma.com/img/860f/a6eb/da444b507ed4d835220eef7eaeb6f61f?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=FpmEY4Mlow~zlMbUjkokqumN8YIA4d6SIrlWXVbE8gesOsU868U2vs2mA0UFVJR3VIaxArGKqasQ3gGVeRmf0CiX8m-5UXoUAndp7FQLqmB9TnERytNKVoQO4dn8NTFIyuk~ZxIjd--rjFiHM7UwcVnz9WcE4BL4JnOs9Rnwt~2yOWUGBfq-x-MQjiAXIoGOFhHu4cAqY-h7MSSwQHx23rVTWt7GE9f~d4UUJV0PStVJFe6zFmm18MOERGj2UGEtZ0V1ztyqYiMRwPyyZKaRXW-LrPCcUOCYhmfvhMdpaRZev4QzBnU5BXiQTZPRhWRYg2LROi-9TRGNTAmDsacSUQ__",
-  },
-  {
-    name: "Música",
-    picture:
-      "https://s3-alpha-sig.figma.com/img/860f/a6eb/da444b507ed4d835220eef7eaeb6f61f?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=FpmEY4Mlow~zlMbUjkokqumN8YIA4d6SIrlWXVbE8gesOsU868U2vs2mA0UFVJR3VIaxArGKqasQ3gGVeRmf0CiX8m-5UXoUAndp7FQLqmB9TnERytNKVoQO4dn8NTFIyuk~ZxIjd--rjFiHM7UwcVnz9WcE4BL4JnOs9Rnwt~2yOWUGBfq-x-MQjiAXIoGOFhHu4cAqY-h7MSSwQHx23rVTWt7GE9f~d4UUJV0PStVJFe6zFmm18MOERGj2UGEtZ0V1ztyqYiMRwPyyZKaRXW-LrPCcUOCYhmfvhMdpaRZev4QzBnU5BXiQTZPRhWRYg2LROi-9TRGNTAmDsacSUQ__",
-  },
-];
-
-export default function ServiceSubcategory() {
+export default function ServiceSubcategoryScreen() {
   const params = useLocalSearchParams();
-  const [selectedSubcategory, setSelectedSubcategory] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [subcategoryOptions, setSubcategoryOptions] = useState<
+    ServiceSubcategory[]
+  >([]);
+  const [selectedSubcategoryId, setSelectedSubcategoryId] = useState("");
+
+  useEffect(() => {
+    async function fetchCategories() {
+      const { selectedCategoryId } = params;
+      try {
+        const { data } = await axios(
+          `${process.env.EXPO_PUBLIC_API_URL}/serviceCategories/${selectedCategoryId}/serviceSubcategories`
+        );
+        setSubcategoryOptions(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        Alert.alert(
+          "Atenção",
+          "Não foi possível obter a lista de subcategorias."
+        );
+      }
+    }
+    fetchCategories();
+  }, []);
 
   return (
     <SafeAreaView style={styles.screenContainer}>
-      {/* TEXT AND SELECT SECTION */}
-      <View style={styles.textContainer}>
+      <View style={[styles.container, { marginTop: 20 }]}>
         <Text style={styles.title}>
-          Selecione a opção que mais se encaixa no seu perfil
+          Selecione a opção que mais se encaixa no seu perfil.
         </Text>
+      </View>
 
-        <View style={{ gap: 8 }}>
-          {categories.map((option) => (
-            <TouchableOpacity
-              key={option.name}
+      {/* SELECT SECTION */}
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        {/* select buttons */}
+        <View style={{ flex: 1, justifyContent: "space-between" }}>
+          {isLoading ? (
+            <View
               style={[
-                styles.selectButton,
+                styles.container,
                 {
-                  backgroundColor:
-                    selectedSubcategory === option.name ? "#aaf" : "#ddd",
+                  flex: 1,
+                  justifyContent: "center",
                 },
               ]}
+            >
+              <ActivityIndicator size={"large"} />
+            </View>
+          ) : (
+            <View style={[styles.container, { gap: 8, marginVertical: 20 }]}>
+              {subcategoryOptions.map((option) => (
+                <TouchableOpacity
+                  key={option._id}
+                  style={[
+                    styles.selectButton,
+                    {
+                      backgroundColor:
+                        selectedSubcategoryId === option._id ? "#aaf" : "#ddd",
+                    },
+                  ]}
+                  onPress={() =>
+                    setSelectedSubcategoryId((prev) =>
+                      prev === option._id ? "" : option._id
+                    )
+                  }
+                >
+                  <Image
+                    source={option.serviceCategory.pictureUrl}
+                    style={styles.selectImage}
+                  />
+                  <Text style={styles.title}>{option.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+
+          {/* confirm button */}
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                { backgroundColor: !selectedSubcategoryId ? "#888" : "#000" },
+              ]}
+              disabled={!selectedSubcategoryId}
               onPress={() =>
-                setSelectedSubcategory((prev) =>
-                  prev === option.name ? "" : option.name
-                )
+                router.push({
+                  pathname: "/profile/signup/service-subcategory",
+                  params: {
+                    ...params,
+                    selectedSubcategoryId,
+                  },
+                })
               }
             >
-              <Image source={option.picture} style={styles.selectImage} />
-              <Text style={styles.title}>{option.name}</Text>
+              <Text style={styles.buttonText}>Continuar</Text>
             </TouchableOpacity>
-          ))}
+          </View>
         </View>
-      </View>
-
-      {/* BUTTONS SECTION */}
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={[
-            styles.button,
-            { backgroundColor: !selectedSubcategory ? "#888" : "#000" },
-          ]}
-          disabled={!selectedSubcategory}
-          onPress={() =>
-            router.push({
-              pathname: "/profile/signup/personal-data",
-              params: { ...params, selectedSubcategory },
-            })
-          }
-        >
-          <Text style={styles.buttonText}>Continuar</Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -95,25 +125,14 @@ const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
     backgroundColor: "#fff",
-    justifyContent: "space-between",
-    paddingVertical: 20,
   },
-  textContainer: {
-    gap: 10,
+  container: {
     width: 300,
     alignSelf: "center",
   },
   title: {
     fontSize: 18,
     fontWeight: "600",
-  },
-  input: {
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    width: 300,
-    alignSelf: "center",
   },
   selectImage: {
     width: 40,
@@ -127,7 +146,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   buttonsContainer: {
-    gap: 10,
+    marginBottom: 20,
   },
   button: {
     backgroundColor: "#000",
