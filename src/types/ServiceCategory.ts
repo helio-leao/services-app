@@ -1,4 +1,4 @@
-export default interface Category {
+export default interface ServiceCategory {
   _id: string;
   name: string;
   pictureUrl: string;

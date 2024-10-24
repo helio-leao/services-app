@@ -17,7 +17,7 @@ import ServiceCategory from "@/src/types/ServiceCategory";
 export default function ServiceCategoryScreen() {
   const params = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(true);
-  const [categories, setCategories] = useState<ServiceCategory[]>([]);
+  const [categoryOptions, setCategoryOptions] = useState<ServiceCategory[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function ServiceCategoryScreen() {
         const { data } = await axios(
           `${process.env.EXPO_PUBLIC_API_URL}/serviceCategories`
         );
-        setCategories(data);
+        setCategoryOptions(data);
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -38,31 +38,31 @@ export default function ServiceCategoryScreen() {
 
   return (
     <SafeAreaView style={styles.screenContainer}>
-      <ScrollView
-        contentContainerStyle={{
-          minHeight: "100%",
-          justifyContent: "space-between",
-          paddingVertical: 20,
-        }}
-      >
-        {/* SELECT SECTION */}
-        <View style={styles.selectContainer}>
-          <Text style={styles.title}>
-            Selecione a categoria dos serviços que você vai realizar
-          </Text>
+      <View style={[styles.container, { marginTop: 20 }]}>
+        <Text style={styles.title}>
+          Selecione a categoria dos serviços que você vai realizar
+        </Text>
+      </View>
 
+      {/* SELECT SECTION */}
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        {/* select buttons */}
+        <View style={{ flex: 1, justifyContent: "space-between" }}>
           {isLoading ? (
             <View
-              style={{
-                flexGrow: 1,
-                justifyContent: "center",
-              }}
+              style={[
+                styles.container,
+                {
+                  flex: 1,
+                  justifyContent: "center",
+                },
+              ]}
             >
               <ActivityIndicator size={"large"} />
             </View>
           ) : (
-            <View style={{ gap: 8, marginVertical: 10 }}>
-              {categories.map((option) => (
+            <View style={[styles.container, { gap: 8, marginVertical: 20 }]}>
+              {categoryOptions.map((option) => (
                 <TouchableOpacity
                   key={option._id}
                   style={[
@@ -87,25 +87,25 @@ export default function ServiceCategoryScreen() {
               ))}
             </View>
           )}
-        </View>
 
-        {/* BUTTONS SECTION */}
-        <View style={styles.buttonsContainer}>
-          <TouchableOpacity
-            style={[
-              styles.button,
-              { backgroundColor: !selectedCategoryId ? "#888" : "#000" },
-            ]}
-            disabled={!selectedCategoryId}
-            onPress={() =>
-              router.push({
-                pathname: "/profile/signup/service-subcategory",
-                params: { ...params, selectedCategoryId },
-              })
-            }
-          >
-            <Text style={styles.buttonText}>Continuar</Text>
-          </TouchableOpacity>
+          {/* confirm button */}
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                { backgroundColor: !selectedCategoryId ? "#888" : "#000" },
+              ]}
+              disabled={!selectedCategoryId}
+              onPress={() =>
+                router.push({
+                  pathname: "/profile/signup/service-subcategory",
+                  params: { ...params, selectedCategoryId },
+                })
+              }
+            >
+              <Text style={styles.buttonText}>Continuar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -117,22 +117,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  selectContainer: {
-    flex: 1,
+  container: {
     width: 300,
     alignSelf: "center",
   },
   title: {
     fontSize: 18,
     fontWeight: "600",
-  },
-  input: {
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    width: 300,
-    alignSelf: "center",
   },
   selectImage: {
     width: 40,
@@ -146,7 +137,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   buttonsContainer: {
-    gap: 10,
+    marginBottom: 20,
   },
   button: {
     backgroundColor: "#000",
