@@ -113,7 +113,7 @@ export default function ServiceSubcategoryScreen() {
               disabled={!selectedSubcategoryId}
               onPress={() =>
                 router.push({
-                  pathname: "/profile/signup/service-subcategory",
+                  pathname: "/profile/signup/personal-data",
                   params: {
                     ...params,
                     selectedSubcategoryId,
