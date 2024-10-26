@@ -60,6 +60,15 @@ export default function ServiceCategoryScreen() {
             >
               <ActivityIndicator size={"large"} />
             </View>
+          ) : categoryOptions.length === 0 ? (
+            <View
+              style={[
+                styles.container,
+                { flex: 1, justifyContent: "center", alignItems: "center" },
+              ]}
+            >
+              <Text>Não há ítens cadastrados</Text>
+            </View>
           ) : (
             <View style={[styles.container, { gap: 8, marginVertical: 20 }]}>
               {categoryOptions.map((option) => (
