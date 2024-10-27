@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 export default function Phone() {
-  const [phone, setPhone] = useState("");
+  const [celphone, setCelphone] = useState("");
 
   return (
     <SafeAreaView style={styles.screenContainer}>
@@ -25,8 +25,8 @@ export default function Phone() {
           style={styles.input}
           placeholder="(DDD) 99999-9999"
           keyboardType="number-pad"
-          onChangeText={setPhone}
-          value={phone}
+          onChangeText={setCelphone}
+          value={celphone}
         />
       </View>
 
@@ -37,7 +37,7 @@ export default function Phone() {
           onPress={() =>
             router.push({
               pathname: "/profile/signup/email",
-              params: { phone },
+              params: { celphone },
             })
           }
         >

@@ -1,4 +1,3 @@
-import { router } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import {
@@ -12,15 +11,83 @@ import {
   Alert,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import axios from "axios";
+import { router } from "expo-router";
+
+const GENDER_OPTIONS = [
+  {
+    label: "Masculino",
+    value: "MASCULINO",
+  },
+  {
+    label: "Feminino",
+    value: "FEMININO",
+  },
+  {
+    label: "Outros",
+    value: "OUTROS",
+  },
+];
 
 export default function PersonalData() {
   const params = useLocalSearchParams();
   const [name, setName] = useState("");
-  const [cep, setCep] = useState("");
-  const [endereco, setEndereco] = useState("");
-  const [numero, setNumero] = useState("");
-  const [complemento, setComplemento] = useState("");
-  const [gender, setGender] = useState("");
+  const [zip, setZip] = useState("");
+  const [district, setDistrict] = useState("");
+  const [addressStreet, setAddressStreet] = useState("");
+  const [number, setNumber] = useState("");
+  const [complement, setComplement] = useState("");
+  const [gender, setGender] = useState(GENDER_OPTIONS[0].value);
+
+  async function handleContinuePress() {
+    const { celphone, email, selectedCategoryId, selectedSubcategoryId } =
+      params;
+
+    const newUser = {
+      name: name,
+      gender: gender,
+      address: {
+        street: addressStreet,
+        zip: zip,
+        number: number,
+        complement: complement,
+        district: district,
+      },
+      contact: {
+        email: email,
+        celphone: celphone,
+      },
+      service: {
+        category: selectedCategoryId,
+        subcategory: selectedSubcategoryId,
+      },
+    };
+
+    try {
+      const { data: savedUser } = await axios.post(
+        `${process.env.EXPO_PUBLIC_API_URL}/users`,
+        newUser
+      );
+
+      Alert.alert(
+        "Parabéns!\nSeu cadastro foi concluído.",
+        "Agora você pode prestar seus serviços e aumentar sua cartela de clientes com segurança e rapidez.",
+        [
+          {
+            text: "Ok! Entendi",
+            onPress: () =>
+              router.navigate({
+                pathname: "/(tabs)/profile/signin/edit-data",
+                params: { userId: savedUser._id },
+              }),
+          },
+        ]
+      );
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Atenção", "Não foi possível completar a operação.");
+    }
+  }
 
   return (
     <SafeAreaView style={styles.screenContainer}>
@@ -43,28 +110,36 @@ export default function PersonalData() {
           <TextInput
             style={styles.input}
             placeholder="99999-999"
-            onChangeText={setCep}
-            value={cep}
+            onChangeText={setZip}
+            value={zip}
           />
+
+          <Text style={styles.title}>Bairro</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={setDistrict}
+            value={district}
+          />
+
           <Text style={styles.title}>Endereço</Text>
           <TextInput
             style={styles.input}
-            onChangeText={setEndereco}
-            value={endereco}
+            onChangeText={setAddressStreet}
+            value={addressStreet}
           />
 
           <Text style={styles.title}>Número</Text>
           <TextInput
             style={styles.input}
-            onChangeText={setNumero}
-            value={numero}
+            onChangeText={setNumber}
+            value={number}
           />
 
           <Text style={styles.title}>Complemento</Text>
           <TextInput
             style={styles.input}
-            onChangeText={setComplemento}
-            value={complemento}
+            onChangeText={setComplement}
+            value={complement}
           />
 
           <Text style={styles.title}>Sexo</Text>
@@ -73,30 +148,20 @@ export default function PersonalData() {
               selectedValue={gender}
               onValueChange={(itemValue, _itemIndex) => setGender(itemValue)}
             >
-              <Picker.Item label="Masculino" value="MASCULINO" />
-              <Picker.Item label="Feminino" value="FEMININO" />
-              <Picker.Item label="Outros" value="OUTROS" />
+              {GENDER_OPTIONS.map((genderOption) => (
+                <Picker.Item
+                  key={genderOption.label}
+                  label={genderOption.label}
+                  value={genderOption.value}
+                />
+              ))}
             </Picker>
           </View>
         </View>
 
         {/* BUTTONS SECTION */}
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              Alert.alert(
-                "Parabéns!\nSeu cadastro foi concluído.",
-                "Agora você pode prestar seus serviços e aumentar sua cartela de clientes com segurança e rapidez.",
-                [
-                  {
-                    text: "Ok! Entendi",
-                    onPress: () => {},
-                  },
-                ]
-              );
-            }}
-          >
+          <TouchableOpacity style={styles.button} onPress={handleContinuePress}>
             <Text style={styles.buttonText}>Continuar</Text>
           </TouchableOpacity>
         </View>

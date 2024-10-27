@@ -10,8 +10,10 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Image } from "expo-image";
+import { useLocalSearchParams } from "expo-router";
 
 export default function PersonalData() {
+  const { userId } = useLocalSearchParams();
   const [serviceTitle, setServiceTitle] = useState("");
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
