@@ -8,11 +8,14 @@ import {
   TextInput,
   ScrollView,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
 import axios from "axios";
+
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 const GENDER_OPTIONS = [
   {
@@ -32,6 +35,7 @@ const GENDER_OPTIONS = [
 export default function PersonalData() {
   const { userId } = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(true);
+  const [isEditingEnabled, setIsEditingEnabled] = useState(false);
   const [serviceTitle, setServiceTitle] = useState("");
   const [serviceDescription, setServiceDescription] = useState("");
   const [name, setName] = useState("");
@@ -46,9 +50,7 @@ export default function PersonalData() {
 
   useEffect(() => {
     async function fetchUser() {
-      const { data: user } = await axios(
-        `${process.env.EXPO_PUBLIC_API_URL}/users/${userId}`
-      );
+      const { data: user } = await axios(`${API_URL}/users/${userId}`);
       setServiceTitle(user.service.title);
       setServiceDescription(user.service.description);
       setName(user.name);
@@ -66,8 +68,34 @@ export default function PersonalData() {
     fetchUser();
   }, []);
 
-  function handleUpdateUser() {
-    console.log("handleUpdateUser");
+  async function handleUpdateUser() {
+    const updatedUserData = {
+      name: name,
+      gender: gender,
+      contact: {
+        email: email,
+        celphone: celphone,
+      },
+      address: {
+        zip: zip,
+        district: district,
+        street: addressStreet,
+        number: number,
+        complement: complement,
+      },
+      service: {
+        title: serviceTitle,
+        description: serviceDescription,
+      },
+    };
+
+    try {
+      await axios.patch(`${API_URL}/users/${userId}`, updatedUserData);
+      Alert.alert("Atenção", "Atualizado com sucesso.");
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Atenção", "A operação não pôde ser concluída.");
+    }
   }
 
   if (isLoading) {
@@ -119,6 +147,7 @@ export default function PersonalData() {
               paddingVertical: 10,
               width: 60,
             }}
+            onPress={() => setIsEditingEnabled((prev) => !prev)}
           >
             <Text style={styles.buttonText}>Editar</Text>
           </TouchableOpacity>
@@ -132,6 +161,7 @@ export default function PersonalData() {
           <Text style={styles.title}>Título do serviço</Text>
           <TextInput
             style={styles.input}
+            editable={isEditingEnabled}
             onChangeText={setServiceTitle}
             value={serviceTitle}
           />
@@ -139,6 +169,7 @@ export default function PersonalData() {
           <Text style={styles.title}>Descrição</Text>
           <TextInput
             style={styles.input}
+            editable={isEditingEnabled}
             multiline
             numberOfLines={4}
             textAlignVertical="top"
@@ -153,11 +184,17 @@ export default function PersonalData() {
         </View>
         <View style={styles.inputsContainer}>
           <Text style={styles.title}>Nome</Text>
-          <TextInput style={styles.input} onChangeText={setName} value={name} />
+          <TextInput
+            style={styles.input}
+            editable={isEditingEnabled}
+            onChangeText={setName}
+            value={name}
+          />
 
           <Text style={styles.title}>Email</Text>
           <TextInput
             style={styles.input}
+            editable={isEditingEnabled}
             keyboardType="email-address"
             onChangeText={setEmail}
             value={email}
@@ -166,6 +203,7 @@ export default function PersonalData() {
           <Text style={styles.title}>Celular</Text>
           <TextInput
             style={styles.input}
+            editable={isEditingEnabled}
             keyboardType="number-pad"
             onChangeText={setCelphone}
             value={celphone}
@@ -174,6 +212,7 @@ export default function PersonalData() {
           <Text style={styles.title}>Sexo</Text>
           <View style={{ borderWidth: 1, borderRadius: 8 }}>
             <Picker
+              enabled={isEditingEnabled}
               selectedValue={gender}
               onValueChange={(itemValue, _itemIndex) => setGender(itemValue)}
             >
@@ -196,6 +235,7 @@ export default function PersonalData() {
           <Text style={styles.title}>CEP</Text>
           <TextInput
             style={styles.input}
+            editable={isEditingEnabled}
             keyboardType="number-pad"
             onChangeText={setZip}
             value={zip}
@@ -204,6 +244,7 @@ export default function PersonalData() {
           <Text style={styles.title}>Bairro</Text>
           <TextInput
             style={styles.input}
+            editable={isEditingEnabled}
             onChangeText={setDistrict}
             value={district}
           />
@@ -211,6 +252,7 @@ export default function PersonalData() {
           <Text style={styles.title}>Endereço</Text>
           <TextInput
             style={styles.input}
+            editable={isEditingEnabled}
             onChangeText={setAddressStreet}
             value={addressStreet}
           />
@@ -218,6 +260,7 @@ export default function PersonalData() {
           <Text style={styles.title}>Número</Text>
           <TextInput
             style={styles.input}
+            editable={isEditingEnabled}
             onChangeText={setNumber}
             value={number}
           />
@@ -225,6 +268,7 @@ export default function PersonalData() {
           <Text style={styles.title}>Complemento</Text>
           <TextInput
             style={styles.input}
+            editable={isEditingEnabled}
             onChangeText={setComplement}
             value={complement}
           />
@@ -232,7 +276,14 @@ export default function PersonalData() {
 
         {/* BUTTONS SECTION */}
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.button} onPress={handleUpdateUser}>
+          <TouchableOpacity
+            style={[
+              styles.button,
+              { backgroundColor: !isEditingEnabled ? "#888" : "#000" },
+            ]}
+            onPress={handleUpdateUser}
+            disabled={!isEditingEnabled}
+          >
             <Text style={styles.buttonText}>Salvar alterações</Text>
           </TouchableOpacity>
         </View>
