@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -7,23 +7,78 @@ import {
   View,
   TextInput,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
+import axios from "axios";
+
+const GENDER_OPTIONS = [
+  {
+    label: "Masculino",
+    value: "MASCULINO",
+  },
+  {
+    label: "Feminino",
+    value: "FEMININO",
+  },
+  {
+    label: "Outros",
+    value: "OUTROS",
+  },
+];
 
 export default function PersonalData() {
   const { userId } = useLocalSearchParams();
+  const [isLoading, setIsLoading] = useState(true);
   const [serviceTitle, setServiceTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [serviceDescription, setServiceDescription] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [celphone, setCelphone] = useState("");
-  const [gender, setGender] = useState("");
-  const [cep, setCep] = useState("");
-  const [address, setAddress] = useState("");
+  const [gender, setGender] = useState(GENDER_OPTIONS[0].value);
+  const [zip, setZip] = useState("");
+  const [district, setDistrict] = useState("");
+  const [addressStreet, setAddressStreet] = useState("");
   const [number, setNumber] = useState("");
   const [complement, setComplement] = useState("");
+
+  useEffect(() => {
+    async function fetchUser() {
+      const { data: user } = await axios(
+        `${process.env.EXPO_PUBLIC_API_URL}/users/${userId}`
+      );
+      setServiceTitle(user.service.title);
+      setServiceDescription(user.service.description);
+      setName(user.name);
+      setEmail(user.contact.email);
+      setCelphone(user.contact.celphone);
+      setGender(user.gender);
+      setZip(user.address.zip);
+      setDistrict(user.address.district);
+      setAddressStreet(user.address.street);
+      setZip(user.address.zip);
+      setNumber(user.address.number);
+      setComplement(user.address.complement);
+      setIsLoading(false);
+    }
+    fetchUser();
+  }, []);
+
+  function handleUpdateUser() {
+    console.log("handleUpdateUser");
+  }
+
+  if (isLoading) {
+    return (
+      <SafeAreaView
+        style={[styles.screenContainer, { justifyContent: "center" }]}
+      >
+        <ActivityIndicator size={"large"} />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.screenContainer}>
@@ -87,8 +142,8 @@ export default function PersonalData() {
             multiline
             numberOfLines={4}
             textAlignVertical="top"
-            onChangeText={setDescription}
-            value={description}
+            onChangeText={setServiceDescription}
+            value={serviceDescription}
           />
         </View>
 
@@ -122,9 +177,13 @@ export default function PersonalData() {
               selectedValue={gender}
               onValueChange={(itemValue, _itemIndex) => setGender(itemValue)}
             >
-              <Picker.Item label="Masculino" value="MASCULINO" />
-              <Picker.Item label="Feminino" value="FEMININO" />
-              <Picker.Item label="Outros" value="OUTROS" />
+              {GENDER_OPTIONS.map((genderOption) => (
+                <Picker.Item
+                  key={genderOption.label}
+                  label={genderOption.label}
+                  value={genderOption.value}
+                />
+              ))}
             </Picker>
           </View>
         </View>
@@ -138,16 +197,24 @@ export default function PersonalData() {
           <TextInput
             style={styles.input}
             keyboardType="number-pad"
-            onChangeText={setCep}
-            value={cep}
+            onChangeText={setZip}
+            value={zip}
+          />
+
+          <Text style={styles.title}>Bairro</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={setDistrict}
+            value={district}
           />
 
           <Text style={styles.title}>Endereço</Text>
           <TextInput
             style={styles.input}
-            onChangeText={setAddress}
-            value={address}
+            onChangeText={setAddressStreet}
+            value={addressStreet}
           />
+
           <Text style={styles.title}>Número</Text>
           <TextInput
             style={styles.input}
@@ -165,15 +232,7 @@ export default function PersonalData() {
 
         {/* BUTTONS SECTION */}
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            // onPress={() =>
-            //   router.push({
-            //     pathname: "/profile/signup/service-subcategory",
-            //     params: { ...params, selectedSubcategory },
-            //   })
-            // }
-          >
+          <TouchableOpacity style={styles.button} onPress={handleUpdateUser}>
             <Text style={styles.buttonText}>Salvar alterações</Text>
           </TouchableOpacity>
         </View>
