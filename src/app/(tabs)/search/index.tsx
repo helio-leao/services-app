@@ -10,8 +10,10 @@ import {
   ScrollView,
 } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { router } from "expo-router";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import axios from "axios";
 
 const favoriteServices = [
   {
@@ -99,83 +101,153 @@ const closeServices = [
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    async function fetchProfessionals() {
+      const { data } = await axios(`${process.env.EXPO_PUBLIC_API_URL}/users`);
+      setUsers(data);
+    }
+    fetchProfessionals();
+  }, []);
 
   return (
     <SafeAreaView style={styles.screenContainer}>
-      <ScrollView>
-        {/* SEARCH BAR */}
-        <View>
-          <TextInput
-            style={styles.searchBar}
-            placeholder="Encontre seu serviço..."
-            onChangeText={setSearchQuery}
-            value={searchQuery}
-          />
-          <TouchableOpacity style={styles.searchButton}>
-            <Feather name="search" size={24} color="black" />
-          </TouchableOpacity>
-        </View>
+      {/* SEARCH BAR */}
+      <View>
+        <TextInput
+          style={styles.searchBar}
+          placeholder="Encontre seu serviço..."
+          onChangeText={setSearchQuery}
+          value={searchQuery}
+        />
+        <TouchableOpacity style={styles.searchButton}>
+          <Feather name="search" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
 
-        {/* FAVORITES SECTION */}
-        <View>
-          <View style={styles.favoritesHeader}>
-            <Text style={styles.title}>FAVORITOS</Text>
-            <Feather name="star" size={18} color="black" />
-          </View>
-
-          <FlatList
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.favoriteCardsContainer}
-            data={[
-              ...favoriteServices,
-              ...favoriteServices,
-              ...favoriteServices,
-            ]}
-            renderItem={({ item }) => (
-              <View style={styles.favoriteCardContainer}>
-                <Image style={styles.image} source={item.image} />
-                <Text>{item.name}</Text>
-              </View>
-            )}
-          />
-        </View>
-
-        {/* CLOSE SERVICES SECTION */}
-        <View>
-          <View style={styles.closeServicesHeader}>
-            <Text style={styles.title}>Serviços mais próximos</Text>
-          </View>
-
-          {closeServices.map((service) => (
-            <View style={styles.closeServiceRowContainer} key={service.title}>
-              <View style={styles.closeServiceRowHeader}>
-                <Text style={styles.subtitle}>{service.title}</Text>
-              </View>
-
-              <FlatList
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.favoriteCardsContainer}
-                data={service.data}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    style={styles.favoriteCardContainer}
-                    onPress={() =>
-                      router.push(`/search/professional-details/${item._id}`)
-                    }
-                  >
-                    <Image style={styles.image} source={item.image} />
-                  </TouchableOpacity>
-                )}
-              />
-            </View>
-          ))}
-        </View>
-      </ScrollView>
+      {/* DYNAMIC MAIN SECTION */}
+      <SearchResults users={users} />
     </SafeAreaView>
   );
 }
+
+const DefaultMainSection = () => {
+  return (
+    <ScrollView>
+      {/* FAVORITES SECTION */}
+      <View>
+        <View style={styles.favoritesHeader}>
+          <Text style={styles.title}>FAVORITOS</Text>
+          <Feather name="star" size={18} color="black" />
+        </View>
+
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.favoriteCardsContainer}
+          data={[...favoriteServices, ...favoriteServices, ...favoriteServices]}
+          renderItem={({ item }) => (
+            <View style={styles.favoriteCardContainer}>
+              <Image style={styles.image} source={item.image} />
+              <Text>{item.name}</Text>
+            </View>
+          )}
+        />
+      </View>
+
+      {/* CLOSE SERVICES SECTION */}
+      <View>
+        <View style={styles.closeServicesHeader}>
+          <Text style={styles.title}>Serviços mais próximos</Text>
+        </View>
+
+        {closeServices.map((service) => (
+          <View style={styles.closeServiceRowContainer} key={service.title}>
+            <View style={styles.closeServiceRowHeader}>
+              <Text style={styles.subtitle}>{service.title}</Text>
+            </View>
+
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.favoriteCardsContainer}
+              data={service.data}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.favoriteCardContainer}
+                  onPress={() =>
+                    router.push(`/search/professional-details/${item._id}`)
+                  }
+                >
+                  <Image style={styles.image} source={item.image} />
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+        ))}
+      </View>
+    </ScrollView>
+  );
+};
+
+const SearchResults = ({ users }) => {
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={{ marginBottom: 20, marginHorizontal: 20 }}>
+        <Text style={styles.title}>Serviços</Text>
+      </View>
+
+      <FlatList
+        data={[...users, ...users, ...users, ...users, ...users]}
+        contentContainerStyle={{
+          gap: 10,
+          paddingBottom: 20,
+          paddingHorizontal: 20,
+        }}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={{
+              padding: 10,
+              backgroundColor: "#eee",
+              flexDirection: "row",
+              gap: 20,
+              borderRadius: 8,
+            }}
+          >
+            <View style={{ alignItems: "center" }}>
+              <Image
+                style={{ width: 60, height: 60 }}
+                source={
+                  "https://s3-alpha-sig.figma.com/img/7652/1f5e/5dc8e27763b029e116fc1d7a079f77ed?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=OuymUoyFfdHmnXtrA55sUFcY4wiXUX88~qZIxn7LPiH74-dQKXX~OeOD1UnLWXyHdN3kTd8eSa5aVV4k-dEX1pTaUzeSQkZAEK8sg1F1DhEo6yCr~MfSqkaHGMuvAMbpdtWZ5aIdhr1kRwzrdSVRBuploTfDKsAQfpWrcUcWJyPaTGNlFoaBQc4T-vseJOS6QVFg5C~AuMiQiB7V6AM3qz4GE7sd1Jut6dMEiV7ZwU5V39hQsBuFS231SZoD3oGnTqVpkhr-swQ55x17~XGaTimqxwI07TUX-4KLFp4ePtkyvXtb1Gc6WvIixc2xd9ZSAjkvyMhEoswHgkf0Sqb95w__"
+                }
+              />
+              <Text>{item.name}</Text>
+            </View>
+            <View>
+              <Text style={styles.title}>{item.service.subcategory.name}</Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  gap: 10,
+                  alignItems: "center",
+                }}
+              >
+                <Text>4.8</Text>
+                <FontAwesome name="star" size={18} color="#dd0" />
+                <Text>(235)</Text>
+                <Text>{item.service.category.name}</Text>
+              </View>
+              <Text>Preço médio R$ 250,00</Text>
+              <Text>{item.address.street}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   screenContainer: {
