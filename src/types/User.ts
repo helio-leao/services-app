@@ -1,16 +1,25 @@
+import ServiceCategory from "./ServiceCategory";
+import ServiceSubcategory from "./ServiceSubcategory";
+
 export default interface User {
   _id: string;
-  cellphone: string;
-  email: string;
-  serviceCategory: string;
-  serviceSubcategory: string;
   name: string;
-  cep: string;
-  address: string;
-  number: string;
-  complement: string;
+  address: {
+    zip: string;
+    street: string;
+    number: string;
+    complement: string;
+  };
+  contact: {
+    celphone: string;
+    email: string;
+  };
+  service: {
+    title: string;
+    description: string;
+    category: ServiceCategory;
+    subcategory: ServiceSubcategory;
+  };
   gender: string;
   photoUrl: string;
-  serviceTitle: string;
-  serviceDescription: string;
 }

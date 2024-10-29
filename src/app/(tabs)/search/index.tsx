@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { router } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import axios from "axios";
+import User from "@/src/types/User";
 
 const favoriteServices = [
   {
@@ -177,7 +178,10 @@ const DefaultMainSection = () => {
                 <TouchableOpacity
                   style={styles.favoriteCardContainer}
                   onPress={() =>
-                    router.push(`/search/professional-details/${item._id}`)
+                    router.push({
+                      pathname: `/search/professional-details`,
+                      params: { userId: item._id },
+                    })
                   }
                 >
                   <Image style={styles.image} source={item.image} />
@@ -191,7 +195,7 @@ const DefaultMainSection = () => {
   );
 };
 
-const SearchResults = ({ users }) => {
+const SearchResults = ({ users }: { users: User[] }) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ marginBottom: 20, marginHorizontal: 20 }}>
@@ -215,6 +219,12 @@ const SearchResults = ({ users }) => {
               gap: 20,
               borderRadius: 8,
             }}
+            onPress={() =>
+              router.push({
+                pathname: `/search/professional-details`,
+                params: { userId: item._id },
+              })
+            }
           >
             <View style={{ alignItems: "center" }}>
               <Image
