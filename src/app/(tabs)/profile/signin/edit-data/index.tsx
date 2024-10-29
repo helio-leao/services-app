@@ -47,6 +47,8 @@ export default function PersonalData() {
   const [addressStreet, setAddressStreet] = useState("");
   const [number, setNumber] = useState("");
   const [complement, setComplement] = useState("");
+  const [serviceCategory, setServiceCategory] = useState("");
+  const [serviceSubcategory, setServiceSubcategory] = useState("");
 
   useEffect(() => {
     async function fetchUser() {
@@ -63,6 +65,8 @@ export default function PersonalData() {
       setZip(user.address.zip);
       setNumber(user.address.number);
       setComplement(user.address.complement);
+      setServiceCategory(user.service.category.name);
+      setServiceSubcategory(user.service.subcategory.name);
       setIsLoading(false);
     }
     fetchUser();
@@ -176,6 +180,11 @@ export default function PersonalData() {
             onChangeText={setServiceDescription}
             value={serviceDescription}
           />
+
+          <Text style={styles.title}>{serviceCategory}</Text>
+          <Text style={[styles.title, { marginLeft: 20 }]}>
+            {serviceSubcategory}
+          </Text>
         </View>
 
         {/* PERSONAL DATA SECTION */}
