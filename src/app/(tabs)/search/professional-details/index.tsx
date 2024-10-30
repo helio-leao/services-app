@@ -7,6 +7,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -16,6 +17,7 @@ import User from "@/src/types/User";
 
 export default function ProfessionalDetails() {
   const { userId } = useLocalSearchParams();
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User>();
 
   useEffect(() => {
@@ -24,9 +26,20 @@ export default function ProfessionalDetails() {
         `${process.env.EXPO_PUBLIC_API_URL}/users/${userId}`
       );
       setUser(data);
+      setIsLoading(false);
     }
     fetchProfessionalDetails();
   }, []);
+
+  if (isLoading) {
+    return (
+      <SafeAreaView
+        style={[styles.screenContainer, { justifyContent: "center" }]}
+      >
+        <ActivityIndicator size={"large"} />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.screenContainer}>
