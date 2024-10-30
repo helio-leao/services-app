@@ -5,8 +5,8 @@ export default function Index() {
   const { user } = useAuth();
 
   if (user) {
-    <Redirect href={"/(tabs)/(profile)/signin/edit-user"} />;
+    return <Redirect href={"/(tabs)/(profile)/signin/edit-user"} />;
   } else {
-    <Redirect href={"/(tabs)/(profile)/signup"} />;
+    return <Redirect href={"/(tabs)/(profile)/signup"} />;
   }
 }

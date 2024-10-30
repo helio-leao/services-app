@@ -9,6 +9,10 @@ import {
 } from "react-native";
 
 export default function SignupScreen() {
+  function handleSignin() {
+    console.log("TODO: signin");
+  }
+
   return (
     <SafeAreaView style={styles.screenContainer}>
       {/* TEXT SECTION */}
@@ -34,7 +38,7 @@ export default function SignupScreen() {
         >
           <Text style={styles.buttonText}>Seja um prestador de serviços</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleSignin}>
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
       </View>
