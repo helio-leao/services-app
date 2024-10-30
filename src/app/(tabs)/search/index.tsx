@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import { useEffect, useState } from "react";
@@ -103,6 +104,7 @@ const closeServices = [
 ];
 
 export default function Search() {
+  const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [users, setUsers] = useState([]);
   const [searchedUsers, setSearchedUsers] = useState([]);
@@ -115,14 +117,15 @@ export default function Search() {
   }, []);
 
   async function handleSearch() {
+    setIsLoading(true);
+
     if (!searchQuery) {
       setSearchedUsers([]);
-      return;
+    } else {
+      const { data } = await axios(`${API_URL}/users/search/${searchQuery}`); // TODO: check for undefined search query on api code
+      setSearchedUsers(data);
     }
-
-    // TODO: check for undefined search query on api code
-    const { data } = await axios(`${API_URL}/users/search/${searchQuery}`);
-    setSearchedUsers(data);
+    setIsLoading(false);
   }
 
   return (
@@ -134,6 +137,7 @@ export default function Search() {
           placeholder="Encontre seu serviço..."
           onChangeText={setSearchQuery}
           value={searchQuery}
+          onEndEditing={handleSearch}
         />
         <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
           <Feather name="search" size={24} color="black" />
@@ -141,7 +145,9 @@ export default function Search() {
       </View>
 
       {/* DYNAMIC MAIN SECTION */}
-      {searchedUsers.length > 0 ? (
+      {isLoading ? (
+        <ActivityIndicator size={"large"} style={{ flex: 1 }} />
+      ) : searchedUsers.length > 0 ? (
         <SearchResults users={searchedUsers} />
       ) : (
         <DefaultMainSection />
