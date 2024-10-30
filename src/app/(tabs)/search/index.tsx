@@ -16,6 +16,8 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import axios from "axios";
 import User from "@/src/types/User";
 
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
 const favoriteServices = [
   {
     _id: "1",
@@ -103,14 +105,25 @@ const closeServices = [
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
   const [users, setUsers] = useState([]);
+  const [searchedUsers, setSearchedUsers] = useState([]);
 
   useEffect(() => {
     async function fetchProfessionals() {
-      const { data } = await axios(`${process.env.EXPO_PUBLIC_API_URL}/users`);
-      setUsers(data);
+      console.log("TODO: load services");
     }
     fetchProfessionals();
   }, []);
+
+  async function handleSearch() {
+    if (!searchQuery) {
+      setSearchedUsers([]);
+      return;
+    }
+
+    // TODO: check for undefined search query on api code
+    const { data } = await axios(`${API_URL}/users/search/${searchQuery}`);
+    setSearchedUsers(data);
+  }
 
   return (
     <SafeAreaView style={styles.screenContainer}>
@@ -122,13 +135,17 @@ export default function Search() {
           onChangeText={setSearchQuery}
           value={searchQuery}
         />
-        <TouchableOpacity style={styles.searchButton}>
+        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
           <Feather name="search" size={24} color="black" />
         </TouchableOpacity>
       </View>
 
       {/* DYNAMIC MAIN SECTION */}
-      <SearchResults users={users} />
+      {searchedUsers.length > 0 ? (
+        <SearchResults users={searchedUsers} />
+      ) : (
+        <DefaultMainSection />
+      )}
     </SafeAreaView>
   );
 }
@@ -203,7 +220,7 @@ const SearchResults = ({ users }: { users: User[] }) => {
       </View>
 
       <FlatList
-        data={[...users, ...users, ...users, ...users, ...users]}
+        data={users}
         contentContainerStyle={{
           gap: 10,
           paddingBottom: 20,
