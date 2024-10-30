@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 
-export default function Profile() {
+export default function ProfileHomeScreen() {
   return (
     <SafeAreaView style={styles.screenContainer}>
       {/* TEXT SECTION */}

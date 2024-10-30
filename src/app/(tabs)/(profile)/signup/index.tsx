@@ -34,7 +34,7 @@ export default function Signup() {
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => router.push("/profile/signup/phone")}
+          onPress={() => router.push("/(profile)/signup/celphone")}
         >
           <Text style={styles.buttonText}>Vamos começar</Text>
         </TouchableOpacity>

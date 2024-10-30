@@ -32,7 +32,7 @@ const GENDER_OPTIONS = [
   },
 ];
 
-export default function PersonalData() {
+export default function EditUserScreen() {
   const { userId } = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [isEditingEnabled, setIsEditingEnabled] = useState(false);
@@ -73,6 +73,8 @@ export default function PersonalData() {
   }, []);
 
   async function handleUpdateUser() {
+    // TODO: disable edit button
+
     const updatedUserData = {
       name: name,
       gender: gender,

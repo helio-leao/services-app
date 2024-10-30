@@ -103,7 +103,7 @@ const closeServices = [
   },
 ];
 
-export default function Search() {
+export default function SearchScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [users, setUsers] = useState([]);
@@ -202,7 +202,7 @@ const DefaultMainSection = () => {
                   style={styles.favoriteCardContainer}
                   onPress={() =>
                     router.push({
-                      pathname: `/search/professional-details`,
+                      pathname: "/service-details",
                       params: { userId: item._id },
                     })
                   }
@@ -244,7 +244,7 @@ const SearchResults = ({ users }: { users: User[] }) => {
             }}
             onPress={() =>
               router.push({
-                pathname: `/search/professional-details`,
+                pathname: `/service-details`,
                 params: { userId: item._id },
               })
             }

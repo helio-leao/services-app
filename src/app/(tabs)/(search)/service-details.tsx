@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import User from "@/src/types/User";
 
-export default function ProfessionalDetails() {
+export default function ServiceDetailsScreen() {
   const { userId } = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User>();

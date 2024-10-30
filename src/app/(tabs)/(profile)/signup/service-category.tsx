@@ -12,31 +12,25 @@ import {
   Alert,
 } from "react-native";
 import axios from "axios";
-import ServiceSubcategory from "@/src/types/ServiceSubcategory";
+import ServiceCategory from "@/src/types/ServiceCategory";
 
-export default function ServiceSubcategoryScreen() {
+export default function ServiceCategoryScreen() {
   const params = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(true);
-  const [subcategoryOptions, setSubcategoryOptions] = useState<
-    ServiceSubcategory[]
-  >([]);
-  const [selectedSubcategoryId, setSelectedSubcategoryId] = useState("");
+  const [categoryOptions, setCategoryOptions] = useState<ServiceCategory[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
   useEffect(() => {
     async function fetchCategories() {
-      const { selectedCategoryId } = params;
       try {
         const { data } = await axios(
-          `${process.env.EXPO_PUBLIC_API_URL}/serviceCategories/${selectedCategoryId}/serviceSubcategories`
+          `${process.env.EXPO_PUBLIC_API_URL}/serviceCategories`
         );
-        setSubcategoryOptions(data);
+        setCategoryOptions(data);
         setIsLoading(false);
       } catch (error) {
         console.error(error);
-        Alert.alert(
-          "Atenção",
-          "Não foi possível obter a lista de subcategorias."
-        );
+        Alert.alert("Atenção", "Não foi possível obter a lista de categorias.");
       }
     }
     fetchCategories();
@@ -46,7 +40,7 @@ export default function ServiceSubcategoryScreen() {
     <SafeAreaView style={styles.screenContainer}>
       <View style={[styles.container, { marginTop: 20 }]}>
         <Text style={styles.title}>
-          Selecione a opção que mais se encaixa no seu perfil.
+          Selecione a categoria dos serviços que você vai realizar
         </Text>
       </View>
 
@@ -66,7 +60,7 @@ export default function ServiceSubcategoryScreen() {
             >
               <ActivityIndicator size={"large"} />
             </View>
-          ) : subcategoryOptions.length === 0 ? (
+          ) : categoryOptions.length === 0 ? (
             <View
               style={[
                 styles.container,
@@ -77,24 +71,24 @@ export default function ServiceSubcategoryScreen() {
             </View>
           ) : (
             <View style={[styles.container, { gap: 8, marginVertical: 20 }]}>
-              {subcategoryOptions.map((option) => (
+              {categoryOptions.map((option) => (
                 <TouchableOpacity
                   key={option._id}
                   style={[
                     styles.selectButton,
                     {
                       backgroundColor:
-                        selectedSubcategoryId === option._id ? "#aaf" : "#ddd",
+                        selectedCategoryId === option._id ? "#aaf" : "#ddd",
                     },
                   ]}
                   onPress={() =>
-                    setSelectedSubcategoryId((prev) =>
+                    setSelectedCategoryId((prev) =>
                       prev === option._id ? "" : option._id
                     )
                   }
                 >
                   <Image
-                    source={option.serviceCategory.pictureUrl}
+                    source={option.pictureUrl}
                     style={styles.selectImage}
                   />
                   <Text style={styles.title}>{option.name}</Text>
@@ -108,16 +102,13 @@ export default function ServiceSubcategoryScreen() {
             <TouchableOpacity
               style={[
                 styles.button,
-                { backgroundColor: !selectedSubcategoryId ? "#888" : "#000" },
+                { backgroundColor: !selectedCategoryId ? "#888" : "#000" },
               ]}
-              disabled={!selectedSubcategoryId}
+              disabled={!selectedCategoryId}
               onPress={() =>
                 router.push({
-                  pathname: "/profile/signup/personal-data",
-                  params: {
-                    ...params,
-                    selectedSubcategoryId,
-                  },
+                  pathname: "/(profile)/signup/service-subcategory",
+                  params: { ...params, selectedCategoryId },
                 })
               }
             >

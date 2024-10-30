@@ -6,7 +6,7 @@ export default function Layout() {
   return (
     <Tabs screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}>
       <Tabs.Screen
-        name="search"
+        name="(search)"
         options={{
           title: "Busca",
           tabBarIcon: ({ color, focused, size }) => (
@@ -15,7 +15,7 @@ export default function Layout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="(profile)"
         options={{
           title: "Perfil",
           tabBarIcon: ({ color, focused, size }) => (

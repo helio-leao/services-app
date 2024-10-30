@@ -29,7 +29,7 @@ const GENDER_OPTIONS = [
   },
 ];
 
-export default function PersonalData() {
+export default function PersonalDataScreen() {
   const params = useLocalSearchParams();
   const [name, setName] = useState("");
   const [zip, setZip] = useState("");
@@ -77,7 +77,7 @@ export default function PersonalData() {
             text: "Ok! Entendi",
             onPress: () =>
               router.navigate({
-                pathname: "/(tabs)/profile/signin/edit-data",
+                pathname: "/(profile)/signin/edit-user",
                 params: { userId: savedUser._id },
               }),
           },
