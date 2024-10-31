@@ -26,6 +26,8 @@ export default function Layout() {
         name="(signed-out)/personal-data"
         options={{ title: "Dados Pessoais" }}
       />
+      <Stack.Screen name="(signed-out)/signin" options={{ title: "Signin" }} />
+
       <Stack.Screen name="(signed-in)/[userId]" options={{ title: "Perfil" }} />
     </Stack>
   );

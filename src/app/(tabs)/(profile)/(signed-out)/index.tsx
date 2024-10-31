@@ -10,7 +10,7 @@ import {
 
 export default function SignupScreen() {
   function handleSignin() {
-    console.log("TODO: signin");
+    router.push("/(signed-out)/signin");
   }
 
   return (

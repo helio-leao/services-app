@@ -11,7 +11,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { router } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import axios from "axios";
@@ -108,13 +108,6 @@ export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = useState("");
   const [users, setUsers] = useState([]);
   const [searchedUsers, setSearchedUsers] = useState([]);
-
-  useEffect(() => {
-    async function fetchProfessionals() {
-      console.log("TODO: load services");
-    }
-    fetchProfessionals();
-  }, []);
 
   async function handleSearch() {
     setIsLoading(true);

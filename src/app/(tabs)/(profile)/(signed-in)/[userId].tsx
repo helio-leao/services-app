@@ -12,8 +12,9 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Image } from "expo-image";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
+import { useAuth } from "@/src/contexts/AuthContext";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -34,6 +35,7 @@ const GENDER_OPTIONS = [
 
 export default function EditUserScreen() {
   const { userId } = useLocalSearchParams();
+  const { logout } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [isEditingEnabled, setIsEditingEnabled] = useState(false);
   const [serviceTitle, setServiceTitle] = useState("");
@@ -114,14 +116,34 @@ export default function EditUserScreen() {
     );
   }
 
+  function handleSignout() {
+    console.log("TODO: signout");
+    // logout();
+    // router.replace("/(profile)/(signed-out)/index");
+  }
+
   return (
     <SafeAreaView style={styles.screenContainer}>
       <ScrollView>
+        <View style={{ width: 300, alignSelf: "center" }}>
+          <TouchableOpacity
+            style={{ alignSelf: "flex-end", paddingVertical: 20 }}
+            onPress={handleSignout}
+          >
+            <Text style={{ textDecorationLine: "underline", color: "#00F" }}>
+              Sair
+            </Text>
+          </TouchableOpacity>
+        </View>
         {/* PHOTO SECTION */}
         <View
           style={[
             styles.inputsContainer,
-            { flexDirection: "row", justifyContent: "space-between" },
+            {
+              flexDirection: "row",
+              justifyContent: "space-between",
+              paddingTop: 0,
+            },
           ]}
         >
           <View style={{ gap: 10 }}>
