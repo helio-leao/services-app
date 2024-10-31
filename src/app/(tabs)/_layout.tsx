@@ -4,7 +4,13 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function Layout() {
   return (
-    <Tabs screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarHideOnKeyboard: true,
+        unmountOnBlur: true,
+      }}
+    >
       <Tabs.Screen
         name="(search)"
         options={{

@@ -4,23 +4,29 @@ export default function Layout() {
   return (
     <Stack>
       <Stack.Screen name="index" />
-      <Stack.Screen name="signup/index" options={{ title: "Perfil" }} />
-      <Stack.Screen name="signup/disclaimer" options={{ title: "Signup" }} />
-      <Stack.Screen name="signup/celphone" options={{ title: "Telefone" }} />
-      <Stack.Screen name="signup/email" options={{ title: "Email" }} />
+      <Stack.Screen name="(signed-out)/index" options={{ title: "Perfil" }} />
       <Stack.Screen
-        name="signup/service-category"
+        name="(signed-out)/disclaimer"
+        options={{ title: "Signup" }}
+      />
+      <Stack.Screen
+        name="(signed-out)/celphone"
+        options={{ title: "Telefone" }}
+      />
+      <Stack.Screen name="(signed-out)/email" options={{ title: "Email" }} />
+      <Stack.Screen
+        name="(signed-out)/service-category"
         options={{ title: "Categoria" }}
       />
       <Stack.Screen
-        name="signup/service-subcategory"
+        name="(signed-out)/service-subcategory"
         options={{ title: "Subcategoria" }}
       />
       <Stack.Screen
-        name="signup/personal-data"
+        name="(signed-out)/personal-data"
         options={{ title: "Dados Pessoais" }}
       />
-      <Stack.Screen name="signin/edit-user" options={{ title: "Perfil" }} />
+      <Stack.Screen name="(signed-in)/[userId]" options={{ title: "Perfil" }} />
     </Stack>
   );
 }

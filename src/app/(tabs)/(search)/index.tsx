@@ -170,7 +170,7 @@ const DefaultMainSection = () => {
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.favoriteCardsContainer}
-          data={[...favoriteServices, ...favoriteServices, ...favoriteServices]}
+          data={[...favoriteServices, ...favoriteServices]}
           renderItem={({ item }) => (
             <View style={styles.favoriteCardContainer}>
               <Image style={styles.image} source={item.image} />

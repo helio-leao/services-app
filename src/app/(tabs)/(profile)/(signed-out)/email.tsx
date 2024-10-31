@@ -1,4 +1,4 @@
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import {
   StyleSheet,
@@ -9,24 +9,25 @@ import {
   TextInput,
 } from "react-native";
 
-export default function CelphoneScreen() {
-  const [celphone, setCelphone] = useState("");
+export default function EmailScreen() {
+  const params = useLocalSearchParams();
+  const [email, setEmail] = useState("");
 
   return (
     <SafeAreaView style={styles.screenContainer}>
       {/* TEXT AND INPUT SECTION */}
       <View style={styles.textContainer}>
-        <Text style={styles.title}>Insira o seu número de celular.</Text>
+        <Text style={styles.title}>Entre com seu email.</Text>
         <Text style={{ marginBottom: 20 }}>
-          Seu número será seu acesso ao aplicativo.
+          Seu email será o nosso canal de comunicação.
         </Text>
-        <Text style={styles.title}>Celular</Text>
+        <Text style={styles.title}>E-mail</Text>
         <TextInput
           style={styles.input}
-          placeholder="(DDD) 99999-9999"
-          keyboardType="number-pad"
-          onChangeText={setCelphone}
-          value={celphone}
+          placeholder="Insira seu email"
+          keyboardType="email-address"
+          onChangeText={setEmail}
+          value={email}
         />
       </View>
 
@@ -36,8 +37,8 @@ export default function CelphoneScreen() {
           style={styles.button}
           onPress={() =>
             router.push({
-              pathname: "/(profile)/signup/email",
-              params: { celphone },
+              pathname: "/(profile)/(signed-out)/service-category",
+              params: { ...params, email },
             })
           }
         >

@@ -13,6 +13,7 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import { router } from "expo-router";
+import { useAuth } from "@/src/contexts/AuthContext";
 
 const GENDER_OPTIONS = [
   {
@@ -30,6 +31,7 @@ const GENDER_OPTIONS = [
 ];
 
 export default function PersonalDataScreen() {
+  const { login } = useAuth();
   const params = useLocalSearchParams();
   const [name, setName] = useState("");
   const [zip, setZip] = useState("");
@@ -68,6 +70,7 @@ export default function PersonalDataScreen() {
         `${process.env.EXPO_PUBLIC_API_URL}/users`,
         newUser
       );
+      login(savedUser);
 
       Alert.alert(
         "Parabéns!\nSeu cadastro foi concluído.",
@@ -75,11 +78,10 @@ export default function PersonalDataScreen() {
         [
           {
             text: "Ok! Entendi",
-            onPress: () =>
-              router.navigate({
-                pathname: "/(profile)/signin/edit-user",
-                params: { userId: savedUser._id },
-              }),
+            onPress: () => {
+              router.dismissAll();
+              router.replace(`/(profile)/(signed-in)/${savedUser._id}`);
+            },
           },
         ]
       );

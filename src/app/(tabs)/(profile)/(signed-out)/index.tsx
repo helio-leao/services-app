@@ -34,7 +34,7 @@ export default function SignupScreen() {
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => router.push("/(profile)/signup/disclaimer")}
+          onPress={() => router.push("/(profile)/(signed-out)/disclaimer")}
         >
           <Text style={styles.buttonText}>Seja um prestador de serviços</Text>
         </TouchableOpacity>
