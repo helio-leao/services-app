@@ -4,7 +4,7 @@ export default function Layout() {
   return (
     <Stack>
       <Stack.Screen name="index" />
-      <Stack.Screen name="(signed-out)/index" options={{ title: "Perfil" }} />
+      <Stack.Screen name="(signed-out)/home" options={{ title: "Perfil" }} />
       <Stack.Screen
         name="(signed-out)/disclaimer"
         options={{ title: "Signup" }}

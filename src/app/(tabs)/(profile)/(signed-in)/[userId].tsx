@@ -118,7 +118,7 @@ export default function EditUserScreen() {
 
   function handleSignout() {
     logout();
-    router.replace("/(profile)/(signed-out)/disclaimer"); // TODO: should be /(profile)/(signed-out)
+    router.replace("/(profile)/(signed-out)/home");
   }
 
   return (

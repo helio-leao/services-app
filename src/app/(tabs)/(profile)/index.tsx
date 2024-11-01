@@ -7,6 +7,6 @@ export default function Index() {
   if (user) {
     return <Redirect href={`/(profile)/(signed-in)/${user._id}`} />;
   } else {
-    return <Redirect href={"/(profile)/(signed-out)"} />;
+    return <Redirect href={"/(profile)/(signed-out)/home"} />;
   }
 }

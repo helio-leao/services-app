@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 
-export default function SignupScreen() {
+export default function HomeScreen() {
   function handleSignin() {
     router.push("/(signed-out)/signin");
   }
