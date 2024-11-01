@@ -38,7 +38,7 @@ export default function SigninScreen() {
         <Text style={styles.title}>Celular</Text>
         <TextInput
           style={styles.input}
-          placeholder="Insira seu número do celular"
+          placeholder="(DDD) 99999-9999"
           keyboardType="number-pad"
           onChangeText={setCelphone}
           value={celphone}
