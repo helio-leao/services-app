@@ -51,6 +51,7 @@ export default function EditUserScreen() {
   const [complement, setComplement] = useState("");
   const [serviceCategory, setServiceCategory] = useState("");
   const [serviceSubcategory, setServiceSubcategory] = useState("");
+  const [joinedAt, setJoinedAt] = useState("");
 
   useEffect(() => {
     async function fetchUser() {
@@ -69,6 +70,7 @@ export default function EditUserScreen() {
       setComplement(user.address.complement);
       setServiceCategory(user.service.category.name);
       setServiceSubcategory(user.service.subcategory.name);
+      setJoinedAt(new Date(user.createdAt).getFullYear().toString());
       setIsLoading(false);
     }
     fetchUser();
@@ -164,7 +166,7 @@ export default function EditUserScreen() {
               <Text style={styles.buttonText}>Foto</Text>
             </TouchableOpacity>
           </View>
-          <Text>No Meu APP desde 2024</Text>
+          <Text>No Meu APP desde {joinedAt}</Text>
           <TouchableOpacity
             style={{
               backgroundColor: "#000",
