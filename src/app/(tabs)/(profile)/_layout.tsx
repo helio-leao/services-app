@@ -10,7 +10,7 @@ export default function Layout() {
         options={{ title: "Signup" }}
       />
       <Stack.Screen
-        name="(signed-out)/celphone"
+        name="(signed-out)/cellphone"
         options={{ title: "Telefone" }}
       />
       <Stack.Screen name="(signed-out)/email" options={{ title: "Email" }} />

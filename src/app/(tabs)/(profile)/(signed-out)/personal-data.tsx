@@ -42,7 +42,7 @@ export default function PersonalDataScreen() {
   const [gender, setGender] = useState(GENDER_OPTIONS[0].value);
 
   async function handleContinuePress() {
-    const { celphone, email, selectedCategoryId, selectedSubcategoryId } =
+    const { cellphone, email, selectedCategoryId, selectedSubcategoryId } =
       params;
 
     const newUser = {
@@ -57,7 +57,7 @@ export default function PersonalDataScreen() {
       },
       contact: {
         email: email,
-        celphone: celphone,
+        cellphone: cellphone,
       },
       service: {
         category: selectedCategoryId,

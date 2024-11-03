@@ -87,7 +87,7 @@ export default function ServiceDetailsScreen() {
         <View style={styles.sectionContainer}>
           <Text>Contatos:</Text>
           <View style={{ paddingHorizontal: 20 }}>
-            <Text>Whatsapp: {user?.contact.celphone}</Text>
+            <Text>Whatsapp: {user?.contact.cellphone}</Text>
             <Text>Email: {user?.contact.email}</Text>
           </View>
         </View>

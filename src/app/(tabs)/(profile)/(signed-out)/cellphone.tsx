@@ -9,8 +9,8 @@ import {
   TextInput,
 } from "react-native";
 
-export default function CelphoneScreen() {
-  const [celphone, setCelphone] = useState("");
+export default function CellphoneScreen() {
+  const [cellphone, setCellphone] = useState("");
 
   return (
     <SafeAreaView style={styles.screenContainer}>
@@ -25,8 +25,8 @@ export default function CelphoneScreen() {
           style={styles.input}
           placeholder="(DDD) 99999-9999"
           keyboardType="number-pad"
-          onChangeText={setCelphone}
-          value={celphone}
+          onChangeText={setCellphone}
+          value={cellphone}
         />
       </View>
 
@@ -37,7 +37,7 @@ export default function CelphoneScreen() {
           onPress={() =>
             router.push({
               pathname: "/(profile)/(signed-out)/email",
-              params: { celphone },
+              params: { cellphone: cellphone },
             })
           }
         >

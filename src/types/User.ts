@@ -11,7 +11,7 @@ export default interface User {
     complement: string;
   };
   contact: {
-    celphone: string;
+    cellphone: string;
     email: string;
   };
   service: {

@@ -42,7 +42,7 @@ export default function EditUserScreen() {
   const [serviceDescription, setServiceDescription] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [celphone, setCelphone] = useState("");
+  const [cellphone, setCellphone] = useState("");
   const [gender, setGender] = useState(GENDER_OPTIONS[0].value);
   const [zip, setZip] = useState("");
   const [district, setDistrict] = useState("");
@@ -60,7 +60,7 @@ export default function EditUserScreen() {
       setServiceDescription(user.service.description);
       setName(user.name);
       setEmail(user.contact.email);
-      setCelphone(user.contact.celphone);
+      setCellphone(user.contact.cellphone);
       setGender(user.gender);
       setZip(user.address.zip);
       setDistrict(user.address.district);
@@ -84,7 +84,7 @@ export default function EditUserScreen() {
       gender: gender,
       contact: {
         email: email,
-        celphone: celphone,
+        cellphone: cellphone,
       },
       address: {
         zip: zip,
@@ -239,8 +239,8 @@ export default function EditUserScreen() {
             style={styles.input}
             editable={isEditingEnabled}
             keyboardType="number-pad"
-            onChangeText={setCelphone}
-            value={celphone}
+            onChangeText={setCellphone}
+            value={cellphone}
           />
 
           <Text style={styles.title}>Sexo</Text>

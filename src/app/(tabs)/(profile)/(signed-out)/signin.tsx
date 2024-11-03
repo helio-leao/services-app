@@ -14,13 +14,13 @@ import {
 
 export default function SigninScreen() {
   const { login } = useAuth();
-  const [celphone, setCelphone] = useState("");
+  const [cellphone, setCellphone] = useState("");
 
   async function handleSignin() {
     const { data: user } = await axios.post(
       `${process.env.EXPO_PUBLIC_API_URL}/auth/signin`,
       {
-        celphone,
+        cellphone: cellphone,
       }
     );
     if (!user) {
@@ -40,8 +40,8 @@ export default function SigninScreen() {
           style={styles.input}
           placeholder="(DDD) 99999-9999"
           keyboardType="number-pad"
-          onChangeText={setCelphone}
-          value={celphone}
+          onChangeText={setCellphone}
+          value={cellphone}
         />
       </View>
 

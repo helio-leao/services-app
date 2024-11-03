@@ -34,7 +34,7 @@ export default function SignupDisclaimerScreen() {
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => router.push("/(profile)/(signed-out)/celphone")}
+          onPress={() => router.push("/(profile)/(signed-out)/cellphone")}
         >
           <Text style={styles.buttonText}>Vamos começar</Text>
         </TouchableOpacity>
