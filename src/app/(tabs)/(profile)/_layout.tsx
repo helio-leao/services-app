@@ -27,6 +27,10 @@ export default function Layout() {
         options={{ title: "Dados Pessoais" }}
       />
       <Stack.Screen name="(signed-out)/signin" options={{ title: "Signin" }} />
+      <Stack.Screen
+        name="(signed-out)/verify-account"
+        options={{ title: "Verificar Conta" }}
+      />
 
       <Stack.Screen name="(signed-in)/[userId]" options={{ title: "Perfil" }} />
     </Stack>

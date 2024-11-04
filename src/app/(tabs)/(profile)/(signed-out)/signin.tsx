@@ -23,12 +23,21 @@ export default function SigninScreen() {
         cellphone: cellphone,
       }
     );
+
     if (!user) {
       return Alert.alert("Atenção", "Usuário não encontrado");
     }
-    login(user);
-    router.dismissAll();
-    router.replace(`/(profile)/(signed-in)/${user._id}`);
+
+    if (user.verified) {
+      login(user);
+      router.dismissAll();
+      router.replace(`/(profile)/(signed-in)/${user._id}`);
+    } else {
+      router.push({
+        pathname: `/(profile)/(signed-out)/verify-account`,
+        params: { userId: user._id, cellphone: user.contact.cellphone },
+      });
+    }
   }
 
   return (
