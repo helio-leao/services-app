@@ -26,7 +26,10 @@ export default function SigninScreen() {
     }
 
     if (user.verified) {
-      console.log("todo: otp login");
+      router.push({
+        pathname: `/(profile)/(signed-out)/otp-verification`,
+        params: { cellphone: user.contact.cellphone },
+      });
     } else {
       router.push({
         pathname: `/(profile)/(signed-out)/account-verification`,

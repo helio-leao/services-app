@@ -31,6 +31,10 @@ export default function Layout() {
         name="(signed-out)/account-verification"
         options={{ title: "Verificação de Conta" }}
       />
+      <Stack.Screen
+        name="(signed-out)/otp-verification"
+        options={{ title: "Signin" }}
+      />
 
       <Stack.Screen name="(signed-in)/[userId]" options={{ title: "Perfil" }} />
     </Stack>
