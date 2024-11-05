@@ -13,7 +13,6 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import { router } from "expo-router";
-import { useAuth } from "@/src/contexts/AuthContext";
 
 const GENDER_OPTIONS = [
   {
@@ -31,7 +30,6 @@ const GENDER_OPTIONS = [
 ];
 
 export default function PersonalDataScreen() {
-  const { login } = useAuth();
   const params = useLocalSearchParams();
   const [name, setName] = useState("");
   const [zip, setZip] = useState("");
@@ -41,7 +39,7 @@ export default function PersonalDataScreen() {
   const [complement, setComplement] = useState("");
   const [gender, setGender] = useState(GENDER_OPTIONS[0].value);
 
-  async function handleContinuePress() {
+  async function handleSaveUser() {
     const { cellphone, email, selectedCategoryId, selectedSubcategoryId } =
       params;
 
@@ -67,11 +65,11 @@ export default function PersonalDataScreen() {
 
     try {
       const { data: savedUser } = await axios.post(
-        `${process.env.EXPO_PUBLIC_API_URL}/users`,
+        `${process.env.EXPO_PUBLIC_API_URL}/auth/signup`,
         newUser
       );
-      login(savedUser);
 
+      // NOTE: change the message to the cellphone-verification screen???
       Alert.alert(
         "Parabéns!\nSeu cadastro foi concluído.",
         "Agora você pode prestar seus serviços e aumentar sua cartela de clientes com segurança e rapidez.",
@@ -79,8 +77,10 @@ export default function PersonalDataScreen() {
           {
             text: "Ok! Entendi",
             onPress: () => {
-              router.dismissAll();
-              router.replace(`/(profile)/(signed-in)/${savedUser._id}`);
+              router.push({
+                pathname: "/(profile)/(signed-out)/account-verification",
+                params: { cellphone: savedUser.contact.cellphone },
+              });
             },
           },
         ]
@@ -163,7 +163,7 @@ export default function PersonalDataScreen() {
 
         {/* BUTTONS SECTION */}
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.button} onPress={handleContinuePress}>
+          <TouchableOpacity style={styles.button} onPress={handleSaveUser}>
             <Text style={styles.buttonText}>Continuar</Text>
           </TouchableOpacity>
         </View>

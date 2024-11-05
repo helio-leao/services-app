@@ -22,4 +22,5 @@ export default interface User {
   };
   gender: string;
   photoUrl: string;
+  verified: boolean;
 }

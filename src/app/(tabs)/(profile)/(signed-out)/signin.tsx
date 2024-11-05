@@ -1,4 +1,3 @@
-import { useAuth } from "@/src/contexts/AuthContext";
 import axios from "axios";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -13,15 +12,13 @@ import {
 } from "react-native";
 
 export default function SigninScreen() {
-  const { login } = useAuth();
   const [cellphone, setCellphone] = useState("");
 
   async function handleSignin() {
-    const { data: user } = await axios.post(
-      `${process.env.EXPO_PUBLIC_API_URL}/auth/signin`,
-      {
-        cellphone: cellphone,
-      }
+    // TODO: verify if phone number is valid
+
+    const { data: user } = await axios.get(
+      `${process.env.EXPO_PUBLIC_API_URL}/users/searchByCellphone/${cellphone}`
     );
 
     if (!user) {
@@ -29,13 +26,11 @@ export default function SigninScreen() {
     }
 
     if (user.verified) {
-      login(user);
-      router.dismissAll();
-      router.replace(`/(profile)/(signed-in)/${user._id}`);
+      console.log("todo: otp login");
     } else {
       router.push({
-        pathname: `/(profile)/(signed-out)/verify-account`,
-        params: { userId: user._id, cellphone: user.contact.cellphone },
+        pathname: `/(profile)/(signed-out)/account-verification`,
+        params: { cellphone: user.contact.cellphone },
       });
     }
   }

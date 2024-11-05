@@ -14,48 +14,41 @@ import {
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-export default function VerifyAccountScreen() {
+export default function AccountVerificationScreen() {
   const { login } = useAuth();
-  const { userId, cellphone } = useLocalSearchParams();
+  const { cellphone } = useLocalSearchParams();
   const [code, setCode] = useState("");
 
   async function handleSendCode() {
-    const { data } = await axios.post(`${API_URL}/auth/signup`, {
+    const { data } = await axios.post(`${API_URL}/auth/send-sms-verification`, {
       cellphone,
     });
 
-    if (!data.ok) {
+    if (data.ok) {
+      Alert.alert("Atenção", "Código enviado por SMS. Válido por 10 minutos.");
+    } else {
       Alert.alert(
         "Atenção",
         "Não foi possível enviar o código ao telefone especificado."
       );
-      return;
     }
-
-    Alert.alert("Atenção", "Código enviado por SMS. Expira em 10 minutos.");
   }
 
   async function handleVerification() {
-    const { data: verificationResult } = await axios.post(
-      `${API_URL}/auth/verify`,
-      {
-        cellphone,
-        code,
-      }
-    );
-
-    if (!verificationResult.valid) {
-      Alert.alert("Atenção", "Não foi possível validar a sua conta.");
-      return;
+    try {
+      const { data: user } = await axios.post(
+        `${API_URL}/auth/verify-account`,
+        {
+          cellphone,
+          code,
+        }
+      );
+      login(user);
+      router.dismissAll();
+      router.replace(`/(profile)/(signed-in)/${user._id}`);
+    } catch {
+      Alert.alert("Atenção", "Não foi possível validar a conta.");
     }
-
-    const { data: user } = await axios.patch(`${API_URL}/users/${userId}`, {
-      verified: true,
-    });
-    Alert.alert("Atenção", "Conta validada com sucesso.");
-    login(user);
-    router.dismissAll();
-    router.replace(`/(profile)/(signed-in)/${user._id}`);
   }
 
   return (
@@ -70,8 +63,13 @@ export default function VerifyAccountScreen() {
           onChangeText={setCode}
           value={code}
         />
-        <TouchableOpacity style={styles.button} onPress={handleSendCode}>
-          <Text style={styles.buttonText}>Enviar Código</Text>
+        <TouchableOpacity
+          style={{ alignSelf: "center", paddingVertical: 20 }}
+          onPress={handleSendCode}
+        >
+          <Text style={{ textDecorationLine: "underline", color: "#00F" }}>
+            Enviar Código
+          </Text>
         </TouchableOpacity>
       </View>
 
