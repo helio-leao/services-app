@@ -10,6 +10,7 @@ import {
   View,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -17,6 +18,7 @@ const API_URL = process.env.EXPO_PUBLIC_API_URL;
 export default function AccountVerificationScreen() {
   const { login } = useAuth();
   const { cellphone } = useLocalSearchParams();
+  const [isLoading, setIsLoading] = useState(false);
   const [code, setCode] = useState("");
 
   async function handleSendCode() {
@@ -35,6 +37,8 @@ export default function AccountVerificationScreen() {
   }
 
   async function handleVerification() {
+    setIsLoading(true);
+
     try {
       const { data: user } = await axios.post(
         `${API_URL}/auth/verify-account`,
@@ -49,6 +53,8 @@ export default function AccountVerificationScreen() {
     } catch {
       Alert.alert("Atenção", "Não foi possível validar a conta.");
     }
+
+    setIsLoading(false);
   }
 
   return (
@@ -75,8 +81,16 @@ export default function AccountVerificationScreen() {
 
       {/* LOWER SECTION */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleVerification}>
-          <Text style={styles.buttonText}>Verificar</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleVerification}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <ActivityIndicator />
+          ) : (
+            <Text style={styles.buttonText}>Verificar</Text>
+          )}
         </TouchableOpacity>
       </View>
     </SafeAreaView>

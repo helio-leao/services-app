@@ -9,6 +9,7 @@ import {
   TextInput,
   ScrollView,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
@@ -31,6 +32,7 @@ const GENDER_OPTIONS = [
 
 export default function PersonalDataScreen() {
   const params = useLocalSearchParams();
+  const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [zip, setZip] = useState("");
   const [district, setDistrict] = useState("");
@@ -63,6 +65,8 @@ export default function PersonalDataScreen() {
       },
     };
 
+    setIsLoading(true);
+
     try {
       const { data: savedUser } = await axios.post(
         `${process.env.EXPO_PUBLIC_API_URL}/auth/signup`,
@@ -89,6 +93,8 @@ export default function PersonalDataScreen() {
       console.log(error);
       Alert.alert("Atenção", "Não foi possível completar a operação.");
     }
+
+    setIsLoading(false);
   }
 
   return (
@@ -163,8 +169,16 @@ export default function PersonalDataScreen() {
 
         {/* BUTTONS SECTION */}
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.button} onPress={handleSaveUser}>
-            <Text style={styles.buttonText}>Continuar</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleSaveUser}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <ActivityIndicator />
+            ) : (
+              <Text style={styles.buttonText}>Continuar</Text>
+            )}
           </TouchableOpacity>
         </View>
       </ScrollView>

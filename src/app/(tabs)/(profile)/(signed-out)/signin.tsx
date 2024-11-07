@@ -9,13 +9,16 @@ import {
   View,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 
 export default function SigninScreen() {
+  const [isLoading, setIsLoading] = useState(false);
   const [cellphone, setCellphone] = useState("");
 
   async function handleSignin() {
     // TODO: verify if phone number is valid
+    setIsLoading(true);
 
     const { data: user } = await axios.get(
       `${process.env.EXPO_PUBLIC_API_URL}/users/searchByCellphone/${cellphone}`
@@ -36,6 +39,8 @@ export default function SigninScreen() {
         params: { cellphone: user.contact.cellphone },
       });
     }
+
+    setIsLoading(false);
   }
 
   return (
@@ -54,8 +59,16 @@ export default function SigninScreen() {
 
       {/* BUTTONS SECTION */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleSignin}>
-          <Text style={styles.buttonText}>Signin</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleSignin}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <ActivityIndicator />
+          ) : (
+            <Text style={styles.buttonText}>Signin</Text>
+          )}
         </TouchableOpacity>
       </View>
     </SafeAreaView>

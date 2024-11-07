@@ -39,6 +39,7 @@ export default function EditUserScreen() {
   const { userId } = useLocalSearchParams();
   const { logout } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   const [isEditingEnabled, setIsEditingEnabled] = useState(false);
   const [serviceDescription, setServiceDescription] = useState("");
   const [name, setName] = useState("");
@@ -103,6 +104,8 @@ export default function EditUserScreen() {
       },
     };
 
+    setIsSaving(true);
+
     try {
       await axios.patch(`${API_URL}/users/${userId}`, updatedUserData);
       Alert.alert("Atenção", "Atualizado com sucesso.");
@@ -110,6 +113,8 @@ export default function EditUserScreen() {
       console.error(error);
       Alert.alert("Atenção", "A operação não pôde ser concluída.");
     }
+
+    setIsSaving(false);
   }
 
   async function handlePictureUpdate() {
@@ -134,15 +139,18 @@ export default function EditUserScreen() {
       },
     };
 
+    setIsSaving(true);
+
     try {
       await axios.patch(`${API_URL}/users/${userId}`, updatedUserData);
       setPicture(base64 || "");
       setMimeType(mimeType || "");
-      Alert.alert("Atenção", "Atualizado com sucesso.");
     } catch (error) {
       console.error(error);
       Alert.alert("Atenção", "A operação não pôde ser concluída.");
     }
+
+    setIsSaving(false);
   }
 
   if (isLoading) {
@@ -199,8 +207,13 @@ export default function EditUserScreen() {
                 width: 60,
               }}
               onPress={handlePictureUpdate}
+              disabled={isSaving}
             >
-              <Text style={styles.buttonText}>Foto</Text>
+              {isSaving ? (
+                <ActivityIndicator />
+              ) : (
+                <Text style={styles.buttonText}>Foto</Text>
+              )}
             </TouchableOpacity>
           </View>
           <Text>No Meu APP desde {joinedAt}</Text>
@@ -345,9 +358,13 @@ export default function EditUserScreen() {
               { backgroundColor: !isEditingEnabled ? "#888" : "#000" },
             ]}
             onPress={handleUpdateUser}
-            disabled={!isEditingEnabled}
+            disabled={!isEditingEnabled || isSaving}
           >
-            <Text style={styles.buttonText}>Salvar alterações</Text>
+            {isSaving ? (
+              <ActivityIndicator />
+            ) : (
+              <Text style={styles.buttonText}>Salvar alterações</Text>
+            )}
           </TouchableOpacity>
         </View>
       </ScrollView>

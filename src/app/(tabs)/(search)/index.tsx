@@ -42,7 +42,7 @@ const favoriteServices = [
 ];
 
 export default function SearchScreen() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [allUsers, setAllUsers] = useState([]);
   const [searchedUsers, setSearchedUsers] = useState([]);
@@ -51,6 +51,7 @@ export default function SearchScreen() {
     async function fetchAllUsers() {
       const { data } = await axios(`${API_URL}/users`);
       setAllUsers(data);
+      setIsLoading(false);
     }
     fetchAllUsers();
   }, []);
