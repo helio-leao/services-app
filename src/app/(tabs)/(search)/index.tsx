@@ -11,7 +11,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { router } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import axios from "axios";
@@ -41,74 +41,19 @@ const favoriteServices = [
   },
 ];
 
-const closeServices = [
-  {
-    title: "Técnico em Informática",
-    data: [
-      {
-        _id: "1",
-        image:
-          "https://s3-alpha-sig.figma.com/img/1da3/5f7d/0b0dd2a64111eca1149b30f75a9c86bf?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ANOaeYnysM-5l4H6q-IAIvk2O25J~IU7sC98pc2ufBhn1RUCW6uvUALl13S18c81QApaB3puCedpqdZGPjznkQQoJB48sUSBnwkGa1~e1yXq8TpQRXOPMhkKEo5TIc~5gM4iShdrodXzpirLzMMdzJJvjgCekHDcG1zVYWwHCMtCdfV36~SagzUka67SigPxin9p2-ds~4klZDIE3OmlSkyAo5nAxSXGsp4EiVObCe7qqBnKd0cWAhh7MMcvdOPr9Ll45S45sjmwYfS0JxjZE4zORNi3AaeA3XSbKNI14fabCf9l0~1OZGJsejEgla3Pc5o5-hcq8S3xOQgA5lcfow__",
-      },
-      {
-        _id: "2",
-        image:
-          "https://s3-alpha-sig.figma.com/img/1da3/5f7d/0b0dd2a64111eca1149b30f75a9c86bf?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ANOaeYnysM-5l4H6q-IAIvk2O25J~IU7sC98pc2ufBhn1RUCW6uvUALl13S18c81QApaB3puCedpqdZGPjznkQQoJB48sUSBnwkGa1~e1yXq8TpQRXOPMhkKEo5TIc~5gM4iShdrodXzpirLzMMdzJJvjgCekHDcG1zVYWwHCMtCdfV36~SagzUka67SigPxin9p2-ds~4klZDIE3OmlSkyAo5nAxSXGsp4EiVObCe7qqBnKd0cWAhh7MMcvdOPr9Ll45S45sjmwYfS0JxjZE4zORNi3AaeA3XSbKNI14fabCf9l0~1OZGJsejEgla3Pc5o5-hcq8S3xOQgA5lcfow__",
-      },
-      {
-        _id: "3",
-        image:
-          "https://s3-alpha-sig.figma.com/img/1da3/5f7d/0b0dd2a64111eca1149b30f75a9c86bf?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ANOaeYnysM-5l4H6q-IAIvk2O25J~IU7sC98pc2ufBhn1RUCW6uvUALl13S18c81QApaB3puCedpqdZGPjznkQQoJB48sUSBnwkGa1~e1yXq8TpQRXOPMhkKEo5TIc~5gM4iShdrodXzpirLzMMdzJJvjgCekHDcG1zVYWwHCMtCdfV36~SagzUka67SigPxin9p2-ds~4klZDIE3OmlSkyAo5nAxSXGsp4EiVObCe7qqBnKd0cWAhh7MMcvdOPr9Ll45S45sjmwYfS0JxjZE4zORNi3AaeA3XSbKNI14fabCf9l0~1OZGJsejEgla3Pc5o5-hcq8S3xOQgA5lcfow__",
-      },
-      {
-        _id: "4",
-        image:
-          "https://s3-alpha-sig.figma.com/img/1da3/5f7d/0b0dd2a64111eca1149b30f75a9c86bf?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ANOaeYnysM-5l4H6q-IAIvk2O25J~IU7sC98pc2ufBhn1RUCW6uvUALl13S18c81QApaB3puCedpqdZGPjznkQQoJB48sUSBnwkGa1~e1yXq8TpQRXOPMhkKEo5TIc~5gM4iShdrodXzpirLzMMdzJJvjgCekHDcG1zVYWwHCMtCdfV36~SagzUka67SigPxin9p2-ds~4klZDIE3OmlSkyAo5nAxSXGsp4EiVObCe7qqBnKd0cWAhh7MMcvdOPr9Ll45S45sjmwYfS0JxjZE4zORNi3AaeA3XSbKNI14fabCf9l0~1OZGJsejEgla3Pc5o5-hcq8S3xOQgA5lcfow__",
-      },
-      {
-        _id: "5",
-        image:
-          "https://s3-alpha-sig.figma.com/img/1da3/5f7d/0b0dd2a64111eca1149b30f75a9c86bf?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ANOaeYnysM-5l4H6q-IAIvk2O25J~IU7sC98pc2ufBhn1RUCW6uvUALl13S18c81QApaB3puCedpqdZGPjznkQQoJB48sUSBnwkGa1~e1yXq8TpQRXOPMhkKEo5TIc~5gM4iShdrodXzpirLzMMdzJJvjgCekHDcG1zVYWwHCMtCdfV36~SagzUka67SigPxin9p2-ds~4klZDIE3OmlSkyAo5nAxSXGsp4EiVObCe7qqBnKd0cWAhh7MMcvdOPr9Ll45S45sjmwYfS0JxjZE4zORNi3AaeA3XSbKNI14fabCf9l0~1OZGJsejEgla3Pc5o5-hcq8S3xOQgA5lcfow__",
-      },
-    ],
-  },
-  {
-    title: "Eletricista",
-    data: [
-      {
-        _id: "1",
-        image:
-          "https://s3-alpha-sig.figma.com/img/2286/23b9/3a6340423a9394720c42b304a362c6ea?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=RsixSKKcYeBEQrqB5pLUfjT2IB4zH9LimPEreEgcVmujiOnRJB1sQSwNFZyLSbGfsB2pwkf-KannUK5PFoOJs0fCHxswQjrjBkM0Ok742pRRyvy0Wcl0LEJbN-vGbtRqxEH2O64bxisk2OQOWO5B7WNzmcnzPjy4t8DgtNNhMtfNfsIjB~-YLL7f~sKI~byPo2OuFZTC76R6uHEkBHdEB8Q59rD64-xaM3jePTGv8f7LMV-dlgFOSLCoC6IHi9nf5DCai2c6K~d~zRUoO48SOuakJs-tfzKepkF0rVAnk2UveHZ6j30WbeknOfzt6~LNxyZA2fOEBxu4LIngChwJkg__",
-      },
-      {
-        _id: "2",
-        image:
-          "https://s3-alpha-sig.figma.com/img/2286/23b9/3a6340423a9394720c42b304a362c6ea?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=RsixSKKcYeBEQrqB5pLUfjT2IB4zH9LimPEreEgcVmujiOnRJB1sQSwNFZyLSbGfsB2pwkf-KannUK5PFoOJs0fCHxswQjrjBkM0Ok742pRRyvy0Wcl0LEJbN-vGbtRqxEH2O64bxisk2OQOWO5B7WNzmcnzPjy4t8DgtNNhMtfNfsIjB~-YLL7f~sKI~byPo2OuFZTC76R6uHEkBHdEB8Q59rD64-xaM3jePTGv8f7LMV-dlgFOSLCoC6IHi9nf5DCai2c6K~d~zRUoO48SOuakJs-tfzKepkF0rVAnk2UveHZ6j30WbeknOfzt6~LNxyZA2fOEBxu4LIngChwJkg__",
-      },
-      {
-        _id: "3",
-        image:
-          "https://s3-alpha-sig.figma.com/img/2286/23b9/3a6340423a9394720c42b304a362c6ea?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=RsixSKKcYeBEQrqB5pLUfjT2IB4zH9LimPEreEgcVmujiOnRJB1sQSwNFZyLSbGfsB2pwkf-KannUK5PFoOJs0fCHxswQjrjBkM0Ok742pRRyvy0Wcl0LEJbN-vGbtRqxEH2O64bxisk2OQOWO5B7WNzmcnzPjy4t8DgtNNhMtfNfsIjB~-YLL7f~sKI~byPo2OuFZTC76R6uHEkBHdEB8Q59rD64-xaM3jePTGv8f7LMV-dlgFOSLCoC6IHi9nf5DCai2c6K~d~zRUoO48SOuakJs-tfzKepkF0rVAnk2UveHZ6j30WbeknOfzt6~LNxyZA2fOEBxu4LIngChwJkg__",
-      },
-    ],
-  },
-  {
-    title: "Pedreiro",
-    data: [
-      {
-        _id: "1",
-        image:
-          "https://s3-alpha-sig.figma.com/img/7652/1f5e/5dc8e27763b029e116fc1d7a079f77ed?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=OuymUoyFfdHmnXtrA55sUFcY4wiXUX88~qZIxn7LPiH74-dQKXX~OeOD1UnLWXyHdN3kTd8eSa5aVV4k-dEX1pTaUzeSQkZAEK8sg1F1DhEo6yCr~MfSqkaHGMuvAMbpdtWZ5aIdhr1kRwzrdSVRBuploTfDKsAQfpWrcUcWJyPaTGNlFoaBQc4T-vseJOS6QVFg5C~AuMiQiB7V6AM3qz4GE7sd1Jut6dMEiV7ZwU5V39hQsBuFS231SZoD3oGnTqVpkhr-swQ55x17~XGaTimqxwI07TUX-4KLFp4ePtkyvXtb1Gc6WvIixc2xd9ZSAjkvyMhEoswHgkf0Sqb95w__",
-      },
-    ],
-  },
-];
-
 export default function SearchScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [users, setUsers] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
   const [searchedUsers, setSearchedUsers] = useState([]);
+
+  useEffect(() => {
+    async function fetchAllUsers() {
+      const { data } = await axios(`${API_URL}/users`);
+      setAllUsers(data);
+    }
+    fetchAllUsers();
+  }, []);
 
   async function handleSearch() {
     setIsLoading(true);
@@ -144,17 +89,38 @@ export default function SearchScreen() {
       ) : searchedUsers.length > 0 ? (
         <SearchResults users={searchedUsers} />
       ) : (
-        <DefaultMainSection />
+        <DefaultMainSection users={allUsers} />
       )}
     </SafeAreaView>
   );
 }
 
-const DefaultMainSection = () => {
+const DefaultMainSection = ({ users }: { users: User[] }) => {
+  function getUniqueJobCategories() {
+    const jobCategories = new Set<string>();
+
+    for (const user of users) {
+      jobCategories.add(user.service.category.name);
+    }
+    return Array.from(jobCategories);
+  }
+
+  function formatServicesDataForScreen() {
+    // NOTE: [{ title: "Profession", data: [ users: User[]] }, { title: "Profession2", data: [ users: User[]] }]
+    const uniqueJobCategories = getUniqueJobCategories();
+    const formatedServices = uniqueJobCategories.map((categoryName) => ({
+      title: categoryName,
+      data: users.filter((user) => user.service.category.name === categoryName),
+    }));
+    return formatedServices;
+  }
+
+  const services = formatServicesDataForScreen();
+
   return (
     <ScrollView>
       {/* FAVORITES SECTION */}
-      <View>
+      {/* <View>
         <View style={styles.favoritesHeader}>
           <Text style={styles.title}>FAVORITOS</Text>
           <Feather name="star" size={18} color="black" />
@@ -172,7 +138,7 @@ const DefaultMainSection = () => {
             </View>
           )}
         />
-      </View>
+      </View> */}
 
       {/* CLOSE SERVICES SECTION */}
       <View>
@@ -180,7 +146,7 @@ const DefaultMainSection = () => {
           <Text style={styles.title}>Serviços mais próximos</Text>
         </View>
 
-        {closeServices.map((service) => (
+        {services.map((service) => (
           <View style={styles.closeServiceRowContainer} key={service.title}>
             <View style={styles.closeServiceRowHeader}>
               <Text style={styles.subtitle}>{service.title}</Text>
@@ -201,7 +167,12 @@ const DefaultMainSection = () => {
                     })
                   }
                 >
-                  <Image style={styles.image} source={item.image} />
+                  <Image
+                    style={styles.image}
+                    source={`data:${item.picture?.mimeType};base64,${item.picture?.base64}`}
+                    placeholder={userPicturePlaceholder}
+                  />
+                  <Text>{item.name.split(" ")[0]}</Text>
                 </TouchableOpacity>
               )}
             />

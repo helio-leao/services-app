@@ -15,7 +15,6 @@ export default interface User {
     email: string;
   };
   service: {
-    title: string;
     description: string;
     category: ServiceCategory;
     subcategory: ServiceSubcategory;
