@@ -48,9 +48,7 @@ export default function ServiceDetailsScreen() {
         <View style={styles.sectionContainer}>
           <View style={styles.professionalDataContainer}>
             <Image
-              source={
-                "https://s3-alpha-sig.figma.com/img/bb36/fa10/31a72cc531af356e7a1eb9ecbd208ac7?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=nSM8h7Soxxhdm0b46wyKi-U8ap2vD8Uk4MOb6KeRRaCBTj6zmnZ3A4~SVEkg2OuAwhisat1I0Hr6FgPAvipT6nyFYHKPZK7jSsi7L677kLBNxRnYPhKzzaL3B0XZuuAtm6uEi1LVkN5-JqRPbRQZ4p2DPoCoEeCAd4WaxygRIS4~kNWCK4L6YYY~QYJMovIRL83CFvYUoDsb1vZmOPSfWq--7k9isyI6BUprDj7XX1zYmowGlt2wg-MsTgnjTE1FrRihgvyk0ywTbb~YVdmJwdESg2eS-pwSF8RqdzzzRhBk-7sEgQANPScLNi-O1S-MIhsBNX0USAbuANLLIQLWfQ__"
-              }
+              source={`data:${user?.picture.mimeType};base64,${user?.picture.base64}`}
               style={{ width: 160, height: 160 }}
             />
 
@@ -120,6 +118,7 @@ const styles = StyleSheet.create({
   professionalDataContainer: {
     paddingHorizontal: 20,
     flexDirection: "row",
+    gap: 20,
   },
   subtitle: {
     fontSize: 16,

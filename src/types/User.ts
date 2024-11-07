@@ -20,7 +20,10 @@ export default interface User {
     category: ServiceCategory;
     subcategory: ServiceSubcategory;
   };
+  picture: {
+    base64: string;
+    mimeType: string;
+  };
   gender: string;
-  photoUrl: string;
   verified: boolean;
 }

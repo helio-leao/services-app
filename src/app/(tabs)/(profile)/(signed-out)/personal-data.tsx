@@ -17,15 +17,15 @@ import { router } from "expo-router";
 const GENDER_OPTIONS = [
   {
     label: "Masculino",
-    value: "MASCULINO",
+    value: "Masculino",
   },
   {
     label: "Feminino",
-    value: "FEMININO",
+    value: "Feminino",
   },
   {
     label: "Outros",
-    value: "OUTROS",
+    value: "Outros",
   },
 ];
 

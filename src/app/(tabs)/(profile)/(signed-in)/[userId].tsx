@@ -15,21 +15,22 @@ import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
 import { useAuth } from "@/src/contexts/AuthContext";
+import * as ImagePicker from "expo-image-picker";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 const GENDER_OPTIONS = [
   {
     label: "Masculino",
-    value: "MASCULINO",
+    value: "Masculino",
   },
   {
     label: "Feminino",
-    value: "FEMININO",
+    value: "Feminino",
   },
   {
     label: "Outros",
-    value: "OUTROS",
+    value: "Outros",
   },
 ];
 
@@ -53,6 +54,9 @@ export default function EditUserScreen() {
   const [serviceSubcategory, setServiceSubcategory] = useState("");
   const [joinedAt, setJoinedAt] = useState("");
 
+  const [picture, setPicture] = useState("");
+  const [mimeType, setMimeType] = useState("");
+
   useEffect(() => {
     async function fetchUser() {
       const { data: user } = await axios(`${API_URL}/users/${userId}`);
@@ -71,6 +75,8 @@ export default function EditUserScreen() {
       setServiceCategory(user.service.category.name);
       setServiceSubcategory(user.service.subcategory.name);
       setJoinedAt(new Date(user.createdAt).getFullYear().toString());
+      setPicture(user.picture?.base64);
+      setMimeType(user.picture?.mimeType);
       setIsLoading(false);
     }
     fetchUser();
@@ -101,6 +107,39 @@ export default function EditUserScreen() {
 
     try {
       await axios.patch(`${API_URL}/users/${userId}`, updatedUserData);
+      Alert.alert("Atenção", "Atualizado com sucesso.");
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Atenção", "A operação não pôde ser concluída.");
+    }
+  }
+
+  async function handlePictureUpdate() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [3, 4],
+      quality: 0.5,
+      base64: true,
+    });
+
+    if (result.canceled) {
+      return;
+    }
+
+    const { mimeType, base64 } = result.assets[0];
+
+    const updatedUserData = {
+      picture: {
+        base64,
+        mimeType,
+      },
+    };
+
+    try {
+      await axios.patch(`${API_URL}/users/${userId}`, updatedUserData);
+      setPicture(base64 || "");
+      setMimeType(mimeType || "");
       Alert.alert("Atenção", "Atualizado com sucesso.");
     } catch (error) {
       console.error(error);
@@ -150,9 +189,7 @@ export default function EditUserScreen() {
           <View style={{ gap: 10 }}>
             <Image
               style={styles.selectImage}
-              source={
-                "https://s3-alpha-sig.figma.com/img/92d2/0070/2f18d0b7571b941a11bfc36b838b0aec?Expires=1730678400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=UiCTgYB51SppZof98Ev4WrTQSbdiedBb5tI8naNyS841OOFljgfwq2rZhJuADLcJW-tMo1-FnrOO5D8pkTGRZ2iIiX7gtQ0sbF6DhJO~zCWnN7u06jQB7Ib-D86b7beZDPez4P6li0jMixU6gs~TOky8zRaAANerhWEgjzKh4Va9jOsQTNXuqqk0qGu~5MB0xtUMnFPZAF8dnwAI63SFn~tB7lgQkEJhJpQPzm2uAVhQiD9DxJ-xpmRBhTFLEKSPyA7Zz8bXvgoRkmJ3gqq7vUPuMyJfkrNYBaSbKpsYa56PDYscPVALtrbUUP1c~3fihkQPjzx363hvRGEqzcdstQ__"
-              }
+              source={`data:${mimeType};base64,${picture}`}
             />
             <TouchableOpacity
               style={{
@@ -162,6 +199,7 @@ export default function EditUserScreen() {
                 paddingVertical: 10,
                 width: 60,
               }}
+              onPress={handlePictureUpdate}
             >
               <Text style={styles.buttonText}>Foto</Text>
             </TouchableOpacity>

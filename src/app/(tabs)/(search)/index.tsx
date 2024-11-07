@@ -245,11 +245,9 @@ const SearchResults = ({ users }: { users: User[] }) => {
             <View style={{ alignItems: "center" }}>
               <Image
                 style={{ width: 60, height: 60 }}
-                source={
-                  "https://s3-alpha-sig.figma.com/img/7652/1f5e/5dc8e27763b029e116fc1d7a079f77ed?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=OuymUoyFfdHmnXtrA55sUFcY4wiXUX88~qZIxn7LPiH74-dQKXX~OeOD1UnLWXyHdN3kTd8eSa5aVV4k-dEX1pTaUzeSQkZAEK8sg1F1DhEo6yCr~MfSqkaHGMuvAMbpdtWZ5aIdhr1kRwzrdSVRBuploTfDKsAQfpWrcUcWJyPaTGNlFoaBQc4T-vseJOS6QVFg5C~AuMiQiB7V6AM3qz4GE7sd1Jut6dMEiV7ZwU5V39hQsBuFS231SZoD3oGnTqVpkhr-swQ55x17~XGaTimqxwI07TUX-4KLFp4ePtkyvXtb1Gc6WvIixc2xd9ZSAjkvyMhEoswHgkf0Sqb95w__"
-                }
+                source={`data:${item.picture?.mimeType};base64,${item.picture?.base64}`}
               />
-              <Text>{item.name}</Text>
+              <Text>{item.name.split(" ")[0]}</Text>
             </View>
             <View>
               <Text style={styles.title}>{item.service.subcategory.name}</Text>
