@@ -20,24 +20,29 @@ export default function SigninScreen() {
     // TODO: verify if phone number is valid
     setIsLoading(true);
 
-    const { data: user } = await axios.get(
-      `${process.env.EXPO_PUBLIC_API_URL}/users/searchByCellphone/${cellphone}`
-    );
+    try {
+      const { data: user } = await axios.get(
+        `${process.env.EXPO_PUBLIC_API_URL}/users/searchByCellphone/${cellphone}`
+      );
 
-    if (!user) {
-      return Alert.alert("Atenção", "Usuário não encontrado");
-    }
+      if (!user) {
+        return Alert.alert("Atenção", "Usuário não encontrado");
+      }
 
-    if (user.verified) {
-      router.push({
-        pathname: `/(profile)/(signed-out)/otp-verification`,
-        params: { cellphone: user.contact.cellphone },
-      });
-    } else {
-      router.push({
-        pathname: `/(profile)/(signed-out)/account-verification`,
-        params: { cellphone: user.contact.cellphone },
-      });
+      if (user.verified) {
+        router.push({
+          pathname: `/(profile)/(signed-out)/otp-verification`,
+          params: { cellphone: user.contact.cellphone },
+        });
+      } else {
+        router.push({
+          pathname: `/(profile)/(signed-out)/account-verification`,
+          params: { cellphone: user.contact.cellphone },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Oops", "Ocorreu um erro.");
     }
 
     setIsLoading(false);

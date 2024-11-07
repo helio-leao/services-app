@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -23,11 +24,16 @@ export default function ServiceDetailsScreen() {
 
   useEffect(() => {
     async function fetchProfessionalDetails() {
-      const { data } = await axios(
-        `${process.env.EXPO_PUBLIC_API_URL}/users/${userId}`
-      );
-      setUser(data);
-      setIsLoading(false);
+      try {
+        const { data } = await axios(
+          `${process.env.EXPO_PUBLIC_API_URL}/users/${userId}`
+        );
+        setUser(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        Alert.alert("Oops", "Ocorreu um erro.");
+      }
     }
     fetchProfessionalDetails();
   }, []);

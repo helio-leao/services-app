@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import { useEffect, useState } from "react";
@@ -49,8 +50,13 @@ export default function SearchScreen() {
 
   useEffect(() => {
     async function fetchAllUsers() {
-      const { data } = await axios(`${API_URL}/users`);
-      setAllUsers(data);
+      try {
+        const { data } = await axios(`${API_URL}/users`);
+        setAllUsers(data);
+      } catch (error) {
+        console.log(error);
+        Alert.alert("Oops", "Ocorreu um erro.");
+      }
       setIsLoading(false);
     }
     fetchAllUsers();
@@ -62,8 +68,14 @@ export default function SearchScreen() {
     if (!searchQuery) {
       setSearchedUsers([]);
     } else {
-      const { data } = await axios(`${API_URL}/users/search/${searchQuery}`); // TODO: check for undefined search query on api code
-      setSearchedUsers(data);
+      try {
+        // TODO: check for undefined search query on api code
+        const { data } = await axios(`${API_URL}/users/search/${searchQuery}`);
+        setSearchedUsers(data);
+      } catch (error) {
+        console.log(error);
+        Alert.alert("Oops", "Ocorreu um erro.");
+      }
     }
     setIsLoading(false);
   }

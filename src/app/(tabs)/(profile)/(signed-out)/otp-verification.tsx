@@ -22,17 +22,28 @@ export default function OTPVerificationScreen() {
   const [code, setCode] = useState("");
 
   async function handleSendCode() {
-    const { data } = await axios.post(`${API_URL}/auth/send-sms-verification`, {
-      cellphone,
-    });
-
-    if (data.ok) {
-      Alert.alert("Atenção", "Código enviado por SMS. Válido por 10 minutos.");
-    } else {
-      Alert.alert(
-        "Atenção",
-        "Não foi possível enviar o código ao telefone especificado."
+    try {
+      const { data } = await axios.post(
+        `${API_URL}/auth/send-sms-verification`,
+        {
+          cellphone,
+        }
       );
+
+      if (data.ok) {
+        Alert.alert(
+          "Atenção",
+          "Código enviado por SMS. Válido por 10 minutos."
+        );
+      } else {
+        Alert.alert(
+          "Atenção",
+          "Não foi possível enviar o código ao telefone especificado."
+        );
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Oops", "Ocorreu um erro.");
     }
   }
 
@@ -47,8 +58,9 @@ export default function OTPVerificationScreen() {
       login(user);
       router.dismissAll();
       router.replace(`/(profile)/(signed-in)/${user._id}`);
-    } catch {
-      Alert.alert("Atenção", "Não foi possível validar a conta.");
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Oops", "Ocorreu um erro.");
     }
 
     setIsLoading(false);

@@ -29,8 +29,8 @@ export default function ServiceCategoryScreen() {
         setCategoryOptions(data);
         setIsLoading(false);
       } catch (error) {
-        console.error(error);
-        Alert.alert("Atenção", "Não foi possível obter a lista de categorias.");
+        console.log(error);
+        Alert.alert("Oops", "Ocorreu um erro.");
       }
     }
     fetchCategories();

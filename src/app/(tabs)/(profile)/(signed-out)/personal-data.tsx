@@ -91,7 +91,7 @@ export default function PersonalDataScreen() {
       );
     } catch (error) {
       console.log(error);
-      Alert.alert("Atenção", "Não foi possível completar a operação.");
+      Alert.alert("Oops", "Ocorreu um erro.");
     }
 
     setIsLoading(false);

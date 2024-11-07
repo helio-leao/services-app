@@ -32,11 +32,8 @@ export default function ServiceSubcategoryScreen() {
         setSubcategoryOptions(data);
         setIsLoading(false);
       } catch (error) {
-        console.error(error);
-        Alert.alert(
-          "Atenção",
-          "Não foi possível obter a lista de subcategorias."
-        );
+        console.log(error);
+        Alert.alert("Oops", "Ocorreu um erro.");
       }
     }
     fetchCategories();

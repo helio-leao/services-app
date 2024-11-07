@@ -60,24 +60,29 @@ export default function EditUserScreen() {
 
   useEffect(() => {
     async function fetchUser() {
-      const { data: user } = await axios(`${API_URL}/users/${userId}`);
-      setServiceDescription(user.service.description);
-      setName(user.name);
-      setEmail(user.contact.email);
-      setCellphone(user.contact.cellphone);
-      setGender(user.gender);
-      setZip(user.address.zip);
-      setDistrict(user.address.district);
-      setAddressStreet(user.address.street);
-      setZip(user.address.zip);
-      setNumber(user.address.number);
-      setComplement(user.address.complement);
-      setServiceCategory(user.service.category.name);
-      setServiceSubcategory(user.service.subcategory.name);
-      setJoinedAt(new Date(user.createdAt).getFullYear().toString());
-      setPicture(user.picture?.base64);
-      setMimeType(user.picture?.mimeType);
-      setIsLoading(false);
+      try {
+        const { data: user } = await axios(`${API_URL}/users/${userId}`);
+        setServiceDescription(user.service.description);
+        setName(user.name);
+        setEmail(user.contact.email);
+        setCellphone(user.contact.cellphone);
+        setGender(user.gender);
+        setZip(user.address.zip);
+        setDistrict(user.address.district);
+        setAddressStreet(user.address.street);
+        setZip(user.address.zip);
+        setNumber(user.address.number);
+        setComplement(user.address.complement);
+        setServiceCategory(user.service.category.name);
+        setServiceSubcategory(user.service.subcategory.name);
+        setJoinedAt(new Date(user.createdAt).getFullYear().toString());
+        setPicture(user.picture?.base64);
+        setMimeType(user.picture?.mimeType);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        Alert.alert("Oops", "Ocorreu um erro.");
+      }
     }
     fetchUser();
   }, []);
@@ -111,7 +116,7 @@ export default function EditUserScreen() {
       Alert.alert("Atenção", "Atualizado com sucesso.");
     } catch (error) {
       console.error(error);
-      Alert.alert("Atenção", "A operação não pôde ser concluída.");
+      Alert.alert("Oops", "Ocorreu um erro.");
     }
 
     setIsSaving(false);
@@ -147,7 +152,7 @@ export default function EditUserScreen() {
       setMimeType(mimeType || "");
     } catch (error) {
       console.error(error);
-      Alert.alert("Atenção", "A operação não pôde ser concluída.");
+      Alert.alert("Oops", "Ocorreu um erro.");
     }
 
     setIsSaving(false);
