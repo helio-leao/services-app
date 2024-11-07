@@ -14,6 +14,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import User from "@/src/types/User";
+import userPicturePlaceholder from "@/assets/images/user-picture-placeholder.jpg";
 
 export default function ServiceDetailsScreen() {
   const { userId } = useLocalSearchParams();
@@ -48,7 +49,8 @@ export default function ServiceDetailsScreen() {
         <View style={styles.sectionContainer}>
           <View style={styles.professionalDataContainer}>
             <Image
-              source={`data:${user?.picture.mimeType};base64,${user?.picture.base64}`}
+              source={`data:${user?.picture?.mimeType};base64,${user?.picture?.base64}`}
+              placeholder={userPicturePlaceholder}
               style={{ width: 160, height: 160 }}
             />
 
@@ -76,8 +78,10 @@ export default function ServiceDetailsScreen() {
         <View style={styles.sectionContainer}>
           <Text>Serviços:</Text>
           <View style={{ paddingHorizontal: 20 }}>
-            <Text>{user?.service.category.name}</Text>
-            <Text>{user?.service.subcategory.name}</Text>
+            <Text>
+              {user?.service.category.name} - {user?.service.subcategory.name}
+            </Text>
+            <Text>{user?.service.description}</Text>
           </View>
         </View>
 

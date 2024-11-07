@@ -16,6 +16,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
 import { useAuth } from "@/src/contexts/AuthContext";
 import * as ImagePicker from "expo-image-picker";
+import userPicturePlaceholder from "@/assets/images/user-picture-placeholder.jpg";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -39,7 +40,6 @@ export default function EditUserScreen() {
   const { logout } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [isEditingEnabled, setIsEditingEnabled] = useState(false);
-  const [serviceTitle, setServiceTitle] = useState("");
   const [serviceDescription, setServiceDescription] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -60,7 +60,6 @@ export default function EditUserScreen() {
   useEffect(() => {
     async function fetchUser() {
       const { data: user } = await axios(`${API_URL}/users/${userId}`);
-      setServiceTitle(user.service.title);
       setServiceDescription(user.service.description);
       setName(user.name);
       setEmail(user.contact.email);
@@ -100,7 +99,6 @@ export default function EditUserScreen() {
         complement: complement,
       },
       service: {
-        title: serviceTitle,
         description: serviceDescription,
       },
     };
@@ -190,6 +188,7 @@ export default function EditUserScreen() {
             <Image
               style={styles.selectImage}
               source={`data:${mimeType};base64,${picture}`}
+              placeholder={userPicturePlaceholder}
             />
             <TouchableOpacity
               style={{
@@ -225,14 +224,6 @@ export default function EditUserScreen() {
           <Text style={[styles.title, { width: 300 }]}>Meu serviço</Text>
         </View>
         <View style={styles.inputsContainer}>
-          <Text style={styles.title}>Título do serviço</Text>
-          <TextInput
-            style={styles.input}
-            editable={isEditingEnabled}
-            onChangeText={setServiceTitle}
-            value={serviceTitle}
-          />
-
           <Text style={styles.title}>Descrição</Text>
           <TextInput
             style={styles.input}

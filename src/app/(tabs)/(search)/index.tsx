@@ -16,6 +16,7 @@ import { router } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import axios from "axios";
 import User from "@/src/types/User";
+import userPicturePlaceholder from "@/assets/images/user-picture-placeholder.jpg";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -246,6 +247,7 @@ const SearchResults = ({ users }: { users: User[] }) => {
               <Image
                 style={{ width: 60, height: 60 }}
                 source={`data:${item.picture?.mimeType};base64,${item.picture?.base64}`}
+                placeholder={userPicturePlaceholder}
               />
               <Text>{item.name.split(" ")[0]}</Text>
             </View>
