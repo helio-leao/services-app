@@ -2,7 +2,7 @@ import { useAuth } from "@/src/contexts/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { router, useLocalSearchParams } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -21,6 +21,10 @@ export default function AccountVerificationScreen() {
   const { cellphone } = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [code, setCode] = useState("");
+
+  useEffect(() => {
+    handleSendCode();
+  }, []);
 
   async function handleSendCode() {
     try {
@@ -98,7 +102,7 @@ export default function AccountVerificationScreen() {
           onPress={handleSendCode}
         >
           <Text style={{ textDecorationLine: "underline", color: "#00F" }}>
-            Enviar Código
+            Reenviar Código
           </Text>
         </TouchableOpacity>
       </View>
