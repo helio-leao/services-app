@@ -1,4 +1,5 @@
 import { useAuth } from "@/src/contexts/AuthContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
@@ -58,6 +59,9 @@ export default function AccountVerificationScreen() {
           code,
         }
       );
+
+      await storeLoggedUser(user);
+
       login(user);
       router.dismissAll();
       router.replace(`/(profile)/(signed-in)/${user._id}`);
@@ -67,6 +71,14 @@ export default function AccountVerificationScreen() {
     }
 
     setIsLoading(false);
+  }
+
+  async function storeLoggedUser(user: UserActivation) {
+    try {
+      await AsyncStorage.setItem("@user_session", JSON.stringify(user));
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

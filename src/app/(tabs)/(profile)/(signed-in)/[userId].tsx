@@ -17,6 +17,8 @@ import axios from "axios";
 import { useAuth } from "@/src/contexts/AuthContext";
 import * as ImagePicker from "expo-image-picker";
 import userPicturePlaceholder from "@/assets/images/user-picture-placeholder.jpg";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import User from "@/src/types/User";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -112,7 +114,11 @@ export default function EditUserScreen() {
     setIsSaving(true);
 
     try {
-      await axios.patch(`${API_URL}/users/${userId}`, updatedUserData);
+      const { data: updatedUser } = await axios.patch(
+        `${API_URL}/users/${userId}`,
+        updatedUserData
+      );
+      await storeUpdatedUser(updatedUser);
       Alert.alert("Atenção", "Atualizado com sucesso.");
     } catch (error) {
       console.error(error);
@@ -147,7 +153,11 @@ export default function EditUserScreen() {
     setIsSaving(true);
 
     try {
-      await axios.patch(`${API_URL}/users/${userId}`, updatedUserData);
+      const { data: updatedUser } = await axios.patch(
+        `${API_URL}/users/${userId}`,
+        updatedUserData
+      );
+      await storeUpdatedUser(updatedUser);
       setPicture(base64 || "");
       setMimeType(mimeType || "");
     } catch (error) {
@@ -168,9 +178,23 @@ export default function EditUserScreen() {
     );
   }
 
-  function handleSignout() {
-    logout();
-    router.replace("/(profile)/(signed-out)/home");
+  async function handleSignout() {
+    try {
+      await AsyncStorage.removeItem("@user_session");
+      logout();
+      router.replace("/(profile)/(signed-out)/home");
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Oops", "Não foi possível deslogar.");
+    }
+  }
+
+  async function storeUpdatedUser(user: User) {
+    try {
+      await AsyncStorage.setItem("@user_session", JSON.stringify(user));
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

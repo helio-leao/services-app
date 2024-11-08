@@ -12,6 +12,8 @@ import {
   Alert,
   ActivityIndicator,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import User from "@/src/types/User";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -55,6 +57,9 @@ export default function OTPVerificationScreen() {
         cellphone,
         code,
       });
+
+      await storeLoggedUser(user);
+
       login(user);
       router.dismissAll();
       router.replace(`/(profile)/(signed-in)/${user._id}`);
@@ -64,6 +69,14 @@ export default function OTPVerificationScreen() {
     }
 
     setIsLoading(false);
+  }
+
+  async function storeLoggedUser(user: User) {
+    try {
+      await AsyncStorage.setItem("@user_session", JSON.stringify(user));
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
