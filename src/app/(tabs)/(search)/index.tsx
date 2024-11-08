@@ -90,8 +90,13 @@ export default function SearchScreen() {
           onChangeText={setSearchQuery}
           value={searchQuery}
           onEndEditing={handleSearch}
+          editable={!isLoading}
         />
-        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+        <TouchableOpacity
+          style={styles.searchButton}
+          onPress={handleSearch}
+          disabled={isLoading}
+        >
           <Feather name="search" size={24} color="black" />
         </TouchableOpacity>
       </View>

@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     (async () => {
       try {
         const userString = await AsyncStorage.getItem("@user_session");
+        // TODO: fetch user on api by storage user id
 
         if (userString) {
           const user = JSON.parse(userString);
