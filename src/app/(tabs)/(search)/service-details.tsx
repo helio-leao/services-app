@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
+  Linking,
 } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -37,6 +38,12 @@ export default function ServiceDetailsScreen() {
     }
     fetchProfessionalDetails();
   }, []);
+
+  function handleContactUser() {
+    Linking.openURL(
+      `http://api.whatsapp.com/send?phone=+55${user?.contact.cellphone}`
+    );
+  }
 
   if (isLoading) {
     return (
@@ -106,6 +113,7 @@ export default function ServiceDetailsScreen() {
             styles.sectionContainer,
             { flexDirection: "row", gap: 10, alignItems: "center" },
           ]}
+          onPress={handleContactUser}
         >
           <Text>Falar com {user?.name}</Text>
           <Entypo name="chat" size={24} color="black" />
