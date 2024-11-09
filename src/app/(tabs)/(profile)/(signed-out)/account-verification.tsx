@@ -1,3 +1,4 @@
+import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
 import { useAuth } from "@/src/contexts/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -81,7 +82,10 @@ export default function AccountVerificationScreen() {
 
   async function storeLoggedUser(user: UserActivation) {
     try {
-      await AsyncStorage.setItem("@user_session", JSON.stringify(user));
+      await AsyncStorage.setItem(
+        ASYNC_STORAGE_KEYS.USER_SESSION,
+        JSON.stringify(user)
+      );
     } catch (error) {
       console.log(error);
     }

@@ -19,6 +19,7 @@ import userPicturePlaceholder from "@/assets/images/user-picture-placeholder.jpg
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import User from "@/src/types/User";
 import GenderPicker, { GENDER_OPTIONS } from "@/src/components/GenderPicker";
+import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -162,7 +163,7 @@ export default function EditUserScreen() {
 
   async function handleSignout() {
     try {
-      await AsyncStorage.removeItem("@user_session");
+      await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER_SESSION);
       logout();
       router.replace("/(profile)/(signed-out)/home");
     } catch (error) {
@@ -173,7 +174,10 @@ export default function EditUserScreen() {
 
   async function storeUpdatedUser(user: User) {
     try {
-      await AsyncStorage.setItem("@user_session", JSON.stringify(user));
+      await AsyncStorage.setItem(
+        ASYNC_STORAGE_KEYS.USER_SESSION,
+        JSON.stringify(user)
+      );
     } catch (error) {
       console.log(error);
     }

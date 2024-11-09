@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import User from "@/src/types/User";
+import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -78,7 +79,10 @@ export default function OTPVerificationScreen() {
 
   async function storeLoggedUser(user: User) {
     try {
-      await AsyncStorage.setItem("@user_session", JSON.stringify(user));
+      await AsyncStorage.setItem(
+        ASYNC_STORAGE_KEYS.USER_SESSION,
+        JSON.stringify(user)
+      );
     } catch (error) {
       console.log(error);
     }

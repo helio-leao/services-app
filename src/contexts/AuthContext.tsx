@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import User from "../types/User";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ASYNC_STORAGE_KEYS from "../constants/asyncStorageKeys";
 
 interface AuthContextType {
   user: User | null;
@@ -26,7 +27,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     (async () => {
       try {
-        const userString = await AsyncStorage.getItem("@user_session");
+        const userString = await AsyncStorage.getItem(
+          ASYNC_STORAGE_KEYS.USER_SESSION
+        );
         // TODO: fetch user on api by storage user id
 
         if (userString) {
