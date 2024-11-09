@@ -49,7 +49,7 @@ export default function ServiceDetailsScreen() {
       <SafeAreaView
         style={[styles.screenContainer, { justifyContent: "center" }]}
       >
-        <ActivityIndicator size={"large"} />
+        <ActivityIndicator size={"large"} style={{ flex: 1 }} />
       </SafeAreaView>
     );
   }

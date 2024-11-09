@@ -51,17 +51,7 @@ export default function ServiceSubcategoryScreen() {
         {/* select buttons */}
         <View style={{ flex: 1, justifyContent: "space-between" }}>
           {isLoading ? (
-            <View
-              style={[
-                styles.container,
-                {
-                  flex: 1,
-                  justifyContent: "center",
-                },
-              ]}
-            >
-              <ActivityIndicator size={"large"} />
-            </View>
+            <ActivityIndicator size={"large"} style={{ flex: 1 }} />
           ) : subcategoryOptions.length === 0 ? (
             <View
               style={[
