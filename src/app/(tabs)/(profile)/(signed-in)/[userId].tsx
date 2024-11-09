@@ -10,7 +10,6 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
@@ -19,23 +18,9 @@ import * as ImagePicker from "expo-image-picker";
 import userPicturePlaceholder from "@/assets/images/user-picture-placeholder.jpg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import User from "@/src/types/User";
+import GenderPicker, { GENDER_OPTIONS } from "@/src/components/GenderPicker";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
-
-const GENDER_OPTIONS = [
-  {
-    label: "Masculino",
-    value: "Masculino",
-  },
-  {
-    label: "Feminino",
-    value: "Feminino",
-  },
-  {
-    label: "Outros",
-    value: "Outros",
-  },
-];
 
 export default function EditUserScreen() {
   const { userId } = useLocalSearchParams();
@@ -314,21 +299,10 @@ export default function EditUserScreen() {
           />
 
           <Text style={styles.title}>Sexo</Text>
-          <View style={{ borderWidth: 1, borderRadius: 8 }}>
-            <Picker
-              enabled={isEditingEnabled}
-              selectedValue={gender}
-              onValueChange={(itemValue, _itemIndex) => setGender(itemValue)}
-            >
-              {GENDER_OPTIONS.map((genderOption) => (
-                <Picker.Item
-                  key={genderOption.label}
-                  label={genderOption.label}
-                  value={genderOption.value}
-                />
-              ))}
-            </Picker>
-          </View>
+          <GenderPicker
+            gender={gender}
+            onValueChange={(itemValue, _itemIndex) => setGender(itemValue)}
+          />
         </View>
 
         {/* ADDRESS SECTION */}

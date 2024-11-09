@@ -11,24 +11,9 @@ import {
   Alert,
   ActivityIndicator,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import { router } from "expo-router";
-
-const GENDER_OPTIONS = [
-  {
-    label: "Masculino",
-    value: "Masculino",
-  },
-  {
-    label: "Feminino",
-    value: "Feminino",
-  },
-  {
-    label: "Outros",
-    value: "Outros",
-  },
-];
+import GenderPicker, { GENDER_OPTIONS } from "@/src/components/GenderPicker";
 
 export default function PersonalDataScreen() {
   const params = useLocalSearchParams();
@@ -154,20 +139,10 @@ export default function PersonalDataScreen() {
           />
 
           <Text style={styles.title}>Sexo</Text>
-          <View style={{ borderWidth: 1, borderRadius: 8 }}>
-            <Picker
-              selectedValue={gender}
-              onValueChange={(itemValue, _itemIndex) => setGender(itemValue)}
-            >
-              {GENDER_OPTIONS.map((genderOption) => (
-                <Picker.Item
-                  key={genderOption.label}
-                  label={genderOption.label}
-                  value={genderOption.value}
-                />
-              ))}
-            </Picker>
-          </View>
+          <GenderPicker
+            gender={gender}
+            onValueChange={(itemValue, _itemIndex) => setGender(itemValue)}
+          />
         </View>
 
         {/* BUTTONS SECTION */}
