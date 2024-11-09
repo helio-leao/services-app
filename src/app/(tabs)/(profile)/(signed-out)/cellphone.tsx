@@ -23,8 +23,9 @@ export default function CellphoneScreen() {
         <Text style={styles.title}>Celular</Text>
         <TextInput
           style={styles.input}
-          placeholder="(DDD) 99999-9999"
-          keyboardType="number-pad"
+          placeholder="(99) 99999-9999"
+          maxLength={11}
+          keyboardType="phone-pad"
           onChangeText={setCellphone}
           value={cellphone}
         />

@@ -118,6 +118,8 @@ export default function PersonalDataScreen() {
           <TextInput
             style={styles.input}
             placeholder="99999-999"
+            keyboardType="number-pad"
+            maxLength={8}
             onChangeText={setZip}
             value={zip}
           />
@@ -139,6 +141,7 @@ export default function PersonalDataScreen() {
           <Text style={styles.title}>Número</Text>
           <TextInput
             style={styles.input}
+            keyboardType="number-pad"
             onChangeText={setNumber}
             value={number}
           />

@@ -17,7 +17,6 @@ export default function SigninScreen() {
   const [cellphone, setCellphone] = useState("");
 
   async function handleSignin() {
-    // TODO: verify if phone number is valid
     setIsLoading(true);
 
     try {
@@ -26,6 +25,7 @@ export default function SigninScreen() {
       );
 
       if (!user) {
+        setIsLoading(false);
         return Alert.alert("Atenção", "Usuário não encontrado");
       }
 
@@ -55,8 +55,9 @@ export default function SigninScreen() {
         <Text style={styles.title}>Celular</Text>
         <TextInput
           style={styles.input}
-          placeholder="(DDD) 99999-9999"
-          keyboardType="number-pad"
+          placeholder="(99) 99999-9999"
+          maxLength={11}
+          keyboardType="phone-pad"
           onChangeText={setCellphone}
           value={cellphone}
         />

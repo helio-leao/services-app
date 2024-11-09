@@ -90,8 +90,6 @@ export default function EditUserScreen() {
   }, []);
 
   async function handleUpdateUser() {
-    // TODO: disable edit button
-
     const updatedUserData = {
       name: name,
       gender: gender,
@@ -309,7 +307,8 @@ export default function EditUserScreen() {
           <TextInput
             style={styles.input}
             editable={isEditingEnabled}
-            keyboardType="number-pad"
+            maxLength={11}
+            keyboardType="phone-pad"
             onChangeText={setCellphone}
             value={cellphone}
           />
@@ -341,6 +340,7 @@ export default function EditUserScreen() {
           <TextInput
             style={styles.input}
             editable={isEditingEnabled}
+            maxLength={8}
             keyboardType="number-pad"
             onChangeText={setZip}
             value={zip}
@@ -366,6 +366,7 @@ export default function EditUserScreen() {
           <TextInput
             style={styles.input}
             editable={isEditingEnabled}
+            keyboardType="number-pad"
             onChangeText={setNumber}
             value={number}
           />

@@ -91,6 +91,7 @@ export default function OTPVerificationScreen() {
         <TextInput
           style={styles.input}
           placeholder="999999"
+          maxLength={6}
           keyboardType="number-pad"
           onChangeText={setCode}
           value={code}
