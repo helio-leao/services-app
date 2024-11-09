@@ -20,6 +20,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import User from "@/src/types/User";
 import GenderPicker, { GENDER_OPTIONS } from "@/src/components/GenderPicker";
 import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
+import MaskedInput from "@/src/components/MaskedInput";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -102,6 +103,7 @@ export default function EditUserScreen() {
         updatedUserData
       );
       await storeUpdatedUser(updatedUser);
+      setIsEditingEnabled(false);
       Alert.alert("Atenção", "Atualizado com sucesso.");
     } catch (error) {
       console.error(error);
@@ -292,11 +294,10 @@ export default function EditUserScreen() {
           />
 
           <Text style={styles.title}>Celular</Text>
-          <TextInput
+          <MaskedInput
             style={styles.input}
+            type="phone"
             editable={isEditingEnabled}
-            maxLength={11}
-            keyboardType="phone-pad"
             onChangeText={setCellphone}
             value={cellphone}
           />
@@ -314,11 +315,10 @@ export default function EditUserScreen() {
         </View>
         <View style={styles.inputsContainer}>
           <Text style={styles.title}>CEP</Text>
-          <TextInput
+          <MaskedInput
             style={styles.input}
+            type="cep"
             editable={isEditingEnabled}
-            maxLength={8}
-            keyboardType="number-pad"
             onChangeText={setZip}
             value={zip}
           />

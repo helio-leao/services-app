@@ -1,3 +1,4 @@
+import MaskedInput from "@/src/components/MaskedInput";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -21,11 +22,9 @@ export default function CellphoneScreen() {
           Seu número será seu acesso ao aplicativo.
         </Text>
         <Text style={styles.title}>Celular</Text>
-        <TextInput
+        <MaskedInput
           style={styles.input}
-          placeholder="(99) 99999-9999"
-          maxLength={11}
-          keyboardType="phone-pad"
+          type="phone"
           onChangeText={setCellphone}
           value={cellphone}
         />

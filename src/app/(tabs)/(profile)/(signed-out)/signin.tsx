@@ -1,3 +1,4 @@
+import MaskedInput from "@/src/components/MaskedInput";
 import axios from "axios";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -7,7 +8,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  TextInput,
   Alert,
   ActivityIndicator,
 } from "react-native";
@@ -53,11 +53,9 @@ export default function SigninScreen() {
       {/* TEXT AND INPUT SECTION */}
       <View style={styles.textContainer}>
         <Text style={styles.title}>Celular</Text>
-        <TextInput
+        <MaskedInput
           style={styles.input}
-          placeholder="(99) 99999-9999"
-          maxLength={11}
-          keyboardType="phone-pad"
+          type="phone"
           onChangeText={setCellphone}
           value={cellphone}
         />

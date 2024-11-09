@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import { router } from "expo-router";
 import GenderPicker, { GENDER_OPTIONS } from "@/src/components/GenderPicker";
+import MaskedInput from "@/src/components/MaskedInput";
 
 export default function PersonalDataScreen() {
   const params = useLocalSearchParams();
@@ -100,11 +101,9 @@ export default function PersonalDataScreen() {
           />
 
           <Text style={styles.title}>CEP</Text>
-          <TextInput
+          <MaskedInput
             style={styles.input}
-            placeholder="99999-999"
-            keyboardType="number-pad"
-            maxLength={8}
+            type="cep"
             onChangeText={setZip}
             value={zip}
           />
