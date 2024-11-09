@@ -20,7 +20,7 @@ const API_URL = process.env.EXPO_PUBLIC_API_URL;
 export default function OTPVerificationScreen() {
   const { login } = useAuth();
   const { cellphone } = useLocalSearchParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [code, setCode] = useState("");
 
   useEffect(() => {
@@ -28,6 +28,8 @@ export default function OTPVerificationScreen() {
   }, []);
 
   async function handleSendCode() {
+    setIsLoading(true);
+
     try {
       const { data } = await axios.post(
         `${API_URL}/auth/send-sms-verification`,
@@ -51,6 +53,7 @@ export default function OTPVerificationScreen() {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");
     }
+    setIsLoading(false);
   }
 
   async function handleVerification() {
@@ -61,7 +64,6 @@ export default function OTPVerificationScreen() {
         cellphone,
         code,
       });
-
       await storeLoggedUser(user);
 
       login(user);
@@ -71,7 +73,6 @@ export default function OTPVerificationScreen() {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");
     }
-
     setIsLoading(false);
   }
 
@@ -99,6 +100,7 @@ export default function OTPVerificationScreen() {
         <TouchableOpacity
           style={{ alignSelf: "center", paddingVertical: 20 }}
           onPress={handleSendCode}
+          disabled={isLoading}
         >
           <Text style={{ textDecorationLine: "underline", color: "#00F" }}>
             Reenviar Código

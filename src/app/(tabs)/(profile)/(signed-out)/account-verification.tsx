@@ -19,7 +19,7 @@ const API_URL = process.env.EXPO_PUBLIC_API_URL;
 export default function AccountVerificationScreen() {
   const { login } = useAuth();
   const { cellphone } = useLocalSearchParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [code, setCode] = useState("");
 
   useEffect(() => {
@@ -27,6 +27,8 @@ export default function AccountVerificationScreen() {
   }, []);
 
   async function handleSendCode() {
+    setIsLoading(true);
+
     try {
       const { data } = await axios.post(
         `${API_URL}/auth/send-sms-verification`,
@@ -50,6 +52,7 @@ export default function AccountVerificationScreen() {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");
     }
+    setIsLoading(false);
   }
 
   async function handleVerification() {
@@ -73,7 +76,6 @@ export default function AccountVerificationScreen() {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");
     }
-
     setIsLoading(false);
   }
 
@@ -101,6 +103,7 @@ export default function AccountVerificationScreen() {
         <TouchableOpacity
           style={{ alignSelf: "center", paddingVertical: 20 }}
           onPress={handleSendCode}
+          disabled={isLoading}
         >
           <Text style={{ textDecorationLine: "underline", color: "#00F" }}>
             Reenviar Código
