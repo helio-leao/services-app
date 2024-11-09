@@ -1,4 +1,5 @@
 import MaskedInput from "@/src/components/MaskedInput";
+import { PHONE_REGEX } from "@/src/constants/validationRegex";
 import axios from "axios";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -17,6 +18,8 @@ export default function SigninScreen() {
   const [cellphone, setCellphone] = useState("");
 
   async function handleSignin() {
+    if (!isInputValid()) return;
+
     setIsLoading(true);
 
     try {
@@ -46,6 +49,14 @@ export default function SigninScreen() {
     }
 
     setIsLoading(false);
+  }
+
+  function isInputValid() {
+    if (!PHONE_REGEX.test(cellphone)) {
+      Alert.alert("Atenção", "O telefone deve ter 11 números.");
+      return false;
+    }
+    return true;
   }
 
   return (

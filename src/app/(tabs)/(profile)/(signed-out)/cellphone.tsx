@@ -1,4 +1,5 @@
 import MaskedInput from "@/src/components/MaskedInput";
+import { PHONE_REGEX } from "@/src/constants/validationRegex";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -7,11 +8,28 @@ import {
   Text,
   TouchableOpacity,
   View,
-  TextInput,
+  Alert,
 } from "react-native";
 
 export default function CellphoneScreen() {
   const [cellphone, setCellphone] = useState("");
+
+  function handleContinue() {
+    if (!isInputValid()) return;
+
+    router.push({
+      pathname: "/(profile)/(signed-out)/email",
+      params: { cellphone: cellphone },
+    });
+  }
+
+  function isInputValid() {
+    if (!PHONE_REGEX.test(cellphone)) {
+      Alert.alert("Atenção", "O telefone deve ter 11 números.");
+      return false;
+    }
+    return true;
+  }
 
   return (
     <SafeAreaView style={styles.screenContainer}>
@@ -32,15 +50,7 @@ export default function CellphoneScreen() {
 
       {/* BUTTONS SECTION */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() =>
-            router.push({
-              pathname: "/(profile)/(signed-out)/email",
-              params: { cellphone: cellphone },
-            })
-          }
-        >
+        <TouchableOpacity style={styles.button} onPress={handleContinue}>
           <Text style={styles.buttonText}>Continuar</Text>
         </TouchableOpacity>
       </View>

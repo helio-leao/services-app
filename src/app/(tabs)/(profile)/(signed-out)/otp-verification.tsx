@@ -15,6 +15,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import User from "@/src/types/User";
 import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
+import { ONE_TIME_PASSWORD_REGEX } from "@/src/constants/validationRegex";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -58,6 +59,8 @@ export default function OTPVerificationScreen() {
   }
 
   async function handleVerification() {
+    if (!isInputValid()) return;
+
     setIsLoading(true);
 
     try {
@@ -86,6 +89,14 @@ export default function OTPVerificationScreen() {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  function isInputValid() {
+    if (!ONE_TIME_PASSWORD_REGEX.test(code)) {
+      Alert.alert("Atenção", "O código deve ter 6 números.");
+      return false;
+    }
+    return true;
   }
 
   return (

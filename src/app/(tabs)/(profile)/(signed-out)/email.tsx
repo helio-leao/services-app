@@ -1,3 +1,4 @@
+import { EMAIL_REGEX } from "@/src/constants/validationRegex";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import {
@@ -7,11 +8,29 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  Alert,
 } from "react-native";
 
 export default function EmailScreen() {
   const params = useLocalSearchParams();
   const [email, setEmail] = useState("");
+
+  function handleContinue() {
+    if (!isInputValid()) return;
+
+    router.push({
+      pathname: "/(profile)/(signed-out)/service-category",
+      params: { ...params, email },
+    });
+  }
+
+  function isInputValid() {
+    if (!EMAIL_REGEX.test(email)) {
+      Alert.alert("Atenção", "Formato do email inválido.");
+      return false;
+    }
+    return true;
+  }
 
   return (
     <SafeAreaView style={styles.screenContainer}>
@@ -33,15 +52,7 @@ export default function EmailScreen() {
 
       {/* BUTTONS SECTION */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() =>
-            router.push({
-              pathname: "/(profile)/(signed-out)/service-category",
-              params: { ...params, email },
-            })
-          }
-        >
+        <TouchableOpacity style={styles.button} onPress={handleContinue}>
           <Text style={styles.buttonText}>Continuar</Text>
         </TouchableOpacity>
       </View>

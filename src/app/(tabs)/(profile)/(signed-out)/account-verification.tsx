@@ -1,4 +1,5 @@
 import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
+import { ONE_TIME_PASSWORD_REGEX } from "@/src/constants/validationRegex";
 import { useAuth } from "@/src/contexts/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -57,6 +58,8 @@ export default function AccountVerificationScreen() {
   }
 
   async function handleVerification() {
+    if (!isInputValid()) return;
+
     setIsLoading(true);
 
     try {
@@ -89,6 +92,14 @@ export default function AccountVerificationScreen() {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  function isInputValid() {
+    if (!ONE_TIME_PASSWORD_REGEX.test(code)) {
+      Alert.alert("Atenção", "O código deve ter 6 números.");
+      return false;
+    }
+    return true;
   }
 
   return (

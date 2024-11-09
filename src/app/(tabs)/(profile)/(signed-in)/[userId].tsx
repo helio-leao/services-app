@@ -21,6 +21,11 @@ import User from "@/src/types/User";
 import GenderPicker, { GENDER_OPTIONS } from "@/src/components/GenderPicker";
 import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
 import MaskedInput from "@/src/components/MaskedInput";
+import {
+  CEP_REGEX,
+  EMAIL_REGEX,
+  PHONE_REGEX,
+} from "@/src/constants/validationRegex";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -76,6 +81,8 @@ export default function EditUserScreen() {
   }, []);
 
   async function handleUpdateUser() {
+    if (!isInputValid()) return;
+
     const updatedUserData = {
       name: name,
       gender: gender,
@@ -151,6 +158,22 @@ export default function EditUserScreen() {
     }
 
     setIsSaving(false);
+  }
+
+  function isInputValid() {
+    if (!EMAIL_REGEX.test(email)) {
+      Alert.alert("Atenção", "Formato do email inválido.");
+      return false;
+    }
+    if (!PHONE_REGEX.test(cellphone)) {
+      Alert.alert("Atenção", "O telefone deve ter 11 números.");
+      return false;
+    }
+    if (!CEP_REGEX.test(zip)) {
+      Alert.alert("Atenção", "O CEP deve ter 8 números.");
+      return false;
+    }
+    return true;
   }
 
   if (isLoading) {

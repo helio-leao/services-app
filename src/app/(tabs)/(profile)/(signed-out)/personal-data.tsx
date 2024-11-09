@@ -15,6 +15,7 @@ import axios from "axios";
 import { router } from "expo-router";
 import GenderPicker, { GENDER_OPTIONS } from "@/src/components/GenderPicker";
 import MaskedInput from "@/src/components/MaskedInput";
+import { CEP_REGEX } from "@/src/constants/validationRegex";
 
 export default function PersonalDataScreen() {
   const params = useLocalSearchParams();
@@ -28,6 +29,8 @@ export default function PersonalDataScreen() {
   const [gender, setGender] = useState(GENDER_OPTIONS[0].value);
 
   async function handleSaveUser() {
+    if (!isInputValid()) return;
+
     const { cellphone, email, selectedCategoryId, selectedSubcategoryId } =
       params;
 
@@ -81,6 +84,14 @@ export default function PersonalDataScreen() {
     }
 
     setIsLoading(false);
+  }
+
+  function isInputValid() {
+    if (!CEP_REGEX.test(zip)) {
+      Alert.alert("Atenção", "O CEP deve ter 8 números.");
+      return false;
+    }
+    return true;
   }
 
   return (
