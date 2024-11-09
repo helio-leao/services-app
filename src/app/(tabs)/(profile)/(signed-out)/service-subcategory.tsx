@@ -23,7 +23,7 @@ export default function ServiceSubcategoryScreen() {
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState("");
 
   useEffect(() => {
-    async function fetchCategories() {
+    (async () => {
       const { selectedCategoryId } = params;
       try {
         const { data } = await axios(
@@ -35,8 +35,7 @@ export default function ServiceSubcategoryScreen() {
         console.log(error);
         Alert.alert("Oops", "Ocorreu um erro.");
       }
-    }
-    fetchCategories();
+    })();
   }, []);
 
   return (

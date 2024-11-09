@@ -24,7 +24,7 @@ export default function ServiceDetailsScreen() {
   const [user, setUser] = useState<User>();
 
   useEffect(() => {
-    async function fetchProfessionalDetails() {
+    (async () => {
       try {
         const { data } = await axios(
           `${process.env.EXPO_PUBLIC_API_URL}/users/${userId}`
@@ -35,8 +35,7 @@ export default function ServiceDetailsScreen() {
         console.log(error);
         Alert.alert("Oops", "Ocorreu um erro.");
       }
-    }
-    fetchProfessionalDetails();
+    })();
   }, []);
 
   function handleContactUser() {

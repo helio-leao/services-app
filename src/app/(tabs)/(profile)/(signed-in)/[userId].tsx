@@ -46,7 +46,7 @@ export default function EditUserScreen() {
   const [mimeType, setMimeType] = useState("");
 
   useEffect(() => {
-    async function fetchUser() {
+    (async () => {
       try {
         const { data: user } = await axios(`${API_URL}/users/${userId}`);
         setServiceDescription(user.service.description);
@@ -70,8 +70,7 @@ export default function EditUserScreen() {
         console.log(error);
         Alert.alert("Oops", "Ocorreu um erro.");
       }
-    }
-    fetchUser();
+    })();
   }, []);
 
   async function handleUpdateUser() {

@@ -49,7 +49,7 @@ export default function SearchScreen() {
   const [searchedUsers, setSearchedUsers] = useState([]);
 
   useEffect(() => {
-    async function fetchAllUsers() {
+    (async () => {
       try {
         const { data } = await axios(`${API_URL}/users`);
         setAllUsers(data);
@@ -58,8 +58,7 @@ export default function SearchScreen() {
         Alert.alert("Oops", "Ocorreu um erro.");
       }
       setIsLoading(false);
-    }
-    fetchAllUsers();
+    })();
   }, []);
 
   async function handleSearch() {
@@ -69,7 +68,6 @@ export default function SearchScreen() {
       setSearchedUsers([]);
     } else {
       try {
-        // TODO: check for undefined search query on api code
         const { data } = await axios(`${API_URL}/users/search/${searchQuery}`);
         setSearchedUsers(data);
       } catch (error) {

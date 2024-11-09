@@ -21,7 +21,7 @@ export default function ServiceCategoryScreen() {
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
   useEffect(() => {
-    async function fetchCategories() {
+    (async () => {
       try {
         const { data } = await axios(
           `${process.env.EXPO_PUBLIC_API_URL}/serviceCategories`
@@ -32,8 +32,7 @@ export default function ServiceCategoryScreen() {
         console.log(error);
         Alert.alert("Oops", "Ocorreu um erro.");
       }
-    }
-    fetchCategories();
+    })();
   }, []);
 
   return (
