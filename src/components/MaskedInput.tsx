@@ -67,7 +67,7 @@ export default function MaskedInput({
   }, [value]);
 
   function handleChangeText(value: string) {
-    onChangeText && onChangeText(value.replace(/\D/g, ""));
+    onChangeText?.(value.replace(/\D/g, ""));
   }
 
   return (

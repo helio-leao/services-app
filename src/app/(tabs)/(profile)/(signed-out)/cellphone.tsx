@@ -1,5 +1,6 @@
 import MaskedInput from "@/src/components/MaskedInput";
 import { PHONE_REGEX } from "@/src/constants/validationRegex";
+import axios from "axios";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -9,18 +10,39 @@ import {
   TouchableOpacity,
   View,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 
 export default function CellphoneScreen() {
+  const [isLoading, setIsLoading] = useState(false);
   const [cellphone, setCellphone] = useState("");
 
-  function handleContinue() {
+  async function handleContinue() {
     if (!isInputValid()) return;
 
-    router.push({
-      pathname: "/(profile)/(signed-out)/email",
-      params: { cellphone: cellphone },
-    });
+    setIsLoading(true);
+
+    try {
+      const { data: user } = await axios.get(
+        `${process.env.EXPO_PUBLIC_API_URL}/users/searchByCellphone/${cellphone}`
+      );
+
+      if (user) {
+        setIsLoading(false);
+        Alert.alert("Atenção", "Já existe cadastro com esse telefone.");
+        return;
+      }
+
+      router.push({
+        pathname: "/(profile)/(signed-out)/email",
+        params: { cellphone: cellphone },
+      });
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Oops", "Ocorreu um erro.");
+    }
+
+    setIsLoading(false);
   }
 
   function isInputValid() {
@@ -50,8 +72,16 @@ export default function CellphoneScreen() {
 
       {/* BUTTONS SECTION */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Continuar</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleContinue}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <ActivityIndicator />
+          ) : (
+            <Text style={styles.buttonText}>Continuar</Text>
+          )}
         </TouchableOpacity>
       </View>
     </SafeAreaView>
