@@ -7,6 +7,7 @@ export default interface User {
   address: {
     zip: string;
     street: string;
+    district: string;
     number: string;
     complement: string;
   };
@@ -25,4 +26,6 @@ export default interface User {
   };
   gender: string;
   verified: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }

@@ -16,6 +16,7 @@ import { router } from "expo-router";
 import GenderPicker, { GENDER_OPTIONS } from "@/src/components/GenderPicker";
 import MaskedInput from "@/src/components/MaskedInput";
 import { CEP_REGEX } from "@/src/constants/validationRegex";
+import { normalizeString } from "@/src/utils/stringUtils";
 
 export default function PersonalDataScreen() {
   const params = useLocalSearchParams();
@@ -35,14 +36,14 @@ export default function PersonalDataScreen() {
       params;
 
     const newUser = {
-      name: name,
+      name: normalizeString(name),
       gender: gender,
       address: {
-        street: addressStreet,
+        street: normalizeString(addressStreet),
         zip: zip,
-        number: number,
-        complement: complement,
-        district: district,
+        number: normalizeString(number),
+        complement: normalizeString(complement),
+        district: normalizeString(district),
       },
       contact: {
         email: email,
@@ -70,7 +71,8 @@ export default function PersonalDataScreen() {
           {
             text: "Ok! Entendi",
             onPress: () => {
-              router.push({
+              router.dismissAll();
+              router.replace({
                 pathname: "/(profile)/(signed-out)/account-verification",
                 params: { cellphone: savedUser.contact.cellphone },
               });

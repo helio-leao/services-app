@@ -26,6 +26,7 @@ import {
   EMAIL_REGEX,
   PHONE_REGEX,
 } from "@/src/constants/validationRegex";
+import { normalizeString } from "@/src/utils/stringUtils";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -56,22 +57,7 @@ export default function EditUserScreen() {
     (async () => {
       try {
         const { data: user } = await axios(`${API_URL}/users/${userId}`);
-        setServiceDescription(user.service.description);
-        setName(user.name);
-        setEmail(user.contact.email);
-        setCellphone(user.contact.cellphone);
-        setGender(user.gender);
-        setZip(user.address.zip);
-        setDistrict(user.address.district);
-        setAddressStreet(user.address.street);
-        setZip(user.address.zip);
-        setNumber(user.address.number);
-        setComplement(user.address.complement);
-        setServiceCategory(user.service.category.name);
-        setServiceSubcategory(user.service.subcategory.name);
-        setJoinedAt(new Date(user.createdAt).getFullYear().toString());
-        setPicture(user.picture?.base64);
-        setMimeType(user.picture?.mimeType);
+        updateUserStates(user);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -80,11 +66,30 @@ export default function EditUserScreen() {
     })();
   }, []);
 
+  function updateUserStates(user: User) {
+    setServiceDescription(user.service.description);
+    setName(user.name);
+    setEmail(user.contact.email);
+    setCellphone(user.contact.cellphone);
+    setGender(user.gender);
+    setZip(user.address.zip);
+    setDistrict(user.address.district);
+    setAddressStreet(user.address.street);
+    setZip(user.address.zip);
+    setNumber(user.address.number);
+    setComplement(user.address.complement);
+    setServiceCategory(user.service.category.name);
+    setServiceSubcategory(user.service.subcategory.name);
+    setJoinedAt(new Date(user.createdAt).getFullYear().toString());
+    setPicture(user.picture?.base64);
+    setMimeType(user.picture?.mimeType);
+  }
+
   async function handleUpdateUser() {
     if (!isInputValid()) return;
 
     const updatedUserData = {
-      name: name,
+      name: normalizeString(name),
       gender: gender,
       contact: {
         email: email,
@@ -92,13 +97,13 @@ export default function EditUserScreen() {
       },
       address: {
         zip: zip,
-        district: district,
-        street: addressStreet,
-        number: number,
-        complement: complement,
+        district: normalizeString(district),
+        street: normalizeString(addressStreet),
+        number: normalizeString(number),
+        complement: normalizeString(complement),
       },
       service: {
-        description: serviceDescription,
+        description: normalizeString(serviceDescription),
       },
     };
 
@@ -109,6 +114,7 @@ export default function EditUserScreen() {
         `${API_URL}/users/${userId}`,
         updatedUserData
       );
+      updateUserStates(updatedUser);
       await storeUpdatedUser(updatedUser);
       setIsEditingEnabled(false);
       Alert.alert("Atenção", "Atualizado com sucesso.");
@@ -176,16 +182,6 @@ export default function EditUserScreen() {
     return true;
   }
 
-  if (isLoading) {
-    return (
-      <SafeAreaView
-        style={[styles.screenContainer, { justifyContent: "center" }]}
-      >
-        <ActivityIndicator size={"large"} />
-      </SafeAreaView>
-    );
-  }
-
   async function handleSignout() {
     try {
       await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER_SESSION);
@@ -206,6 +202,16 @@ export default function EditUserScreen() {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  if (isLoading) {
+    return (
+      <SafeAreaView
+        style={[styles.screenContainer, { justifyContent: "center" }]}
+      >
+        <ActivityIndicator size={"large"} />
+      </SafeAreaView>
+    );
   }
 
   return (
