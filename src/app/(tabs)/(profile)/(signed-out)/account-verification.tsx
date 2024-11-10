@@ -74,7 +74,6 @@ export default function AccountVerificationScreen() {
       await storeLoggedUser(user);
 
       login(user);
-      router.dismissAll();
       router.replace(`/(profile)/(signed-in)/${user._id}`);
     } catch (error) {
       console.log(error);
