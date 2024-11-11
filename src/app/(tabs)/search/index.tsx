@@ -3,20 +3,19 @@ import {
   FlatList,
   StyleSheet,
   Text,
-  TextInput,
   View,
   SafeAreaView,
   TouchableOpacity,
   ActivityIndicator,
   Alert,
 } from "react-native";
-import Feather from "@expo/vector-icons/Feather";
 import { useEffect, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import axios from "axios";
 import User from "@/src/types/User";
 import userPicturePlaceholder from "@/assets/images/user-picture-placeholder.jpg";
+import SearchBar from "@/src/components/SearchBar";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -50,24 +49,12 @@ export default function SearchPage() {
 
   return (
     <SafeAreaView style={styles.screenContainer}>
-      {/* SEARCH BAR */}
-      <View>
-        <TextInput
-          style={styles.searchBar}
-          placeholder="Encontre seu serviço..."
-          onChangeText={setSearchQuery}
-          value={searchQuery}
-          onEndEditing={() => handleSearch(searchQuery)}
-          editable={!isLoading}
-        />
-        <TouchableOpacity
-          style={styles.searchButton}
-          onPress={() => handleSearch(searchQuery)}
-          disabled={isLoading}
-        >
-          <Feather name="search" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+      <SearchBar
+        disabled={isLoading}
+        onChangeText={setSearchQuery}
+        value={searchQuery}
+        onSubmit={() => handleSearch(searchQuery)}
+      />
 
       {isLoading ? (
         <ActivityIndicator size={"large"} style={{ flex: 1 }} />
@@ -155,24 +142,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "600",
-  },
-  searchBar: {
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingLeft: 10,
-    paddingRight: 50,
-    paddingVertical: 10,
-    marginHorizontal: 20,
-    marginVertical: 20,
-  },
-  searchButton: {
-    position: "absolute",
-    right: 25,
-    top: 25,
-    width: 40,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
   },
   image: {
     height: 80,
