@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import { useEffect, useState } from "react";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import axios from "axios";
 import User from "@/src/types/User";
@@ -21,20 +21,24 @@ import userPicturePlaceholder from "@/assets/images/user-picture-placeholder.jpg
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function SearchPage() {
+  const params = useLocalSearchParams<{ searchQuery: string }>();
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedUsers, setSearchedUsers] = useState([]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setSearchQuery(params.searchQuery);
+    handleSearch(params.searchQuery);
+  }, []);
 
-  async function handleSearch() {
+  async function handleSearch(query: string) {
     setIsLoading(true);
 
-    if (!searchQuery) {
+    if (!query) {
       setSearchedUsers([]);
     } else {
       try {
-        const { data } = await axios(`${API_URL}/users/search/${searchQuery}`);
+        const { data } = await axios(`${API_URL}/users/search/${query}`);
         setSearchedUsers(data);
       } catch (error) {
         console.log(error);
@@ -53,12 +57,12 @@ export default function SearchPage() {
           placeholder="Encontre seu serviço..."
           onChangeText={setSearchQuery}
           value={searchQuery}
-          onEndEditing={handleSearch}
+          onEndEditing={() => handleSearch(searchQuery)}
           editable={!isLoading}
         />
         <TouchableOpacity
           style={styles.searchButton}
-          onPress={handleSearch}
+          onPress={() => handleSearch(searchQuery)}
           disabled={isLoading}
         >
           <Feather name="search" size={24} color="black" />
@@ -67,8 +71,14 @@ export default function SearchPage() {
 
       {isLoading ? (
         <ActivityIndicator size={"large"} style={{ flex: 1 }} />
-      ) : (
+      ) : searchedUsers.length > 0 ? (
         <SearchResults users={searchedUsers} />
+      ) : (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Text>Não há resutados.</Text>
+        </View>
       )}
     </SafeAreaView>
   );

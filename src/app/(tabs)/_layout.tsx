@@ -8,13 +8,13 @@ export default function Layout() {
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
-        unmountOnBlur: true,
       }}
     >
       <Tabs.Screen
         name="home"
         options={{
           title: "Home",
+          unmountOnBlur: true,
           tabBarIcon: ({ color, focused, size }) => (
             <Feather name="home" size={size} color={color} />
           ),
@@ -33,6 +33,7 @@ export default function Layout() {
         name="profile"
         options={{
           title: "Perfil",
+          unmountOnBlur: true,
           tabBarIcon: ({ color, focused, size }) => (
             <AntDesign name="profile" size={size} color={color} />
           ),

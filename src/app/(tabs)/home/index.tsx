@@ -59,7 +59,9 @@ export default function SearchPage() {
     })();
   }, []);
 
-  async function handleSearch() {}
+  async function handleSearch() {
+    router.push({ pathname: "/search", params: { searchQuery } });
+  }
 
   return (
     <SafeAreaView style={styles.screenContainer}>
@@ -158,7 +160,7 @@ const DefaultMainSection = ({ users }: { users: User[] }) => {
                   style={styles.favoriteCardContainer}
                   onPress={() =>
                     router.push({
-                      pathname: "/search/details",
+                      pathname: "/home/details",
                       params: { userId: item._id },
                     })
                   }
