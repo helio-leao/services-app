@@ -19,7 +19,7 @@ import { ONE_TIME_PASSWORD_REGEX } from "@/src/constants/validationRegex";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-export default function OTPVerificationScreen() {
+export default function OneTimePasswordPage() {
   const { login } = useAuth();
   const { cellphone } = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(true);
@@ -72,7 +72,7 @@ export default function OTPVerificationScreen() {
 
       login(user);
       router.dismissAll();
-      router.replace(`/(profile)/(signed-in)/${user._id}`);
+      router.replace(`/profile/edit/${user._id}`);
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");

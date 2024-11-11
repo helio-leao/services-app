@@ -14,7 +14,7 @@ import {
 import axios from "axios";
 import ServiceCategory from "@/src/types/ServiceCategory";
 
-export default function ServiceCategoryScreen() {
+export default function ServiceCategoryPage() {
   const params = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [categoryOptions, setCategoryOptions] = useState<ServiceCategory[]>([]);
@@ -96,7 +96,7 @@ export default function ServiceCategoryScreen() {
               disabled={!selectedCategoryId}
               onPress={() =>
                 router.push({
-                  pathname: "/(profile)/(signed-out)/service-subcategory",
+                  pathname: "/profile/service-subcategory",
                   params: { ...params, selectedCategoryId },
                 })
               }

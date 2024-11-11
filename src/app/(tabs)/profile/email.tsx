@@ -11,7 +11,7 @@ import {
   Alert,
 } from "react-native";
 
-export default function EmailScreen() {
+export default function EmailPage() {
   const params = useLocalSearchParams();
   const [email, setEmail] = useState("");
 
@@ -19,7 +19,7 @@ export default function EmailScreen() {
     if (!isInputValid()) return;
 
     router.push({
-      pathname: "/(profile)/(signed-out)/service-category",
+      pathname: "/profile/service-category",
       params: { ...params, email },
     });
   }

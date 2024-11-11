@@ -18,7 +18,7 @@ import axios from "axios";
 import User from "@/src/types/User";
 import userPicturePlaceholder from "@/assets/images/user-picture-placeholder.jpg";
 
-export default function ServiceDetailsScreen() {
+export default function DetailsPage() {
   const { userId } = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User>();

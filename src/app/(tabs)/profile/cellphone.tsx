@@ -13,11 +13,11 @@ import {
   ActivityIndicator,
 } from "react-native";
 
-export default function SigninScreen() {
+export default function CellphonePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [cellphone, setCellphone] = useState("");
 
-  async function handleSignin() {
+  async function handleContinue() {
     if (!isInputValid()) return;
 
     setIsLoading(true);
@@ -27,22 +27,16 @@ export default function SigninScreen() {
         `${process.env.EXPO_PUBLIC_API_URL}/users/searchByCellphone/${cellphone}`
       );
 
-      if (!user) {
+      if (user) {
         setIsLoading(false);
-        return Alert.alert("Atenção", "Usuário não encontrado");
+        Alert.alert("Atenção", "Já existe cadastro com esse telefone.");
+        return;
       }
 
-      if (user.verified) {
-        router.push({
-          pathname: `/(profile)/(signed-out)/otp-verification`,
-          params: { cellphone: user.contact.cellphone },
-        });
-      } else {
-        router.push({
-          pathname: `/(profile)/(signed-out)/account-verification`,
-          params: { cellphone: user.contact.cellphone },
-        });
-      }
+      router.push({
+        pathname: "/profile/email",
+        params: { cellphone: cellphone },
+      });
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");
@@ -63,6 +57,10 @@ export default function SigninScreen() {
     <SafeAreaView style={styles.screenContainer}>
       {/* TEXT AND INPUT SECTION */}
       <View style={styles.textContainer}>
+        <Text style={styles.title}>Insira o seu número de celular.</Text>
+        <Text style={{ marginBottom: 20 }}>
+          Seu número será seu acesso ao aplicativo.
+        </Text>
         <Text style={styles.title}>Celular</Text>
         <MaskedInput
           style={styles.input}
@@ -76,13 +74,13 @@ export default function SigninScreen() {
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={handleSignin}
+          onPress={handleContinue}
           disabled={isLoading}
         >
           {isLoading ? (
             <ActivityIndicator />
           ) : (
-            <Text style={styles.buttonText}>Signin</Text>
+            <Text style={styles.buttonText}>Continuar</Text>
           )}
         </TouchableOpacity>
       </View>

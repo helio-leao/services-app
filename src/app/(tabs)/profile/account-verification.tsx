@@ -18,7 +18,7 @@ import {
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-export default function AccountVerificationScreen() {
+export default function AccountVerificationPage() {
   const { login } = useAuth();
   const { cellphone } = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(true);
@@ -74,7 +74,7 @@ export default function AccountVerificationScreen() {
       await storeLoggedUser(user);
 
       login(user);
-      router.replace(`/(profile)/(signed-in)/${user._id}`);
+      router.replace(`/profile/edit/${user._id}`);
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");

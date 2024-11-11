@@ -18,7 +18,7 @@ import MaskedInput from "@/src/components/MaskedInput";
 import { CEP_REGEX } from "@/src/constants/validationRegex";
 import { normalizeString } from "@/src/utils/stringUtils";
 
-export default function PersonalDataScreen() {
+export default function PersonalDataPage() {
   const params = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
@@ -73,7 +73,7 @@ export default function PersonalDataScreen() {
             onPress: () => {
               router.dismissAll();
               router.replace({
-                pathname: "/(profile)/(signed-out)/account-verification",
+                pathname: "/profile/account-verification",
                 params: { cellphone: savedUser.contact.cellphone },
               });
             },

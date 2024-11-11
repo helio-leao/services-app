@@ -42,7 +42,7 @@ const favoriteServices = [
   },
 ];
 
-export default function SearchScreen() {
+export default function SearchPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [allUsers, setAllUsers] = useState([]);
@@ -178,7 +178,7 @@ const DefaultMainSection = ({ users }: { users: User[] }) => {
                   style={styles.favoriteCardContainer}
                   onPress={() =>
                     router.push({
-                      pathname: "/service-details",
+                      pathname: "/search/details",
                       params: { userId: item._id },
                     })
                   }
@@ -225,7 +225,7 @@ const SearchResults = ({ users }: { users: User[] }) => {
             }}
             onPress={() =>
               router.push({
-                pathname: `/service-details`,
+                pathname: `/search/details`,
                 params: { userId: item._id },
               })
             }

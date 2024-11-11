@@ -30,7 +30,7 @@ import { normalizeString } from "@/src/utils/stringUtils";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-export default function EditUserScreen() {
+export default function EditPage() {
   const { userId } = useLocalSearchParams();
   const { logout } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
@@ -186,7 +186,7 @@ export default function EditUserScreen() {
     try {
       await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER_SESSION);
       logout();
-      router.replace("/(profile)/(signed-out)/home");
+      router.replace("/profile/home");
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Não foi possível deslogar.");

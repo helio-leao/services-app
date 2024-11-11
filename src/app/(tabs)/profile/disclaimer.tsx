@@ -9,33 +9,30 @@ import {
 } from "react-native";
 import workersImage from "@/assets/images/workers.png";
 
-export default function HomeScreen() {
-  function handleSignin() {
-    router.push("/(signed-out)/signin");
-  }
-
+export default function DisclaimerPage() {
   return (
     <SafeAreaView style={styles.screenContainer}>
-      {/* TEXT SECTION */}
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>Meu App</Text>
-        <Text>Bem-vindo ao Meu App</Text>
-        <Text>Alcance clientes da sua região todos os dias.</Text>
-      </View>
+      {/* IMAGE AND TEXT SECTION */}
+      <View>
+        <Image style={styles.image} source={workersImage} />
 
-      {/* IMAGE */}
-      <Image style={styles.image} source={workersImage} />
+        {/* TEXT SECTION */}
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>Cadastre seus serviços</Text>
+          <Text style={styles.text}>
+            Faça parte da maior rede de prestadores de serviços da região. Se
+            destaque e aumente sua clientela diariamente.
+          </Text>
+        </View>
+      </View>
 
       {/* BUTTONS SECTION */}
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => router.push("/(profile)/(signed-out)/disclaimer")}
+          onPress={() => router.push("/profile/cellphone")}
         >
-          <Text style={styles.buttonText}>Seja um prestador de serviços</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleSignin}>
-          <Text style={styles.buttonText}>Entrar</Text>
+          <Text style={styles.buttonText}>Vamos começar</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -49,6 +46,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   textContainer: {
+    width: 300,
+    alignSelf: "center",
     alignItems: "center",
     gap: 4,
   },
@@ -56,10 +55,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
   },
+  text: {
+    textAlign: "center",
+  },
   image: {
     width: 160,
     height: 160,
     alignSelf: "center",
+    marginBottom: 20,
   },
   buttonsContainer: {
     gap: 10,
