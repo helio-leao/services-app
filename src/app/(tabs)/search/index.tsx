@@ -29,7 +29,7 @@ export default function SearchPage() {
   useEffect(() => {
     setSearchQuery(params.searchQuery);
     handleSearch(params.searchQuery);
-  }, []);
+  }, [params.searchQuery]);
 
   async function handleSearch(query: string) {
     setIsLoading(true);
