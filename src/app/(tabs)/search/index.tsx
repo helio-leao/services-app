@@ -21,13 +21,15 @@ const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function SearchPage() {
   const params = useLocalSearchParams<{ searchQuery: string }>();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedUsers, setSearchedUsers] = useState([]);
 
   useEffect(() => {
-    setSearchQuery(params.searchQuery);
-    handleSearch(params.searchQuery);
+    if (params.searchQuery) {
+      setSearchQuery(params.searchQuery);
+      handleSearch(params.searchQuery);
+    }
   }, [params.searchQuery]);
 
   async function handleSearch(query: string) {
