@@ -24,7 +24,7 @@ export default function Layout() {
       />
       <Stack.Screen name="one-time-password" options={{ title: "Signin" }} />
 
-      <Stack.Screen name="edit/[userId]" options={{ title: "Perfil" }} />
+      <Stack.Screen name="edit" options={{ title: "Perfil" }} />
     </Stack>
   );
 }

@@ -19,7 +19,7 @@ import User from "@/src/types/User";
 import userPicturePlaceholder from "@/assets/images/user-picture-placeholder.jpg";
 
 export default function DetailsPage() {
-  const { userId } = useLocalSearchParams();
+  const { userId } = useLocalSearchParams<{ userId: string }>();
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User>();
 

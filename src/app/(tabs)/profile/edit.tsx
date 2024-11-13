@@ -31,7 +31,7 @@ import { normalizeString } from "@/src/utils/stringUtils";
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function EditPage() {
-  const { userId } = useLocalSearchParams();
+  const { userId } = useLocalSearchParams<{ userId: string }>();
   const { logout } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);

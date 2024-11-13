@@ -20,7 +20,7 @@ const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function AccountVerificationPage() {
   const { login } = useAuth();
-  const { cellphone } = useLocalSearchParams();
+  const { cellphone } = useLocalSearchParams<{ cellphone: string }>();
   const [isLoading, setIsLoading] = useState(true);
   const [code, setCode] = useState("");
 
@@ -74,7 +74,10 @@ export default function AccountVerificationPage() {
       await storeLoggedUser(user);
 
       login(user);
-      router.replace(`/profile/edit/${user._id}`);
+      router.replace({
+        pathname: "/profile/edit",
+        params: { userId: user._id },
+      });
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");

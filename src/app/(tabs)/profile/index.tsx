@@ -5,7 +5,11 @@ export default function IndexPage() {
   const { user } = useAuth();
 
   if (user) {
-    return <Redirect href={`/profile/edit/${user._id}`} />;
+    return (
+      <Redirect
+        href={{ pathname: "/profile/edit", params: { userId: user._id } }}
+      />
+    );
   } else {
     return <Redirect href={"/profile/home"} />;
   }
