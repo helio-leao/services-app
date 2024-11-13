@@ -23,7 +23,7 @@ export default function SearchPage() {
   const params = useLocalSearchParams<{ searchQuery: string }>();
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchedUsers, setSearchedUsers] = useState([]);
+  const [searchedUsers, setSearchedUsers] = useState<User[]>([]);
 
   useEffect(() => {
     if (params.searchQuery) {
