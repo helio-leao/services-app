@@ -83,7 +83,12 @@ export default function DetailsPage() {
         <View style={[styles.sectionContainer, { paddingHorizontal: 40 }]}>
           <Text style={styles.subtitle}>{user?.name}</Text>
           <Text>{user?.address.street}</Text>
-          <Text>Preço médio: R$ {250.0}</Text>
+          {user?.service?.price && (
+            <Text>
+              Preço médio: R${" "}
+              {user?.service.price?.toFixed(2).toString().replace(".", ",")}
+            </Text>
+          )}
         </View>
 
         {/* PROFESSIONAL QUALIFICATIONS SECTION */}
@@ -91,9 +96,10 @@ export default function DetailsPage() {
           <Text>Serviços:</Text>
           <View style={{ paddingHorizontal: 20 }}>
             <Text>
-              {user?.service.category.name} - {user?.service.subcategory.name}
+              {user?.service?.category?.name} -{" "}
+              {user?.service?.subcategory?.name}
             </Text>
-            <Text>{user?.service.description}</Text>
+            <Text>{user?.service?.description}</Text>
           </View>
         </View>
 

@@ -19,7 +19,12 @@ import { CEP_REGEX } from "@/src/constants/validationRegex";
 import { normalizeString } from "@/src/utils/stringUtils";
 
 export default function PersonalDataPage() {
-  const params = useLocalSearchParams();
+  const params = useLocalSearchParams<{
+    cellphone: string;
+    email: string;
+    selectedCategoryId: string;
+    selectedSubcategoryId: string;
+  }>();
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [zip, setZip] = useState("");

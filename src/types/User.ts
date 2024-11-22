@@ -2,7 +2,7 @@ import ServiceCategory from "./ServiceCategory";
 import ServiceSubcategory from "./ServiceSubcategory";
 
 export default interface User {
-  _id: string;
+  _id?: string;
   name: string;
   address: {
     zip: string;
@@ -15,18 +15,18 @@ export default interface User {
     cellphone: string;
     email: string;
   };
-  service: {
-    description: string;
-    price: string;
-    category: ServiceCategory;
-    subcategory: ServiceSubcategory;
+  service?: {
+    description?: string;
+    price?: number;
+    category?: ServiceCategory;
+    subcategory?: ServiceSubcategory;
   };
-  picture: {
+  picture?: {
     base64: string;
     mimeType: string;
   };
   gender: string;
-  verified: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  verified?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

@@ -67,8 +67,8 @@ export default function EditPage() {
   }, []);
 
   function updateUserStates(user: User) {
-    setServiceDescription(user.service.description);
-    setPrice(user.service.price);
+    setServiceDescription(user.service?.description || "");
+    setPrice(user.service?.price?.toString().replace(".", ",") || "");
     setName(user.name);
     setEmail(user.contact.email);
     setCellphone(user.contact.cellphone);
@@ -79,17 +79,17 @@ export default function EditPage() {
     setZip(user.address.zip);
     setNumber(user.address.number);
     setComplement(user.address.complement);
-    setServiceCategory(user.service.category.name);
-    setServiceSubcategory(user.service.subcategory.name);
-    setJoinedAt(new Date(user.createdAt).getFullYear().toString());
-    setPicture(user.picture?.base64);
-    setMimeType(user.picture?.mimeType);
+    setServiceCategory(user.service?.category?.name || "");
+    setServiceSubcategory(user.service?.subcategory?.name || "");
+    setJoinedAt(new Date(user.createdAt!).getFullYear().toString());
+    setPicture(user.picture?.base64 || "");
+    setMimeType(user.picture?.mimeType || "");
   }
 
   async function handleUpdateUser() {
     if (!isInputValid()) return;
 
-    const updatedUserData = {
+    const updatedUserData: User = {
       name: normalizeString(name),
       gender: gender,
       contact: {
@@ -105,7 +105,7 @@ export default function EditPage() {
       },
       service: {
         description: normalizeString(serviceDescription),
-        price: normalizeString(price),
+        price: parseFloat(price.replace(",", ".")),
       },
     };
 
@@ -125,6 +125,10 @@ export default function EditPage() {
     }
 
     setIsSaving(false);
+  }
+
+  function normalizeCurrency(value: string) {
+    setPrice(value.replace(/[^\d,]/g, ""));
   }
 
   async function handlePictureUpdate() {
@@ -285,8 +289,8 @@ export default function EditPage() {
           <TextInput
             style={styles.input}
             keyboardType="number-pad"
-            placeholder="R$ 999.99"
-            onChangeText={setPrice}
+            placeholder="R$ 999,99"
+            onChangeText={normalizeCurrency}
             value={price}
           />
 
