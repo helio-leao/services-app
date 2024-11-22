@@ -89,10 +89,10 @@ export default function PersonalDataPage() {
   }
 
   function isInputValid() {
-    if (!CEP_REGEX.test(zip)) {
-      Alert.alert("Atenção", "O CEP deve ter 8 números.");
-      return false;
-    }
+    // if (!CEP_REGEX.test(zip)) {
+    //   Alert.alert("Atenção", "O CEP deve ter 8 números.");
+    //   return false;
+    // }
     return true;
   }
 

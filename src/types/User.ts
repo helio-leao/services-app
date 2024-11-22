@@ -17,6 +17,7 @@ export default interface User {
   };
   service: {
     description: string;
+    price: string;
     category: ServiceCategory;
     subcategory: ServiceSubcategory;
   };

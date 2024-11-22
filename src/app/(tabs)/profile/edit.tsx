@@ -36,6 +36,7 @@ export default function EditPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [serviceDescription, setServiceDescription] = useState("");
+  const [price, setPrice] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [cellphone, setCellphone] = useState("");
@@ -67,6 +68,7 @@ export default function EditPage() {
 
   function updateUserStates(user: User) {
     setServiceDescription(user.service.description);
+    setPrice(user.service.price);
     setName(user.name);
     setEmail(user.contact.email);
     setCellphone(user.contact.cellphone);
@@ -103,6 +105,7 @@ export default function EditPage() {
       },
       service: {
         description: normalizeString(serviceDescription),
+        price: normalizeString(price),
       },
     };
 
@@ -173,10 +176,10 @@ export default function EditPage() {
       Alert.alert("Atenção", "O telefone deve ter 11 números.");
       return false;
     }
-    if (!CEP_REGEX.test(zip)) {
-      Alert.alert("Atenção", "O CEP deve ter 8 números.");
-      return false;
-    }
+    // if (!CEP_REGEX.test(zip)) {
+    //   Alert.alert("Atenção", "O CEP deve ter 8 números.");
+    //   return false;
+    // }
     return true;
   }
 
@@ -272,9 +275,19 @@ export default function EditPage() {
             style={styles.input}
             multiline
             numberOfLines={4}
+            maxLength={300}
             textAlignVertical="top"
             onChangeText={setServiceDescription}
             value={serviceDescription}
+          />
+
+          <Text style={styles.title}>Valor do serviço</Text>
+          <TextInput
+            style={styles.input}
+            keyboardType="number-pad"
+            placeholder="R$ 999.99"
+            onChangeText={setPrice}
+            value={price}
           />
 
           <Text style={styles.title}>{serviceCategory}</Text>
