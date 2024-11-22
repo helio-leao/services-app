@@ -8,8 +8,12 @@ import React, {
 import User from "../types/User";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ASYNC_STORAGE_KEYS from "../constants/asyncStorageKeys";
+import axios from "axios";
+
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 interface AuthContextType {
+  isLoading: boolean;
   user: User | null;
   login: (userData: User) => void;
   logout: () => void;
@@ -22,6 +26,7 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -30,14 +35,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         const userString = await AsyncStorage.getItem(
           ASYNC_STORAGE_KEYS.USER_SESSION
         );
-        // TODO: fetch user on api by storage user id
 
-        if (userString) {
-          const user = JSON.parse(userString);
-          setUser(user);
-        }
+        if (!userString) return;
+
+        const storageUser: User = JSON.parse(userString);
+        const { data: user } = await axios(
+          `${API_URL}/users/${storageUser._id}`
+        );
+
+        setUser(user);
       } catch (error) {
+        // NOTE: if error on request, the storage user is not being removed
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -51,7 +62,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ isLoading, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
