@@ -35,7 +35,6 @@ export default function EditPage() {
   const { logout } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [isEditingEnabled, setIsEditingEnabled] = useState(false);
   const [serviceDescription, setServiceDescription] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -116,7 +115,6 @@ export default function EditPage() {
       );
       updateUserStates(updatedUser);
       await storeUpdatedUser(updatedUser);
-      setIsEditingEnabled(false);
       Alert.alert("Atenção", "Atualizado com sucesso.");
     } catch (error) {
       console.error(error);
@@ -234,11 +232,12 @@ export default function EditPage() {
             {
               flexDirection: "row",
               justifyContent: "space-between",
+              alignItems: "center",
               paddingTop: 0,
             },
           ]}
         >
-          <View style={{ gap: 10 }}>
+          <View>
             <Image
               style={styles.selectImage}
               source={`data:${mimeType};base64,${picture}`}
@@ -247,10 +246,8 @@ export default function EditPage() {
             <TouchableOpacity
               style={{
                 backgroundColor: "#000",
-                borderRadius: 8,
                 alignItems: "center",
-                paddingVertical: 10,
-                width: 60,
+                paddingVertical: 6,
               }}
               onPress={handlePictureUpdate}
               disabled={isSaving}
@@ -263,19 +260,6 @@ export default function EditPage() {
             </TouchableOpacity>
           </View>
           <Text>No Meu APP desde {joinedAt}</Text>
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#000",
-              borderRadius: 8,
-              alignSelf: "flex-end",
-              alignItems: "center",
-              paddingVertical: 10,
-              width: 60,
-            }}
-            onPress={() => setIsEditingEnabled((prev) => !prev)}
-          >
-            <Text style={styles.buttonText}>Editar</Text>
-          </TouchableOpacity>
         </View>
 
         {/* SERVICE SECTION */}
@@ -286,7 +270,6 @@ export default function EditPage() {
           <Text style={styles.title}>Descrição</Text>
           <TextInput
             style={styles.input}
-            editable={isEditingEnabled}
             multiline
             numberOfLines={4}
             textAlignVertical="top"
@@ -306,17 +289,11 @@ export default function EditPage() {
         </View>
         <View style={styles.inputsContainer}>
           <Text style={styles.title}>Nome</Text>
-          <TextInput
-            style={styles.input}
-            editable={isEditingEnabled}
-            onChangeText={setName}
-            value={name}
-          />
+          <TextInput style={styles.input} onChangeText={setName} value={name} />
 
           <Text style={styles.title}>Email</Text>
           <TextInput
             style={styles.input}
-            editable={isEditingEnabled}
             keyboardType="email-address"
             onChangeText={setEmail}
             value={email}
@@ -326,7 +303,6 @@ export default function EditPage() {
           <MaskedInput
             style={styles.input}
             type="phone"
-            editable={isEditingEnabled}
             onChangeText={setCellphone}
             value={cellphone}
           />
@@ -347,7 +323,6 @@ export default function EditPage() {
           <MaskedInput
             style={styles.input}
             type="cep"
-            editable={isEditingEnabled}
             onChangeText={setZip}
             value={zip}
           />
@@ -355,7 +330,6 @@ export default function EditPage() {
           <Text style={styles.title}>Bairro</Text>
           <TextInput
             style={styles.input}
-            editable={isEditingEnabled}
             onChangeText={setDistrict}
             value={district}
           />
@@ -363,7 +337,6 @@ export default function EditPage() {
           <Text style={styles.title}>Endereço</Text>
           <TextInput
             style={styles.input}
-            editable={isEditingEnabled}
             onChangeText={setAddressStreet}
             value={addressStreet}
           />
@@ -371,7 +344,6 @@ export default function EditPage() {
           <Text style={styles.title}>Número</Text>
           <TextInput
             style={styles.input}
-            editable={isEditingEnabled}
             keyboardType="number-pad"
             onChangeText={setNumber}
             value={number}
@@ -380,7 +352,6 @@ export default function EditPage() {
           <Text style={styles.title}>Complemento</Text>
           <TextInput
             style={styles.input}
-            editable={isEditingEnabled}
             onChangeText={setComplement}
             value={complement}
           />
@@ -389,12 +360,9 @@ export default function EditPage() {
         {/* BUTTONS SECTION */}
         <View style={styles.buttonsContainer}>
           <TouchableOpacity
-            style={[
-              styles.button,
-              { backgroundColor: !isEditingEnabled ? "#888" : "#000" },
-            ]}
+            style={[styles.button, { backgroundColor: "#000" }]}
             onPress={handleUpdateUser}
-            disabled={!isEditingEnabled || isSaving}
+            disabled={isSaving}
           >
             {isSaving ? (
               <ActivityIndicator />
@@ -453,7 +421,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   selectImage: {
-    width: 60,
-    height: 60,
+    width: 90,
+    aspectRatio: 3 / 4,
   },
 });

@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   image: {
-    height: 80,
     width: 60,
+    aspectRatio: 3 / 4,
   },
 });

@@ -63,7 +63,7 @@ export default function DetailsPage() {
             <Image
               source={`data:${user?.picture?.mimeType};base64,${user?.picture?.base64}`}
               placeholder={userPicturePlaceholder}
-              style={{ width: 160, height: 160 }}
+              style={{ width: 140, aspectRatio: 3 / 4 }}
             />
 
             <View
