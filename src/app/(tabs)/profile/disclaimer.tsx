@@ -1,13 +1,8 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import {
-  StyleSheet,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, SafeAreaView, Text, View } from "react-native";
 import workersImage from "@/assets/images/workers.png";
+import CustomButton from "@/src/components/CustomButton";
 
 export default function DisclaimerPage() {
   return (
@@ -28,12 +23,10 @@ export default function DisclaimerPage() {
 
       {/* BUTTONS SECTION */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={styles.button}
+        <CustomButton
+          label="Vamos começar"
           onPress={() => router.push("/profile/cellphone")}
-        >
-          <Text style={styles.buttonText}>Vamos começar</Text>
-        </TouchableOpacity>
+        />
       </View>
     </SafeAreaView>
   );
@@ -66,16 +59,5 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     gap: 10,
-  },
-  button: {
-    backgroundColor: "#000",
-    borderRadius: 8,
-    width: 300,
-    alignSelf: "center",
-    alignItems: "center",
-    paddingVertical: 10,
-  },
-  buttonText: {
-    color: "#fff",
   },
 });

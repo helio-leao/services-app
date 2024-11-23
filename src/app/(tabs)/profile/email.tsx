@@ -1,3 +1,4 @@
+import CustomButton from "@/src/components/CustomButton";
 import { EMAIL_REGEX } from "@/src/constants/validationRegex";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
@@ -5,7 +6,6 @@ import {
   StyleSheet,
   SafeAreaView,
   Text,
-  TouchableOpacity,
   View,
   TextInput,
   Alert,
@@ -52,9 +52,7 @@ export default function EmailPage() {
 
       {/* BUTTONS SECTION */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Continuar</Text>
-        </TouchableOpacity>
+        <CustomButton label="Continuar" onPress={handleContinue} />
       </View>
     </SafeAreaView>
   );
@@ -86,16 +84,5 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     gap: 10,
-  },
-  button: {
-    backgroundColor: "#000",
-    borderRadius: 8,
-    width: 300,
-    alignSelf: "center",
-    alignItems: "center",
-    paddingVertical: 10,
-  },
-  buttonText: {
-    color: "#fff",
   },
 });

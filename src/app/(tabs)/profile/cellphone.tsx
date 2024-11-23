@@ -1,17 +1,10 @@
+import CustomButton from "@/src/components/CustomButton";
 import MaskedInput from "@/src/components/MaskedInput";
 import { PHONE_REGEX } from "@/src/constants/validationRegex";
 import axios from "axios";
 import { router } from "expo-router";
 import { useState } from "react";
-import {
-  StyleSheet,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-  Alert,
-  ActivityIndicator,
-} from "react-native";
+import { StyleSheet, SafeAreaView, Text, View, Alert } from "react-native";
 
 export default function CellphonePage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -72,17 +65,11 @@ export default function CellphonePage() {
 
       {/* BUTTONS SECTION */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={styles.button}
+        <CustomButton
+          label="Continuar"
           onPress={handleContinue}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <ActivityIndicator />
-          ) : (
-            <Text style={styles.buttonText}>Continuar</Text>
-          )}
-        </TouchableOpacity>
+          isLoading={isLoading}
+        />
       </View>
     </SafeAreaView>
   );
@@ -114,16 +101,5 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     gap: 10,
-  },
-  button: {
-    backgroundColor: "#000",
-    borderRadius: 8,
-    width: 300,
-    alignSelf: "center",
-    alignItems: "center",
-    paddingVertical: 10,
-  },
-  buttonText: {
-    color: "#fff",
   },
 });

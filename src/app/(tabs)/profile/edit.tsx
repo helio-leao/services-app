@@ -27,6 +27,7 @@ import {
   PHONE_REGEX,
 } from "@/src/constants/validationRegex";
 import { normalizeString } from "@/src/utils/stringUtils";
+import CustomButton from "@/src/components/CustomButton";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -105,7 +106,7 @@ export default function EditPage() {
       },
       service: {
         description: normalizeString(serviceDescription),
-        price: Number(price),
+        price: Number(price), // NOTE: if input empty convert result is 0, but the api won't set it because 0 is false
       },
     };
 
@@ -240,27 +241,21 @@ export default function EditPage() {
             },
           ]}
         >
-          <View>
+          <View style={{ gap: 10 }}>
             <Image
               style={styles.selectImage}
               source={`data:${mimeType};base64,${picture}`}
               placeholder={userPicturePlaceholder}
             />
-            <TouchableOpacity
-              style={{
-                backgroundColor: "#000",
-                alignItems: "center",
+            <CustomButton
+              containerStyle={{
+                width: "100%",
                 paddingVertical: 6,
               }}
               onPress={handlePictureUpdate}
-              disabled={isSaving}
-            >
-              {isSaving ? (
-                <ActivityIndicator />
-              ) : (
-                <Text style={styles.buttonText}>Foto</Text>
-              )}
-            </TouchableOpacity>
+              isLoading={isSaving}
+              label="Foto"
+            />
           </View>
           <Text>No Meu APP desde {joinedAt}</Text>
         </View>
@@ -371,17 +366,11 @@ export default function EditPage() {
 
         {/* BUTTONS SECTION */}
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: "#000" }]}
+          <CustomButton
             onPress={handleUpdateUser}
-            disabled={isSaving}
-          >
-            {isSaving ? (
-              <ActivityIndicator />
-            ) : (
-              <Text style={styles.buttonText}>Salvar alterações</Text>
-            )}
-          </TouchableOpacity>
+            isLoading={isSaving}
+            label="Salvar alterações"
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -420,17 +409,6 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     gap: 10,
     marginBottom: 20,
-  },
-  button: {
-    backgroundColor: "#000",
-    borderRadius: 8,
-    width: 300,
-    alignSelf: "center",
-    alignItems: "center",
-    paddingVertical: 10,
-  },
-  buttonText: {
-    color: "#fff",
   },
   selectImage: {
     width: 90,

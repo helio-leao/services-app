@@ -4,12 +4,10 @@ import {
   StyleSheet,
   SafeAreaView,
   Text,
-  TouchableOpacity,
   View,
   TextInput,
   ScrollView,
   Alert,
-  ActivityIndicator,
 } from "react-native";
 import axios from "axios";
 import { router } from "expo-router";
@@ -17,6 +15,7 @@ import GenderPicker, { GENDER_OPTIONS } from "@/src/components/GenderPicker";
 import MaskedInput from "@/src/components/MaskedInput";
 import { CEP_REGEX } from "@/src/constants/validationRegex";
 import { normalizeString } from "@/src/utils/stringUtils";
+import CustomButton from "@/src/components/CustomButton";
 
 export default function PersonalDataPage() {
   const params = useLocalSearchParams<{
@@ -164,17 +163,11 @@ export default function PersonalDataPage() {
 
         {/* BUTTONS SECTION */}
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity
-            style={styles.button}
+          <CustomButton
+            label="Continuar"
             onPress={handleSaveUser}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <ActivityIndicator />
-            ) : (
-              <Text style={styles.buttonText}>Continuar</Text>
-            )}
-          </TouchableOpacity>
+            isLoading={isLoading}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -208,16 +201,5 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     gap: 10,
     marginBottom: 20,
-  },
-  button: {
-    backgroundColor: "#000",
-    borderRadius: 8,
-    width: 300,
-    alignSelf: "center",
-    alignItems: "center",
-    paddingVertical: 10,
-  },
-  buttonText: {
-    color: "#fff",
   },
 });

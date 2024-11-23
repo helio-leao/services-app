@@ -10,12 +10,12 @@ import {
   View,
   TextInput,
   Alert,
-  ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import User from "@/src/types/User";
 import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
 import { ONE_TIME_PASSWORD_REGEX } from "@/src/constants/validationRegex";
+import CustomButton from "@/src/components/CustomButton";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -128,17 +128,11 @@ export default function OneTimePasswordPage() {
 
       {/* LOWER SECTION */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={styles.button}
+        <CustomButton
+          label="Verificar"
           onPress={handleVerification}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <ActivityIndicator />
-          ) : (
-            <Text style={styles.buttonText}>Verificar</Text>
-          )}
-        </TouchableOpacity>
+          isLoading={isLoading}
+        />
       </View>
     </SafeAreaView>
   );
@@ -170,16 +164,5 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     gap: 10,
-  },
-  button: {
-    backgroundColor: "#000",
-    borderRadius: 8,
-    width: 300,
-    alignSelf: "center",
-    alignItems: "center",
-    paddingVertical: 10,
-  },
-  buttonText: {
-    color: "#fff",
   },
 });

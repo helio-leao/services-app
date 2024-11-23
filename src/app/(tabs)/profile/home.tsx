@@ -1,13 +1,8 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import {
-  StyleSheet,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, SafeAreaView, Text, View } from "react-native";
 import workersImage from "@/assets/images/workers.png";
+import CustomButton from "@/src/components/CustomButton";
 
 export default function HomePage() {
   function handleSignin() {
@@ -28,15 +23,11 @@ export default function HomePage() {
 
       {/* BUTTONS SECTION */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={styles.button}
+        <CustomButton
+          label="Seja um prestador de serviços"
           onPress={() => router.push("/profile/disclaimer")}
-        >
-          <Text style={styles.buttonText}>Seja um prestador de serviços</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleSignin}>
-          <Text style={styles.buttonText}>Entrar</Text>
-        </TouchableOpacity>
+        />
+        <CustomButton label="Entrar" onPress={handleSignin} />
       </View>
     </SafeAreaView>
   );
@@ -63,16 +54,5 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     gap: 10,
-  },
-  button: {
-    backgroundColor: "#000",
-    borderRadius: 8,
-    width: 300,
-    alignSelf: "center",
-    alignItems: "center",
-    paddingVertical: 10,
-  },
-  buttonText: {
-    color: "#fff",
   },
 });
