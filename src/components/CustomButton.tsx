@@ -14,6 +14,7 @@ type CustomButtonProps = {
   onPress?: (event: GestureResponderEvent) => void;
   isLoading?: boolean;
   label?: string;
+  disabled?: boolean;
 };
 
 export default function CustomButton({
@@ -21,12 +22,13 @@ export default function CustomButton({
   onPress,
   isLoading,
   label,
+  disabled,
 }: CustomButtonProps) {
   return (
     <TouchableOpacity
       style={[styles.button, containerStyle]}
       onPress={onPress}
-      disabled={isLoading}
+      disabled={isLoading || disabled}
     >
       {isLoading ? (
         <ActivityIndicator />

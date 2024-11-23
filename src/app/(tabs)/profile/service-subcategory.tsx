@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import ServiceSubcategory from "@/src/types/ServiceSubcategory";
+import CustomButton from "@/src/components/CustomButton";
 
 export default function ServiceSubcategoryPage() {
   const params = useLocalSearchParams();
@@ -91,12 +92,8 @@ export default function ServiceSubcategoryPage() {
 
           {/* confirm button */}
           <View style={styles.buttonsContainer}>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                { backgroundColor: !selectedSubcategoryId ? "#888" : "#000" },
-              ]}
-              disabled={!selectedSubcategoryId}
+            <CustomButton
+              label="Continuar"
               onPress={() =>
                 router.push({
                   pathname: "/profile/personal-data",
@@ -106,9 +103,8 @@ export default function ServiceSubcategoryPage() {
                   },
                 })
               }
-            >
-              <Text style={styles.buttonText}>Continuar</Text>
-            </TouchableOpacity>
+              disabled={!selectedSubcategoryId}
+            />
           </View>
         </View>
       </ScrollView>
@@ -142,16 +138,5 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     marginBottom: 20,
-  },
-  button: {
-    backgroundColor: "#000",
-    borderRadius: 8,
-    width: 300,
-    alignSelf: "center",
-    alignItems: "center",
-    paddingVertical: 10,
-  },
-  buttonText: {
-    color: "#fff",
   },
 });
