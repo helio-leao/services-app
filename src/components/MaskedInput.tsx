@@ -19,9 +19,18 @@ function maskCep(value: string) {
   return value;
 }
 
+function maskCurrency(value: string) {
+  value = value.replace(/\D/g, "");
+  value = value.replace(/^[0]+/, "");
+  value = value.replace(/^(\d{1})$/, "R$ 0,0$1");
+  value = value.replace(/^(\d{2})$/, "R$ 0,$1");
+  value = value.replace(/^(\d+)(\d{2})$/, "R$ $1,$2");
+  return value;
+}
+
 type InputConfig = {
   placeholder: string;
-  maxLength: number;
+  maxLength?: number;
   keyboardType: KeyboardTypeOptions;
   mask: (value: string) => string;
 };
@@ -39,6 +48,11 @@ const TYPES: Record<string, InputConfig> = {
     keyboardType: "number-pad",
     mask: maskCep,
   },
+  currency: {
+    placeholder: "R$ 999,99",
+    keyboardType: "number-pad",
+    mask: maskCurrency,
+  },
 };
 
 type MaskedInputProps = {
@@ -46,7 +60,7 @@ type MaskedInputProps = {
   editable?: boolean;
   value?: string;
   onChangeText?: (text: string) => void;
-  type: "phone" | "cep";
+  type: "phone" | "cep" | "currency";
 };
 
 export default function MaskedInput({
@@ -66,8 +80,14 @@ export default function MaskedInput({
     }
   }, [value]);
 
-  function handleChangeText(value: string) {
-    onChangeText?.(value.replace(/\D/g, ""));
+  function handleSendNormalizedText(text: string) {
+    const maskedText = TYPES[type].mask(text);
+
+    if (type === "currency") {
+      onChangeText?.(maskedText.replace(",", ".").replace(/[^\d\.]/g, ""));
+    } else {
+      onChangeText?.(maskedText.replace(/\D/g, ""));
+    }
   }
 
   return (
@@ -77,7 +97,7 @@ export default function MaskedInput({
       placeholder={TYPES[type].placeholder}
       maxLength={TYPES[type].maxLength}
       keyboardType={TYPES[type].keyboardType}
-      onChangeText={handleChangeText}
+      onChangeText={handleSendNormalizedText}
       value={displayValue}
     />
   );

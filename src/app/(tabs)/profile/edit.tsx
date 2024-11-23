@@ -21,7 +21,6 @@ import User from "@/src/types/User";
 import GenderPicker, { GENDER_OPTIONS } from "@/src/components/GenderPicker";
 import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
 import MaskedInput from "@/src/components/MaskedInput";
-import CurrencyInput from "@/src/components/CurrencyInput";
 import {
   CEP_REGEX,
   EMAIL_REGEX,
@@ -106,7 +105,7 @@ export default function EditPage() {
       },
       service: {
         description: normalizeString(serviceDescription),
-        price: parseFloat(price),
+        price: Number(price),
       },
     };
 
@@ -283,8 +282,9 @@ export default function EditPage() {
           />
 
           <Text style={styles.title}>Valor do serviço</Text>
-          <CurrencyInput
+          <MaskedInput
             style={styles.input}
+            type="currency"
             onChangeText={setPrice}
             value={price}
           />
