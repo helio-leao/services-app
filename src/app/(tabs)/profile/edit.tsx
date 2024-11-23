@@ -21,6 +21,7 @@ import User from "@/src/types/User";
 import GenderPicker, { GENDER_OPTIONS } from "@/src/components/GenderPicker";
 import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
 import MaskedInput from "@/src/components/MaskedInput";
+import CurrencyInput from "@/src/components/CurrencyInput";
 import {
   CEP_REGEX,
   EMAIL_REGEX,
@@ -68,11 +69,7 @@ export default function EditPage() {
 
   function updateUserStates(user: User) {
     setServiceDescription(user.service?.description || "");
-    setPrice(
-      user.service?.price
-        ? `R$ ${user.service?.price.toFixed(2).toString().replace(".", ",")}`
-        : ""
-    );
+    setPrice(user.service?.price?.toFixed(2).toString() || "");
     setName(user.name);
     setEmail(user.contact.email);
     setCellphone(user.contact.cellphone);
@@ -109,7 +106,7 @@ export default function EditPage() {
       },
       service: {
         description: normalizeString(serviceDescription),
-        price: parseFloat(price.replace(",", ".").replace(/[^\d\.]/g, "")),
+        price: parseFloat(price),
       },
     };
 
@@ -129,15 +126,6 @@ export default function EditPage() {
     }
 
     setIsSaving(false);
-  }
-
-  function currencyMask(value: string) {
-    let maskedValue = value.replace(/\D/g, "");
-    maskedValue = maskedValue.replace(/^[0]+/, "");
-    maskedValue = maskedValue.replace(/^(\d{1})$/, "R$ 0,0$1");
-    maskedValue = maskedValue.replace(/^(\d{2})$/, "R$ 0,$1");
-    maskedValue = maskedValue.replace(/^(\d+)(\d{2})$/, "R$ $1,$2");
-    return maskedValue;
   }
 
   async function handlePictureUpdate() {
@@ -295,11 +283,9 @@ export default function EditPage() {
           />
 
           <Text style={styles.title}>Valor do serviço</Text>
-          <TextInput
+          <CurrencyInput
             style={styles.input}
-            keyboardType="number-pad"
-            placeholder="R$ 999,99"
-            onChangeText={(text) => setPrice(currencyMask(text))}
+            onChangeText={setPrice}
             value={price}
           />
 
