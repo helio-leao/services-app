@@ -85,7 +85,7 @@ const DefaultMainSection = ({ users }: { users: User[] }) => {
     const jobCategories = new Set<string>();
 
     for (const user of users) {
-      jobCategories.add(user.service.category.name);
+      jobCategories.add(user.service?.category?.name!);
     }
     return Array.from(jobCategories);
   }
@@ -95,7 +95,9 @@ const DefaultMainSection = ({ users }: { users: User[] }) => {
     const uniqueJobCategories = getUniqueJobCategories();
     const formatedServices = uniqueJobCategories.map((categoryName) => ({
       title: categoryName,
-      data: users.filter((user) => user.service.category.name === categoryName),
+      data: users.filter(
+        (user) => user.service?.category?.name === categoryName
+      ),
     }));
     return formatedServices;
   }
@@ -208,7 +210,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   image: {
-    width: 60,
+    width: 80,
     aspectRatio: 3 / 4,
   },
 });
