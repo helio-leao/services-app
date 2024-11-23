@@ -68,7 +68,9 @@ export default function EditPage() {
 
   function updateUserStates(user: User) {
     setServiceDescription(user.service?.description || "");
-    setPrice(user.service?.price?.toString().replace(".", ",") || "");
+    setPrice(
+      user.service?.price ? currencyMask(user.service.price.toString()) : ""
+    );
     setName(user.name);
     setEmail(user.contact.email);
     setCellphone(user.contact.cellphone);
@@ -105,7 +107,7 @@ export default function EditPage() {
       },
       service: {
         description: normalizeString(serviceDescription),
-        price: parseFloat(price.replace(",", ".")),
+        price: parseFloat(price.replace(",", ".").replace(/[^\d\.]/g, "")),
       },
     };
 
@@ -127,8 +129,10 @@ export default function EditPage() {
     setIsSaving(false);
   }
 
-  function normalizeCurrency(value: string) {
-    setPrice(value.replace(/[^\d,]/g, ""));
+  function currencyMask(value: string) {
+    let maskedValue = value.replace(/\D/g, "");
+    maskedValue = maskedValue.replace(/^(\d+)(\d{2})/, "R$ $1,$2");
+    return maskedValue;
   }
 
   async function handlePictureUpdate() {
@@ -290,7 +294,7 @@ export default function EditPage() {
             style={styles.input}
             keyboardType="number-pad"
             placeholder="R$ 999,99"
-            onChangeText={normalizeCurrency}
+            onChangeText={(text) => setPrice(currencyMask(text))}
             value={price}
           />
 
