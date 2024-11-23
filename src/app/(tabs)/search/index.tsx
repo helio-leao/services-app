@@ -88,7 +88,7 @@ const SearchResults = ({ users }: { users: User[] }) => {
           paddingHorizontal: 20,
         }}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
+        renderItem={({ item: user }) => (
           <TouchableOpacity
             style={{
               padding: 10,
@@ -100,20 +100,22 @@ const SearchResults = ({ users }: { users: User[] }) => {
             onPress={() =>
               router.push({
                 pathname: `/search/details`,
-                params: { userId: item._id },
+                params: { userId: user._id },
               })
             }
           >
-            <View style={{ alignItems: "center" }}>
+            <View style={{ alignItems: "center", gap: 2 }}>
               <Image
-                style={{ width: 60, height: 60 }}
-                source={`data:${item.picture?.mimeType};base64,${item.picture?.base64}`}
+                style={{ width: 60, aspectRatio: 3 / 4 }}
+                source={`data:${user.picture?.mimeType};base64,${user.picture?.base64}`}
                 placeholder={userPicturePlaceholder}
               />
-              <Text>{item.name.split(" ")[0]}</Text>
+              <Text>{user.name.split(" ")[0]}</Text>
             </View>
             <View>
-              <Text style={styles.title}>{item.service.subcategory.name}</Text>
+              <Text style={styles.title}>
+                {user.service?.subcategory?.name}
+              </Text>
               <View
                 style={{
                   flexDirection: "row",
@@ -124,10 +126,15 @@ const SearchResults = ({ users }: { users: User[] }) => {
                 <Text>4.8</Text>
                 <FontAwesome name="star" size={18} color="#dd0" />
                 <Text>(235)</Text>
-                <Text>{item.service.category.name}</Text>
+                <Text>{user.service?.category?.name}</Text>
               </View>
-              <Text>Preço médio R$ 250,00</Text>
-              <Text>{item.address.street}</Text>
+              {user?.service?.price && (
+                <Text>
+                  Preço médio: R$
+                  {user?.service.price?.toFixed(2).toString().replace(".", ",")}
+                </Text>
+              )}
+              <Text>{user.address.street}</Text>
             </View>
           </TouchableOpacity>
         )}
