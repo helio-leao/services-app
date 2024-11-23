@@ -69,7 +69,9 @@ export default function EditPage() {
   function updateUserStates(user: User) {
     setServiceDescription(user.service?.description || "");
     setPrice(
-      user.service?.price ? currencyMask(user.service.price.toString()) : ""
+      user.service?.price
+        ? `R$ ${user.service?.price.toFixed(2).toString().replace(".", ",")}`
+        : ""
     );
     setName(user.name);
     setEmail(user.contact.email);
@@ -131,7 +133,10 @@ export default function EditPage() {
 
   function currencyMask(value: string) {
     let maskedValue = value.replace(/\D/g, "");
-    maskedValue = maskedValue.replace(/^(\d+)(\d{2})/, "R$ $1,$2");
+    maskedValue = maskedValue.replace(/^[0]+/, "");
+    maskedValue = maskedValue.replace(/^(\d{1})$/, "R$ 0,0$1");
+    maskedValue = maskedValue.replace(/^(\d{2})$/, "R$ 0,$1");
+    maskedValue = maskedValue.replace(/^(\d+)(\d{2})$/, "R$ $1,$2");
     return maskedValue;
   }
 
