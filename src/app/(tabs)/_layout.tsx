@@ -1,6 +1,7 @@
 import { Tabs } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { colors } from "@/src/constants/colors";
 
 export default function Layout() {
   return (
@@ -8,6 +9,7 @@ export default function Layout() {
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
+        tabBarActiveTintColor: colors.secondary,
       }}
     >
       <Tabs.Screen

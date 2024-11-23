@@ -130,8 +130,10 @@ const SearchResults = ({ users }: { users: User[] }) => {
               </View>
               {user?.service?.price && (
                 <Text>
-                  Preço médio: R$
-                  {user?.service.price?.toFixed(2).toString().replace(".", ",")}
+                  {`R$ ${user?.service.price
+                    ?.toFixed(2)
+                    .toString()
+                    .replace(".", ",")}`}
                 </Text>
               )}
               <Text>{user.address.street}</Text>

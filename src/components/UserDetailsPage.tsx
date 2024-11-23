@@ -85,8 +85,10 @@ export default function DetailsPage() {
           <Text>{user?.address.street}</Text>
           {user?.service?.price && (
             <Text>
-              Preço médio: R$
-              {user?.service.price?.toFixed(2).toString().replace(".", ",")}
+              {`Preço médio: R$ ${user?.service.price
+                ?.toFixed(2)
+                .toString()
+                .replace(".", ",")}`}
             </Text>
           )}
         </View>

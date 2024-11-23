@@ -5,11 +5,12 @@ import {
   setStatusBarStyle,
   setStatusBarBackgroundColor,
 } from "expo-status-bar";
+import { colors } from "../constants/colors";
 
 export default function Layout() {
   useEffect(() => {
     setStatusBarStyle("light");
-    setStatusBarBackgroundColor("#1a7bc1", true);
+    setStatusBarBackgroundColor(colors.primary, true);
   }, []);
 
   return (

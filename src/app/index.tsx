@@ -5,6 +5,7 @@ import icon from "@/assets/images/icon.png";
 import { Image } from "expo-image";
 import { setStatusBarStyle } from "expo-status-bar";
 import { useEffect } from "react";
+import { colors } from "../constants/colors";
 
 export default function IndexPage() {
   const { isLoading } = useAuth();
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#1a7bc1",
+    backgroundColor: colors.primary,
   },
   logo: {
     width: 360,
