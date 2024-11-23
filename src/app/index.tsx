@@ -1,7 +1,7 @@
 import { Redirect } from "expo-router";
 import { useAuth } from "../contexts/AuthContext";
 import { ActivityIndicator, SafeAreaView, StyleSheet } from "react-native";
-import appLogo from "@/assets/images/app-logo.png";
+import icon from "@/assets/images/icon.png";
 import { Image } from "expo-image";
 import { setStatusBarStyle } from "expo-status-bar";
 import { useEffect } from "react";
@@ -16,7 +16,7 @@ export default function IndexPage() {
   if (isLoading) {
     return (
       <SafeAreaView style={styles.container}>
-        <Image style={styles.logo} source={appLogo} />
+        <Image style={styles.logo} source={icon} />
         <ActivityIndicator size={"large"} color={"white"} />
       </SafeAreaView>
     );
@@ -30,10 +30,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#497ABD",
+    backgroundColor: "#1a7bc1",
   },
   logo: {
-    width: 300,
+    width: 360,
     aspectRatio: 1,
   },
 });
