@@ -1,14 +1,8 @@
 import { Tabs } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { setStatusBarStyle } from "expo-status-bar";
-import { useEffect } from "react";
 
 export default function Layout() {
-  useEffect(() => {
-    setStatusBarStyle("dark");
-  }, []);
-
   return (
     <Tabs
       screenOptions={{
