@@ -21,6 +21,7 @@ import User from "@/src/types/User";
 import GenderPicker, { GENDER_OPTIONS } from "@/src/components/GenderPicker";
 import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
 import MaskedInput from "@/src/components/MaskedInput";
+import CurrencyInput from "@/src/components/CurrencyInput";
 import {
   CEP_REGEX,
   EMAIL_REGEX,
@@ -38,7 +39,7 @@ export default function EditPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [serviceDescription, setServiceDescription] = useState("");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState<number>();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [cellphone, setCellphone] = useState("");
@@ -70,7 +71,7 @@ export default function EditPage() {
 
   function updateUserStates(user: User) {
     setServiceDescription(user.service?.description || "");
-    setPrice(user.service?.price?.toFixed(2).toString() || "");
+    setPrice(user.service?.price);
     setName(user.name);
     setEmail(user.contact.email);
     setCellphone(user.contact.cellphone);
@@ -278,9 +279,8 @@ export default function EditPage() {
           />
 
           <Text style={styles.title}>Valor do serviço</Text>
-          <MaskedInput
+          <CurrencyInput
             style={styles.input}
-            type="currency"
             onChangeText={setPrice}
             value={price}
           />
