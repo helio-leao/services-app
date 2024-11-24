@@ -414,5 +414,6 @@ const styles = StyleSheet.create({
   selectImage: {
     width: 90,
     aspectRatio: 3 / 4,
+    borderRadius: 8,
   },
 });

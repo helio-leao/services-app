@@ -111,7 +111,7 @@ const SearchResults = ({ users }: { users: User[] }) => {
           >
             <View style={{ alignItems: "center", gap: 2 }}>
               <Image
-                style={{ width: 60, aspectRatio: 3 / 4 }}
+                style={{ width: 60, aspectRatio: 3 / 4, borderRadius: 8 }}
                 source={`data:${user.picture?.mimeType};base64,${user.picture?.base64}`}
                 placeholder={userPicturePlaceholder}
               />

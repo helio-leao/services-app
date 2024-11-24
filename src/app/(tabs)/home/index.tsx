@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   favoriteCardsContainer: {
-    gap: 20,
+    gap: 16,
     paddingHorizontal: 20,
   },
   favoriteCardContainer: {
@@ -215,7 +215,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   image: {
-    width: 70,
+    width: 80,
     aspectRatio: 3 / 4,
+    borderRadius: 8,
   },
 });
