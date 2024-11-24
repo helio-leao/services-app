@@ -18,6 +18,7 @@ import axios from "axios";
 import User from "@/src/types/User";
 import userPicturePlaceholder from "@/assets/images/user-picture-placeholder.jpg";
 import { colors } from "../constants/colors";
+import { maskPhone } from "./MaskedInput";
 
 export default function DetailsPage() {
   const { userId } = useLocalSearchParams<{ userId: string }>();
@@ -113,8 +114,8 @@ export default function DetailsPage() {
         <View style={styles.sectionContainer}>
           <Text>Contatos:</Text>
           <View style={{ paddingHorizontal: 20 }}>
-            <Text>Whatsapp: {user?.contact.cellphone}</Text>
-            <Text>Email: {user?.contact.email}</Text>
+            <Text>Whatsapp: {maskPhone(user!.contact.cellphone)}</Text>
+            <Text>Email: {user!.contact.email}</Text>
           </View>
         </View>
 
