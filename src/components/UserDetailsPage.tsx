@@ -88,7 +88,7 @@ export default function DetailsPage() {
         <View style={[styles.sectionContainer, { paddingHorizontal: 40 }]}>
           <Text style={styles.subtitle}>{user?.name}</Text>
           <Text>{user?.address.street}</Text>
-          {user?.service?.price && (
+          {user?.service?.price != undefined && (
             <Text>
               {`Preço médio: R$ ${user?.service.price
                 ?.toFixed(2)

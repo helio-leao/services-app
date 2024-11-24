@@ -133,7 +133,7 @@ const SearchResults = ({ users }: { users: User[] }) => {
                 <Text>(235)</Text>
                 <Text>{user.service?.category?.name}</Text>
               </View>
-              {user?.service?.price && (
+              {user?.service?.price != undefined && (
                 <Text>
                   {`R$ ${user?.service.price?.toFixed(2).replace(".", ",")}`}
                 </Text>
