@@ -8,7 +8,6 @@ export default function Layout() {
   return (
     <Stack
       screenOptions={{
-        headerTitle: "",
         headerLeft: ({ canGoBack }) =>
           canGoBack ? (
             <TouchableOpacity
@@ -28,7 +27,7 @@ export default function Layout() {
       }}
     >
       <Stack.Screen name="index" options={{ title: "Busca" }} />
-      <Stack.Screen name="details" options={{ title: "Detalhes" }} />
+      <Stack.Screen name="details" options={{ title: "" }} />
     </Stack>
   );
 }
