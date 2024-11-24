@@ -135,10 +135,7 @@ const SearchResults = ({ users }: { users: User[] }) => {
               </View>
               {user?.service?.price && (
                 <Text>
-                  {`R$ ${user?.service.price
-                    ?.toFixed(2)
-                    .toString()
-                    .replace(".", ",")}`}
+                  {`R$ ${user?.service.price?.toFixed(2).replace(".", ",")}`}
                 </Text>
               )}
               <Text>{user.address.street}</Text>

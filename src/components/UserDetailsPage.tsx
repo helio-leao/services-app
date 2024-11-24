@@ -92,7 +92,6 @@ export default function DetailsPage() {
             <Text>
               {`Preço médio: R$ ${user?.service.price
                 ?.toFixed(2)
-                .toString()
                 .replace(".", ",")}`}
             </Text>
           )}
@@ -127,8 +126,8 @@ export default function DetailsPage() {
           ]}
           onPress={handleContactUser}
         >
-          <Text>Falar com {user?.name}</Text>
-          <Entypo name="chat" size={24} color="black" />
+          <Text style={{ color: colors.primary }}>Falar com {user?.name}</Text>
+          <Entypo name="chat" size={24} color={colors.primary} />
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
