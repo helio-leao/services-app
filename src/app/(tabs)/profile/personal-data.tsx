@@ -16,6 +16,7 @@ import MaskedInput from "@/src/components/MaskedInput";
 import { CEP_REGEX } from "@/src/constants/validationRegex";
 import { normalizeString } from "@/src/utils/stringUtils";
 import CustomButton from "@/src/components/CustomButton";
+import { colors } from "@/src/constants/colors";
 
 export default function PersonalDataPage() {
   const params = useLocalSearchParams<{
@@ -197,6 +198,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     width: 300,
     alignSelf: "center",
+    backgroundColor: colors.background,
   },
   buttonsContainer: {
     gap: 10,

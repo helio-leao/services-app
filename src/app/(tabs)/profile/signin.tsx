@@ -1,5 +1,6 @@
 import CustomButton from "@/src/components/CustomButton";
 import MaskedInput from "@/src/components/MaskedInput";
+import { colors } from "@/src/constants/colors";
 import { PHONE_REGEX } from "@/src/constants/validationRegex";
 import axios from "axios";
 import { router } from "expo-router";
@@ -100,6 +101,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     width: 300,
     alignSelf: "center",
+    backgroundColor: colors.background,
   },
   buttonsContainer: {
     gap: 10,

@@ -385,7 +385,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   sectionTitleContainer: {
-    backgroundColor: "#aaa",
     alignItems: "center",
     paddingVertical: 10,
   },
@@ -406,6 +405,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     width: 300,
     alignSelf: "center",
+    backgroundColor: colors.background,
   },
   buttonsContainer: {
     gap: 10,

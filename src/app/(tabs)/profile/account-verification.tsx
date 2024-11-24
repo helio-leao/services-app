@@ -1,5 +1,6 @@
 import CustomButton from "@/src/components/CustomButton";
 import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
+import { colors } from "@/src/constants/colors";
 import { ONE_TIME_PASSWORD_REGEX } from "@/src/constants/validationRegex";
 import { useAuth } from "@/src/contexts/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -163,6 +164,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     width: 300,
     alignSelf: "center",
+    backgroundColor: colors.background,
   },
   buttonsContainer: {
     gap: 10,

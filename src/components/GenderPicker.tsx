@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import { colors } from "../constants/colors";
 
 export const GENDER_OPTIONS = [
   {
@@ -26,7 +27,13 @@ export default function GenderPicker({
   onValueChange,
 }: GenderPickerProps) {
   return (
-    <View style={{ borderWidth: 1, borderRadius: 8 }}>
+    <View
+      style={{
+        borderWidth: 1,
+        borderRadius: 8,
+        backgroundColor: colors.background,
+      }}
+    >
       <Picker selectedValue={gender} onValueChange={onValueChange}>
         {GENDER_OPTIONS.map((genderOption) => (
           <Picker.Item

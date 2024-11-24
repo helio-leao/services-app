@@ -16,6 +16,7 @@ import User from "@/src/types/User";
 import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
 import { ONE_TIME_PASSWORD_REGEX } from "@/src/constants/validationRegex";
 import CustomButton from "@/src/components/CustomButton";
+import { colors } from "@/src/constants/colors";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -161,6 +162,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     width: 300,
     alignSelf: "center",
+    backgroundColor: colors.background,
   },
   buttonsContainer: {
     gap: 10,

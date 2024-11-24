@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { TextInput, View, TouchableOpacity, StyleSheet } from "react-native";
+import { colors } from "../constants/colors";
 
 type SearchBarProps = {
   onChangeText?: (text: string) => void;
@@ -44,6 +45,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginHorizontal: 20,
     marginVertical: 20,
+    backgroundColor: colors.background,
   },
   searchButton: {
     position: "absolute",

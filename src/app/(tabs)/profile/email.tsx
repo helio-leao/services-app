@@ -1,4 +1,5 @@
 import CustomButton from "@/src/components/CustomButton";
+import { colors } from "@/src/constants/colors";
 import { EMAIL_REGEX } from "@/src/constants/validationRegex";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     width: 300,
     alignSelf: "center",
+    backgroundColor: colors.background,
   },
   buttonsContainer: {
     gap: 10,
