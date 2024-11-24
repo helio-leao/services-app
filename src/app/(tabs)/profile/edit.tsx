@@ -28,6 +28,7 @@ import {
 } from "@/src/constants/validationRegex";
 import { normalizeString } from "@/src/utils/stringUtils";
 import CustomButton from "@/src/components/CustomButton";
+import { colors } from "@/src/constants/colors";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -211,7 +212,7 @@ export default function EditPage() {
       <SafeAreaView
         style={[styles.screenContainer, { justifyContent: "center" }]}
       >
-        <ActivityIndicator size={"large"} />
+        <ActivityIndicator size={"large"} color={colors.primary} />
       </SafeAreaView>
     );
   }

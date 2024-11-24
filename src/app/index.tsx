@@ -18,7 +18,7 @@ export default function IndexPage() {
     return (
       <SafeAreaView style={styles.container}>
         <Image style={styles.logo} source={icon} />
-        <ActivityIndicator size={"large"} color={"white"} />
+        <ActivityIndicator size={"large"} color={colors.background} />
       </SafeAreaView>
     );
   }

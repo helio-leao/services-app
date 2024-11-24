@@ -16,6 +16,7 @@ import axios from "axios";
 import User from "@/src/types/User";
 import userPicturePlaceholder from "@/assets/images/user-picture-placeholder.jpg";
 import SearchBar from "@/src/components/SearchBar";
+import { colors } from "@/src/constants/colors";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -40,7 +41,7 @@ const favoriteServices = [
   },
 ];
 
-export default function SearchPage() {
+export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [allUsers, setAllUsers] = useState<User[]>([]);
@@ -72,7 +73,11 @@ export default function SearchPage() {
       />
 
       {isLoading ? (
-        <ActivityIndicator size={"large"} style={{ flex: 1 }} />
+        <ActivityIndicator
+          size={"large"}
+          color={colors.primary}
+          style={{ flex: 1 }}
+        />
       ) : (
         <DefaultMainSection users={allUsers} />
       )}

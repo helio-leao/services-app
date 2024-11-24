@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import ServiceCategory from "@/src/types/ServiceCategory";
 import CustomButton from "@/src/components/CustomButton";
+import { colors } from "@/src/constants/colors";
 
 export default function ServiceCategoryPage() {
   const params = useLocalSearchParams();
@@ -49,7 +50,11 @@ export default function ServiceCategoryPage() {
         {/* select buttons */}
         <View style={{ flex: 1, justifyContent: "space-between" }}>
           {isLoading ? (
-            <ActivityIndicator size={"large"} style={{ flex: 1 }} />
+            <ActivityIndicator
+              size={"large"}
+              color={colors.primary}
+              style={{ flex: 1 }}
+            />
           ) : categoryOptions.length === 0 ? (
             <View
               style={[

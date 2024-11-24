@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import User from "@/src/types/User";
 import userPicturePlaceholder from "@/assets/images/user-picture-placeholder.jpg";
+import { colors } from "../constants/colors";
 
 export default function DetailsPage() {
   const { userId } = useLocalSearchParams<{ userId: string }>();
@@ -49,7 +50,11 @@ export default function DetailsPage() {
       <SafeAreaView
         style={[styles.screenContainer, { justifyContent: "center" }]}
       >
-        <ActivityIndicator size={"large"} style={{ flex: 1 }} />
+        <ActivityIndicator
+          size={"large"}
+          color={colors.primary}
+          style={{ flex: 1 }}
+        />
       </SafeAreaView>
     );
   }

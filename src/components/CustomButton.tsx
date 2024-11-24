@@ -26,21 +26,21 @@ export default function CustomButton({
 }: CustomButtonProps) {
   return (
     <TouchableOpacity
-      style={[styles.button, containerStyle]}
+      style={[styles.container, containerStyle]}
       onPress={onPress}
       disabled={isLoading || disabled}
     >
       {isLoading ? (
-        <ActivityIndicator />
+        <ActivityIndicator color={colors.background} />
       ) : (
-        <Text style={styles.buttonText}>{label}</Text>
+        <Text style={styles.text}>{label}</Text>
       )}
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  button: {
+  container: {
     backgroundColor: colors.primary,
     borderRadius: 8,
     width: 300,
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 10,
   },
-  buttonText: {
-    color: "#fff",
+  text: {
+    color: colors.background,
   },
 });
