@@ -81,7 +81,7 @@ export default function SearchPage() {
 const SearchResults = ({ users }: { users: User[] }) => {
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ marginBottom: 20, marginHorizontal: 20 }}>
+      <View style={{ marginBottom: 10, marginHorizontal: 20 }}>
         <Text style={styles.title}>Serviços</Text>
       </View>
 
@@ -97,7 +97,7 @@ const SearchResults = ({ users }: { users: User[] }) => {
           <TouchableOpacity
             style={{
               padding: 10,
-              backgroundColor: "#eee",
+              backgroundColor: colors.background,
               flexDirection: "row",
               gap: 20,
               borderRadius: 8,

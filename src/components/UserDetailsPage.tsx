@@ -100,12 +100,9 @@ export default function DetailsPage() {
 
         {/* PROFESSIONAL QUALIFICATIONS SECTION */}
         <View style={styles.sectionContainer}>
-          <Text>Serviços:</Text>
-          <View style={{ paddingHorizontal: 20 }}>
-            <Text>
-              {user?.service?.category?.name} -{" "}
-              {user?.service?.subcategory?.name}
-            </Text>
+          <Text>{`Serviços: ${user?.service?.category?.name}-${user?.service?.subcategory?.name}`}</Text>
+
+          <View style={styles.sectionContent}>
             <Text>{user?.service?.description}</Text>
           </View>
         </View>
@@ -113,7 +110,7 @@ export default function DetailsPage() {
         {/* PROFESSIONAL CONTACTS SECTION */}
         <View style={styles.sectionContainer}>
           <Text>Contatos:</Text>
-          <View style={{ paddingHorizontal: 20 }}>
+          <View style={styles.sectionContent}>
             <Text>Whatsapp: {maskPhone(user!.contact.cellphone)}</Text>
             <Text>Email: {user!.contact.email}</Text>
           </View>
@@ -144,6 +141,13 @@ const styles = StyleSheet.create({
   sectionContainer: {
     paddingHorizontal: 20,
     marginBottom: 20,
+  },
+  sectionContent: {
+    marginTop: 10,
+    paddingHorizontal: 20,
+    backgroundColor: colors.background,
+    paddingVertical: 10,
+    borderRadius: 8,
   },
   professionalDataContainer: {
     paddingHorizontal: 20,
