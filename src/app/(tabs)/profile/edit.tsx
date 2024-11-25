@@ -162,6 +162,7 @@ export default function EditPage() {
       await storeUpdatedUser(updatedUser);
       setPicture(base64 || "");
       setMimeType(mimeType || "");
+      Alert.alert("Atenção", "Atualizado com sucesso.");
     } catch (error) {
       console.error(error);
       Alert.alert("Oops", "Ocorreu um erro.");
