@@ -108,7 +108,7 @@ export default function EditPage() {
       },
       service: {
         description: normalizeString(serviceDescription),
-        price: Number(price), // NOTE: if input empty convert result is 0, but the api won't set it because 0 is false
+        price: price,
       },
     };
 
@@ -156,7 +156,7 @@ export default function EditPage() {
 
     try {
       const { data: updatedUser } = await axios.patch(
-        `${API_URL}/users/${userId}`,
+        `${API_URL}/users/${userId}/picture`,
         updatedUserData
       );
       await storeUpdatedUser(updatedUser);
