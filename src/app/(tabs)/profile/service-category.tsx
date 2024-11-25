@@ -73,7 +73,9 @@ export default function ServiceCategoryPage() {
                     styles.selectButton,
                     {
                       backgroundColor:
-                        selectedCategoryId === option._id ? "#aaf" : "#ddd",
+                        selectedCategoryId === option._id
+                          ? colors.primary
+                          : colors.background,
                     },
                   ]}
                   onPress={() =>
@@ -86,7 +88,19 @@ export default function ServiceCategoryPage() {
                     source={option.pictureUrl}
                     style={styles.selectImage}
                   />
-                  <Text style={styles.title}>{option.name}</Text>
+                  <Text
+                    style={[
+                      styles.title,
+                      {
+                        color:
+                          selectedCategoryId === option._id
+                            ? colors.background
+                            : "#000",
+                      },
+                    ]}
+                  >
+                    {option.name}
+                  </Text>
                 </TouchableOpacity>
               ))}
             </View>

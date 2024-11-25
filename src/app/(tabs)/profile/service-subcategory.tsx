@@ -76,7 +76,9 @@ export default function ServiceSubcategoryPage() {
                     styles.selectButton,
                     {
                       backgroundColor:
-                        selectedSubcategoryId === option._id ? "#aaf" : "#ddd",
+                        selectedSubcategoryId === option._id
+                          ? colors.primary
+                          : colors.background,
                     },
                   ]}
                   onPress={() =>
@@ -89,7 +91,19 @@ export default function ServiceSubcategoryPage() {
                     source={option.serviceCategory.pictureUrl}
                     style={styles.selectImage}
                   />
-                  <Text style={styles.title}>{option.name}</Text>
+                  <Text
+                    style={[
+                      styles.title,
+                      {
+                        color:
+                          selectedSubcategoryId === option._id
+                            ? colors.background
+                            : "#000",
+                      },
+                    ]}
+                  >
+                    {option.name}
+                  </Text>
                 </TouchableOpacity>
               ))}
             </View>
