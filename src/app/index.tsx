@@ -1,7 +1,7 @@
 import { Redirect } from "expo-router";
 import { useAuth } from "../contexts/AuthContext";
 import { ActivityIndicator, SafeAreaView, StyleSheet } from "react-native";
-import icon from "@/assets/images/icon.png";
+import icon from "@/assets/images/adaptive-icon.png";
 import { Image } from "expo-image";
 import { setStatusBarStyle } from "expo-status-bar";
 import { useEffect } from "react";
