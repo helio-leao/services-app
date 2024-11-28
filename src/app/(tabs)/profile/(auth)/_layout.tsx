@@ -1,10 +1,17 @@
 import { colors } from "@/src/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
-import { router, Stack } from "expo-router";
+import { Redirect, router, Stack } from "expo-router";
+import { useAuth } from "@/src/contexts/AuthContext";
 
 // TODO: stack screenOptions is same in all stacks layout. centralize it
 export default function Layout() {
+  const { user } = useAuth();
+
+  if (!user) {
+    return <Redirect href={"/profile/home"} />;
+  }
+
   return (
     <Stack
       screenOptions={{
@@ -26,9 +33,7 @@ export default function Layout() {
           ) : null,
       }}
     >
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      <Stack.Screen name="(public)" options={{ headerShown: false }} />
+      <Stack.Screen name="edit" options={{ title: "Perfil" }} />
     </Stack>
   );
 }

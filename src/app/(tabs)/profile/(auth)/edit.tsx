@@ -11,7 +11,7 @@ import {
   Alert,
 } from "react-native";
 import { Image } from "expo-image";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import axios from "axios";
 import { useAuth } from "@/src/contexts/AuthContext";
 import * as ImagePicker from "expo-image-picker";
@@ -34,8 +34,7 @@ import { colors } from "@/src/constants/colors";
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function EditPage() {
-  const { userId } = useLocalSearchParams<{ userId: string }>();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [serviceDescription, setServiceDescription] = useState("");
@@ -59,8 +58,8 @@ export default function EditPage() {
   useEffect(() => {
     (async () => {
       try {
-        const { data: user } = await axios(`${API_URL}/users/${userId}`);
-        updateUserStates(user);
+        const { data } = await axios(`${API_URL}/users/${user!._id}`);
+        updateUserStates(data);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -116,7 +115,7 @@ export default function EditPage() {
 
     try {
       const { data: updatedUser } = await axios.patch(
-        `${API_URL}/users/${userId}`,
+        `${API_URL}/users/${user!._id}`,
         updatedUserData
       );
       updateUserStates(updatedUser);
@@ -156,7 +155,7 @@ export default function EditPage() {
 
     try {
       const { data: updatedUser } = await axios.patch(
-        `${API_URL}/users/${userId}/picture`,
+        `${API_URL}/users/${user!._id}/picture`,
         updatedUserData
       );
       await storeUpdatedUser(updatedUser);

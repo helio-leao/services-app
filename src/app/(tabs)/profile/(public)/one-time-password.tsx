@@ -1,11 +1,6 @@
-import CustomButton from "@/src/components/CustomButton";
-import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
-import { colors } from "@/src/constants/colors";
-import { ONE_TIME_PASSWORD_REGEX } from "@/src/constants/validationRegex";
 import { useAuth } from "@/src/contexts/AuthContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { router, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   StyleSheet,
@@ -16,10 +11,16 @@ import {
   TextInput,
   Alert,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import User from "@/src/types/User";
+import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
+import { ONE_TIME_PASSWORD_REGEX } from "@/src/constants/validationRegex";
+import CustomButton from "@/src/components/CustomButton";
+import { colors } from "@/src/constants/colors";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-export default function AccountVerificationPage() {
+export default function OneTimePasswordPage() {
   const { login } = useAuth();
   const { cellphone } = useLocalSearchParams<{ cellphone: string }>();
   const [isLoading, setIsLoading] = useState(true);
@@ -64,21 +65,13 @@ export default function AccountVerificationPage() {
     setIsLoading(true);
 
     try {
-      const { data: user } = await axios.post(
-        `${API_URL}/auth/verify-account`,
-        {
-          cellphone,
-          code,
-        }
-      );
-
+      const { data: user } = await axios.post(`${API_URL}/auth/signin`, {
+        cellphone,
+        code,
+      });
       await storeLoggedUser(user);
 
       login(user);
-      router.replace({
-        pathname: "/profile/edit",
-        params: { userId: user._id },
-      });
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");
@@ -86,7 +79,7 @@ export default function AccountVerificationPage() {
     setIsLoading(false);
   }
 
-  async function storeLoggedUser(user: UserActivation) {
+  async function storeLoggedUser(user: User) {
     try {
       await AsyncStorage.setItem(
         ASYNC_STORAGE_KEYS.USER_SESSION,
