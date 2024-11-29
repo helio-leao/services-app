@@ -2,8 +2,9 @@ import CustomButton from "@/src/components/CustomButton";
 import { colors } from "@/src/constants/colors";
 import { ONE_TIME_PASSWORD_REGEX } from "@/src/constants/validationRegex";
 import { useAuth } from "@/src/contexts/AuthContext";
+import { useNavigationState } from "@react-navigation/native";
 import axios from "axios";
-import { useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   StyleSheet,
@@ -22,6 +23,8 @@ export default function AccountVerificationPage() {
   const { cellphone } = useLocalSearchParams<{ cellphone: string }>();
   const [isLoading, setIsLoading] = useState(true);
   const [code, setCode] = useState("");
+
+  const canGoBack = useNavigationState((state) => state.index > 0);
 
   useEffect(() => {
     handleSendCode();
@@ -89,6 +92,8 @@ export default function AccountVerificationPage() {
 
   return (
     <SafeAreaView style={styles.screenContainer}>
+      <Stack.Screen options={{ title: canGoBack ? "" : "Verificar Conta" }} />
+
       {/* UPPER SECTION */}
       <View style={styles.textContainer}>
         <Text style={styles.title}>Código</Text>
