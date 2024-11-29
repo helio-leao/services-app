@@ -7,7 +7,7 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, SafeAreaView, Text, View, Alert } from "react-native";
 
-export default function Signin() {
+export default function SigninPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [cellphone, setCellphone] = useState("");
 

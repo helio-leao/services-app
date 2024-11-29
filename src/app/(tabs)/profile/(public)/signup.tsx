@@ -4,7 +4,7 @@ import { StyleSheet, SafeAreaView, Text, View } from "react-native";
 import workersImage from "@/assets/images/workers.png";
 import CustomButton from "@/src/components/CustomButton";
 
-export default function DisclaimerPage() {
+export default function SignupPage() {
   return (
     <SafeAreaView style={styles.screenContainer}>
       {/* IMAGE AND TEXT SECTION */}

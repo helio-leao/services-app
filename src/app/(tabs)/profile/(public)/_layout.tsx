@@ -34,7 +34,7 @@ export default function Layout() {
       }}
     >
       <Stack.Screen name="home" options={{ title: "Perfil" }} />
-      <Stack.Screen name="disclaimer" options={{ title: "" }} />
+      <Stack.Screen name="signup" options={{ title: "" }} />
       <Stack.Screen name="cellphone" options={{ title: "" }} />
       <Stack.Screen name="email" options={{ title: "" }} />
       <Stack.Screen name="service-category" options={{ title: "" }} />

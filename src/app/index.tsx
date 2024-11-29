@@ -7,7 +7,7 @@ import { setStatusBarStyle } from "expo-status-bar";
 import { useEffect } from "react";
 import { colors } from "../constants/colors";
 
-export default function IndexPage() {
+export default function App() {
   const { isLoading } = useAuth();
 
   useEffect(() => {

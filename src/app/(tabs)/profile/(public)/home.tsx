@@ -25,7 +25,7 @@ export default function HomePage() {
       <View style={styles.buttonsContainer}>
         <CustomButton
           label="Seja um prestador de serviços"
-          onPress={() => router.push("/profile/disclaimer")}
+          onPress={() => router.push("/profile/signup")}
         />
         <CustomButton label="Entrar" onPress={handleSignin} />
       </View>
