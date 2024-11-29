@@ -20,7 +20,7 @@ export default function EmailPage() {
     if (!isInputValid()) return;
 
     router.push({
-      pathname: "/profile/service-category",
+      pathname: "/profile/signup/service-category",
       params: { ...params, email },
     });
   }

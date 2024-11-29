@@ -7,11 +7,11 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, SafeAreaView, Text, View, Alert } from "react-native";
 
-export default function SigninPage() {
+export default function CellphonePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [cellphone, setCellphone] = useState("");
 
-  async function handleSignin() {
+  async function handleContinue() {
     if (!isInputValid()) return;
 
     setIsLoading(true);
@@ -21,21 +21,14 @@ export default function SigninPage() {
         `${process.env.EXPO_PUBLIC_API_URL}/users/searchByCellphone/${cellphone}`
       );
 
-      if (!user) {
-        return Alert.alert("Atenção", "Usuário não encontrado");
+      if (user) {
+        return Alert.alert("Atenção", "Já existe cadastro com esse telefone.");
       }
 
-      if (user.verified) {
-        router.push({
-          pathname: `/profile/one-time-password`,
-          params: { cellphone: user.contact.cellphone },
-        });
-      } else {
-        router.push({
-          pathname: `/profile/account-verification`,
-          params: { cellphone: user.contact.cellphone },
-        });
-      }
+      router.push({
+        pathname: "/profile/signup/email",
+        params: { cellphone: cellphone },
+      });
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");
@@ -56,6 +49,10 @@ export default function SigninPage() {
     <SafeAreaView style={styles.screenContainer}>
       {/* TEXT AND INPUT SECTION */}
       <View style={styles.textContainer}>
+        <Text style={styles.title}>Insira o seu número de celular.</Text>
+        <Text style={{ marginBottom: 20 }}>
+          Seu número será seu acesso ao aplicativo.
+        </Text>
         <Text style={styles.title}>Celular</Text>
         <MaskedInput
           style={styles.input}
@@ -68,8 +65,8 @@ export default function SigninPage() {
       {/* BUTTONS SECTION */}
       <View style={styles.buttonsContainer}>
         <CustomButton
-          label="Signin"
-          onPress={handleSignin}
+          label="Continuar"
+          onPress={handleContinue}
           isLoading={isLoading}
         />
       </View>

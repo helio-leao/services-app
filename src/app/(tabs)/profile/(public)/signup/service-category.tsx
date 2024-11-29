@@ -12,26 +12,23 @@ import {
   Alert,
 } from "react-native";
 import axios from "axios";
-import ServiceSubcategory from "@/src/types/ServiceSubcategory";
+import ServiceCategory from "@/src/types/ServiceCategory";
 import CustomButton from "@/src/components/CustomButton";
 import { colors } from "@/src/constants/colors";
 
-export default function ServiceSubcategoryPage() {
+export default function ServiceCategoryPage() {
   const params = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(true);
-  const [subcategoryOptions, setSubcategoryOptions] = useState<
-    ServiceSubcategory[]
-  >([]);
-  const [selectedSubcategoryId, setSelectedSubcategoryId] = useState("");
+  const [categoryOptions, setCategoryOptions] = useState<ServiceCategory[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
   useEffect(() => {
     (async () => {
-      const { selectedCategoryId } = params;
       try {
         const { data } = await axios(
-          `${process.env.EXPO_PUBLIC_API_URL}/serviceCategories/${selectedCategoryId}/serviceSubcategories`
+          `${process.env.EXPO_PUBLIC_API_URL}/serviceCategories`
         );
-        setSubcategoryOptions(data);
+        setCategoryOptions(data);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -44,7 +41,7 @@ export default function ServiceSubcategoryPage() {
     <SafeAreaView style={styles.screenContainer}>
       <View style={[styles.container, { marginTop: 20 }]}>
         <Text style={styles.title}>
-          Selecione a opção que mais se encaixa no seu perfil.
+          Selecione a categoria dos serviços que você vai realizar
         </Text>
       </View>
 
@@ -58,7 +55,7 @@ export default function ServiceSubcategoryPage() {
               color={colors.primary}
               style={{ flex: 1 }}
             />
-          ) : subcategoryOptions.length === 0 ? (
+          ) : categoryOptions.length === 0 ? (
             <View
               style={[
                 styles.container,
@@ -69,26 +66,26 @@ export default function ServiceSubcategoryPage() {
             </View>
           ) : (
             <View style={[styles.container, { gap: 8, marginVertical: 20 }]}>
-              {subcategoryOptions.map((option) => (
+              {categoryOptions.map((option) => (
                 <TouchableOpacity
                   key={option._id}
                   style={[
                     styles.selectButton,
                     {
                       backgroundColor:
-                        selectedSubcategoryId === option._id
+                        selectedCategoryId === option._id
                           ? colors.primary
                           : colors.background,
                     },
                   ]}
                   onPress={() =>
-                    setSelectedSubcategoryId((prev) =>
+                    setSelectedCategoryId((prev) =>
                       prev === option._id ? "" : option._id
                     )
                   }
                 >
                   <Image
-                    source={option.serviceCategory.pictureUrl}
+                    source={option.pictureUrl}
                     style={styles.selectImage}
                   />
                   <Text
@@ -96,7 +93,7 @@ export default function ServiceSubcategoryPage() {
                       styles.title,
                       {
                         color:
-                          selectedSubcategoryId === option._id
+                          selectedCategoryId === option._id
                             ? colors.background
                             : "#000",
                       },
@@ -115,14 +112,11 @@ export default function ServiceSubcategoryPage() {
               label="Continuar"
               onPress={() =>
                 router.push({
-                  pathname: "/profile/personal-data",
-                  params: {
-                    ...params,
-                    selectedSubcategoryId,
-                  },
+                  pathname: "/profile/signup/service-subcategory",
+                  params: { ...params, selectedCategoryId },
                 })
               }
-              disabled={!selectedSubcategoryId}
+              disabled={!selectedCategoryId}
             />
           </View>
         </View>

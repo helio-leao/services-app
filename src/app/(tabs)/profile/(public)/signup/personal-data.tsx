@@ -71,7 +71,7 @@ export default function PersonalDataPage() {
             onPress: () => {
               router.dismissAll();
               router.replace({
-                pathname: "/profile/account-verification",
+                pathname: "/profile/signup/account-verification",
                 params: { cellphone: savedUser.contact.cellphone },
               });
             },

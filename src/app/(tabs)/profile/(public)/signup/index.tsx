@@ -25,7 +25,7 @@ export default function SignupPage() {
       <View style={styles.buttonsContainer}>
         <CustomButton
           label="Vamos começar"
-          onPress={() => router.push("/profile/cellphone")}
+          onPress={() => router.push("/profile/signup/cellphone")}
         />
       </View>
     </SafeAreaView>
