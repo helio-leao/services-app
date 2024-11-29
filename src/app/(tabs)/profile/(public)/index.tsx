@@ -4,7 +4,7 @@ import { StyleSheet, SafeAreaView, Text, View } from "react-native";
 import workersImage from "@/assets/images/workers.png";
 import CustomButton from "@/src/components/CustomButton";
 
-export default function HomePage() {
+export default function ProfileHomePage() {
   function handleSignin() {
     router.push("/profile/signin");
   }

@@ -9,7 +9,7 @@ export default function Layout() {
   const { user } = useAuth();
 
   if (!user) {
-    return <Redirect href={"/profile/home"} />;
+    return <Redirect href={"/profile/(public)"} />;
   }
 
   return (
@@ -33,7 +33,7 @@ export default function Layout() {
           ) : null,
       }}
     >
-      <Stack.Screen name="edit" options={{ title: "Perfil" }} />
+      <Stack.Screen name="index" options={{ title: "Perfil" }} />
     </Stack>
   );
 }

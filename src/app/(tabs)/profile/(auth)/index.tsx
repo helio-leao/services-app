@@ -33,7 +33,7 @@ import { colors } from "@/src/constants/colors";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-export default function EditPage() {
+export default function EditUserPage() {
   const { user, logout } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
