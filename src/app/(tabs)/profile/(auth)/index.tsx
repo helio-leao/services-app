@@ -11,15 +11,12 @@ import {
   Alert,
 } from "react-native";
 import { Image } from "expo-image";
-import { router } from "expo-router";
 import axios from "axios";
 import { useAuth } from "@/src/contexts/AuthContext";
 import * as ImagePicker from "expo-image-picker";
 import userPicturePlaceholder from "@/assets/images/user-picture-placeholder.jpg";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import User from "@/src/types/User";
 import GenderPicker, { GENDER_OPTIONS } from "@/src/components/GenderPicker";
-import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
 import MaskedInput from "@/src/components/MaskedInput";
 import CurrencyInput from "@/src/components/CurrencyInput";
 import {
@@ -34,7 +31,7 @@ import { colors } from "@/src/constants/colors";
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function EditUserPage() {
-  const { user, signout } = useAuth();
+  const { user, signin, signout } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [serviceDescription, setServiceDescription] = useState("");
@@ -118,8 +115,8 @@ export default function EditUserPage() {
         `${API_URL}/users/${user!._id}`,
         updatedUserData
       );
+      await signin(updatedUser);
       updateUserStates(updatedUser);
-      await storeUpdatedUser(updatedUser);
       Alert.alert("Atenção", "Atualizado com sucesso.");
     } catch (error) {
       console.error(error);
@@ -158,9 +155,8 @@ export default function EditUserPage() {
         `${API_URL}/users/${user!._id}/picture`,
         updatedUserData
       );
-      await storeUpdatedUser(updatedUser);
-      setPicture(base64 || "");
-      setMimeType(mimeType || "");
+      await signin(updatedUser);
+      updateUserStates(updatedUser);
       Alert.alert("Atenção", "Atualizado com sucesso.");
     } catch (error) {
       console.error(error);
@@ -188,23 +184,10 @@ export default function EditUserPage() {
 
   async function handleSignout() {
     try {
-      await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER_SESSION);
-      signout();
-      router.replace("/profile/home");
+      await signout();
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Não foi possível deslogar.");
-    }
-  }
-
-  async function storeUpdatedUser(user: User) {
-    try {
-      await AsyncStorage.setItem(
-        ASYNC_STORAGE_KEYS.USER_SESSION,
-        JSON.stringify(user)
-      );
-    } catch (error) {
-      console.log(error);
     }
   }
 

@@ -15,8 +15,8 @@ const API_URL = process.env.EXPO_PUBLIC_API_URL;
 interface AuthContextType {
   isLoading: boolean;
   user: User | null;
-  signin: (userData: User) => void;
-  signout: () => void;
+  signin: (userData: User) => Promise<void>;
+  signout: () => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -53,12 +53,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     })();
   }, []);
 
-  const signin = (userData: User) => {
-    setUser(userData);
+  const signin = async (userData: User) => {
+    try {
+      await AsyncStorage.setItem(
+        ASYNC_STORAGE_KEYS.USER_SESSION,
+        JSON.stringify(user)
+      );
+      setUser(userData);
+    } catch (error) {
+      throw error;
+    }
   };
 
-  const signout = () => {
-    setUser(null);
+  const signout = async () => {
+    try {
+      await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER_SESSION);
+      setUser(null);
+    } catch (error) {
+      throw error;
+    }
   };
 
   return (

@@ -1,9 +1,7 @@
 import CustomButton from "@/src/components/CustomButton";
-import ASYNC_STORAGE_KEYS from "@/src/constants/asyncStorageKeys";
 import { colors } from "@/src/constants/colors";
 import { ONE_TIME_PASSWORD_REGEX } from "@/src/constants/validationRegex";
 import { useAuth } from "@/src/contexts/AuthContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -71,26 +69,12 @@ export default function AccountVerificationPage() {
           code,
         }
       );
-
-      await storeLoggedUser(user);
-
-      signin(user);
+      await signin(user);
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");
     }
     setIsLoading(false);
-  }
-
-  async function storeLoggedUser(user: UserActivation) {
-    try {
-      await AsyncStorage.setItem(
-        ASYNC_STORAGE_KEYS.USER_SESSION,
-        JSON.stringify(user)
-      );
-    } catch (error) {
-      console.log(error);
-    }
   }
 
   function isInputValid() {
