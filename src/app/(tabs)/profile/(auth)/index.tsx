@@ -34,7 +34,7 @@ import { colors } from "@/src/constants/colors";
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function EditUserPage() {
-  const { user, logout } = useAuth();
+  const { user, signout } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [serviceDescription, setServiceDescription] = useState("");
@@ -189,7 +189,7 @@ export default function EditUserPage() {
   async function handleSignout() {
     try {
       await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER_SESSION);
-      logout();
+      signout();
       router.replace("/profile/home");
     } catch (error) {
       console.log(error);

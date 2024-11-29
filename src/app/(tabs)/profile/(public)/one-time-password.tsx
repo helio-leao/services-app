@@ -21,7 +21,7 @@ import { colors } from "@/src/constants/colors";
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function OneTimePasswordPage() {
-  const { login } = useAuth();
+  const { signin } = useAuth();
   const { cellphone } = useLocalSearchParams<{ cellphone: string }>();
   const [isLoading, setIsLoading] = useState(true);
   const [code, setCode] = useState("");
@@ -71,7 +71,7 @@ export default function OneTimePasswordPage() {
       });
       await storeLoggedUser(user);
 
-      login(user);
+      signin(user);
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");

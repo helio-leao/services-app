@@ -15,8 +15,8 @@ const API_URL = process.env.EXPO_PUBLIC_API_URL;
 interface AuthContextType {
   isLoading: boolean;
   user: User | null;
-  login: (userData: User) => void;
-  logout: () => void;
+  signin: (userData: User) => void;
+  signout: () => void;
 }
 
 interface AuthProviderProps {
@@ -53,16 +53,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     })();
   }, []);
 
-  const login = (userData: User) => {
+  const signin = (userData: User) => {
     setUser(userData);
   };
 
-  const logout = () => {
+  const signout = () => {
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoading, user, login, logout }}>
+    <AuthContext.Provider value={{ isLoading, user, signin, signout }}>
       {children}
     </AuthContext.Provider>
   );
