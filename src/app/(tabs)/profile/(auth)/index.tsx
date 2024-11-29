@@ -135,9 +135,7 @@ export default function EditUserPage() {
       base64: true,
     });
 
-    if (result.canceled) {
-      return;
-    }
+    if (result.canceled) return;
 
     const { mimeType, base64 } = result.assets[0];
 

@@ -19,12 +19,8 @@ import CustomButton from "@/src/components/CustomButton";
 import { colors } from "@/src/constants/colors";
 
 export default function PersonalDataPage() {
-  const params = useLocalSearchParams<{
-    cellphone: string;
-    email: string;
-    selectedCategoryId: string;
-    selectedSubcategoryId: string;
-  }>();
+  const { cellphone, email, selectedCategoryId, selectedSubcategoryId } =
+    useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [zip, setZip] = useState("");
@@ -36,9 +32,6 @@ export default function PersonalDataPage() {
 
   async function handleSaveUser() {
     if (!isInputValid()) return;
-
-    const { cellphone, email, selectedCategoryId, selectedSubcategoryId } =
-      params;
 
     const newUser = {
       name: normalizeString(name),
@@ -88,9 +81,9 @@ export default function PersonalDataPage() {
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   }
 
   function isInputValid() {

@@ -54,8 +54,9 @@ export default function HomePage() {
       } catch (error) {
         console.log(error);
         Alert.alert("Oops", "Ocorreu um erro.");
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     })();
   }, []);
 

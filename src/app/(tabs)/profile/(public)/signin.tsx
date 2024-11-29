@@ -22,7 +22,6 @@ export default function SigninPage() {
       );
 
       if (!user) {
-        setIsLoading(false);
         return Alert.alert("Atenção", "Usuário não encontrado");
       }
 
@@ -40,9 +39,9 @@ export default function SigninPage() {
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   }
 
   function isInputValid() {

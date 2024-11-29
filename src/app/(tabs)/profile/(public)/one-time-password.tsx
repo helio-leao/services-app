@@ -52,8 +52,9 @@ export default function OneTimePasswordPage() {
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }
 
   async function handleVerification() {
@@ -70,8 +71,9 @@ export default function OneTimePasswordPage() {
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }
 
   function isInputValid() {

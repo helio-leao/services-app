@@ -22,9 +22,7 @@ export default function CellphonePage() {
       );
 
       if (user) {
-        setIsLoading(false);
-        Alert.alert("Atenção", "Já existe cadastro com esse telefone.");
-        return;
+        return Alert.alert("Atenção", "Já existe cadastro com esse telefone.");
       }
 
       router.push({
@@ -34,9 +32,9 @@ export default function CellphonePage() {
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   }
 
   function isInputValid() {
