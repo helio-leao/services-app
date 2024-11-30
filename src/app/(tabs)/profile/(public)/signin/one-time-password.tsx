@@ -1,6 +1,6 @@
 import { useAuth } from "@/src/contexts/AuthContext";
 import axios from "axios";
-import { useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   StyleSheet,
@@ -14,14 +14,20 @@ import {
 import { ONE_TIME_PASSWORD_REGEX } from "@/src/constants/validationRegex";
 import CustomButton from "@/src/components/CustomButton";
 import { colors } from "@/src/constants/colors";
+import { useNavigationState } from "@react-navigation/native";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function OneTimePasswordPage() {
   const { signin } = useAuth();
-  const { cellphone } = useLocalSearchParams<{ cellphone: string }>();
+  const { cellphone, verified } = useLocalSearchParams<{
+    cellphone: string;
+    verified: "true" | "false";
+  }>();
   const [isLoading, setIsLoading] = useState(true);
   const [code, setCode] = useState("");
+
+  const canGoBack = useNavigationState((state) => state.index > 0);
 
   useEffect(() => {
     handleSendCode();
@@ -57,7 +63,29 @@ export default function OneTimePasswordPage() {
     }
   }
 
-  async function handleVerification() {
+  async function handleSignupVerification() {
+    if (!isInputValid()) return;
+
+    setIsLoading(true);
+
+    try {
+      const { data: user } = await axios.post(
+        `${API_URL}/auth/verify-account`,
+        {
+          cellphone,
+          code,
+        }
+      );
+      await signin(user);
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Oops", "Ocorreu um erro.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleSigninVerification() {
     if (!isInputValid()) return;
 
     setIsLoading(true);
@@ -76,6 +104,14 @@ export default function OneTimePasswordPage() {
     }
   }
 
+  async function handleVerification() {
+    if (verified === "true") {
+      await handleSigninVerification();
+    } else {
+      await handleSignupVerification();
+    }
+  }
+
   function isInputValid() {
     if (!ONE_TIME_PASSWORD_REGEX.test(code)) {
       Alert.alert("Atenção", "O código deve ter 6 números.");
@@ -86,6 +122,8 @@ export default function OneTimePasswordPage() {
 
   return (
     <SafeAreaView style={styles.screenContainer}>
+      <Stack.Screen options={{ title: canGoBack ? "" : "Verificar Conta" }} />
+
       {/* UPPER SECTION */}
       <View style={styles.textContainer}>
         <Text style={styles.title}>Código</Text>

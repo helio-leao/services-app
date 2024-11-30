@@ -35,19 +35,15 @@ export default function Layout() {
     >
       <Stack.Screen name="index" options={{ title: "Perfil" }} />
 
+      <Stack.Screen name="signin/index" options={{ title: "" }} />
+      <Stack.Screen name="signin/one-time-password" options={{ title: "" }} />
+
       <Stack.Screen name="signup/index" options={{ title: "" }} />
       <Stack.Screen name="signup/cellphone" options={{ title: "" }} />
       <Stack.Screen name="signup/email" options={{ title: "" }} />
       <Stack.Screen name="signup/service-category" options={{ title: "" }} />
       <Stack.Screen name="signup/service-subcategory" options={{ title: "" }} />
       <Stack.Screen name="signup/personal-data" options={{ title: "" }} />
-      <Stack.Screen
-        name="signup/account-verification"
-        options={{ title: "" }}
-      />
-
-      <Stack.Screen name="signin/index" options={{ title: "" }} />
-      <Stack.Screen name="signin/one-time-password" options={{ title: "" }} />
     </Stack>
   );
 }

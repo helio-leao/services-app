@@ -25,17 +25,13 @@ export default function SigninPage() {
         return Alert.alert("Atenção", "Usuário não encontrado");
       }
 
-      if (user.verified) {
-        router.push({
-          pathname: `/profile/signin/one-time-password`,
-          params: { cellphone: user.contact.cellphone },
-        });
-      } else {
-        router.push({
-          pathname: `/profile/signup/account-verification`,
-          params: { cellphone: user.contact.cellphone },
-        });
-      }
+      router.push({
+        pathname: `/profile/signin/one-time-password`,
+        params: {
+          cellphone: user.contact.cellphone,
+          verified: String(user.verified),
+        },
+      });
     } catch (error) {
       console.log(error);
       Alert.alert("Oops", "Ocorreu um erro.");
