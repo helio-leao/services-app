@@ -13,14 +13,19 @@ import axios from "axios";
 import { router } from "expo-router";
 import GenderPicker, { GENDER_OPTIONS } from "@/src/components/GenderPicker";
 import MaskedInput from "@/src/components/MaskedInput";
-import { CEP_REGEX } from "@/src/constants/validationRegex";
+// import { CEP_REGEX } from "@/src/constants/validationRegex";
 import { normalizeString } from "@/src/utils/stringUtils";
 import CustomButton from "@/src/components/CustomButton";
 import { colors } from "@/src/constants/colors";
 
 export default function PersonalDataPage() {
-  const { cellphone, email, selectedCategoryId, selectedSubcategoryId } =
-    useLocalSearchParams();
+  const {
+    cellphone,
+    email,
+    selectedCategoryId,
+    selectedSubcategoryId,
+    accountType,
+  } = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [zip, setZip] = useState("");
@@ -47,14 +52,17 @@ export default function PersonalDataPage() {
         email: email,
         cellphone: cellphone,
       },
-      service: {
-        category: selectedCategoryId,
-        subcategory: selectedSubcategoryId,
-      },
     };
 
-    setIsLoading(true);
+    if (accountType === "professional") {
+      const service = {
+        category: selectedCategoryId,
+        subcategory: selectedSubcategoryId,
+      };
+      (newUser as any).service = service;
+    }
 
+    setIsLoading(true);
     try {
       const { data: savedUser } = await axios.post(
         `${process.env.EXPO_PUBLIC_API_URL}/auth/signup`,

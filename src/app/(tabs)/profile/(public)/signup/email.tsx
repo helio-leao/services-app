@@ -19,10 +19,17 @@ export default function EmailPage() {
   function handleContinue() {
     if (!isInputValid()) return;
 
-    router.push({
-      pathname: "/profile/signup/service-category",
-      params: { ...params, email },
-    });
+    if (params.accountType === "professional") {
+      router.push({
+        pathname: "/profile/signup/service-category",
+        params: { ...params, email },
+      });
+    } else if (params.accountType === "client") {
+      router.push({
+        pathname: "/profile/signup/personal-data",
+        params: { ...params, email },
+      });
+    }
   }
 
   function isInputValid() {

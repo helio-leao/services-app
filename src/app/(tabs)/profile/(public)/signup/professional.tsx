@@ -4,30 +4,34 @@ import { StyleSheet, SafeAreaView, Text, View } from "react-native";
 import professionalImage from "@/assets/images/user-professional.png";
 import CustomButton from "@/src/components/CustomButton";
 
-export default function ProfileHomePage() {
-  function handleSignin() {
-    router.push("/profile/signin");
-  }
-
+export default function ProfessionalPage() {
   return (
     <SafeAreaView style={styles.screenContainer}>
-      {/* TEXT SECTION */}
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>Meu App</Text>
-        <Text>Bem-vindo ao Meu App</Text>
-        <Text>Alcance clientes da sua região todos os dias.</Text>
-      </View>
+      {/* IMAGE AND TEXT SECTION */}
+      <View>
+        <Image style={styles.image} source={professionalImage} />
 
-      {/* IMAGE */}
-      <Image style={styles.image} source={professionalImage} />
+        {/* TEXT SECTION */}
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>Cadastre seus serviços</Text>
+          <Text style={styles.text}>
+            Faça parte da maior rede de prestadores de serviços da região. Se
+            destaque e aumente sua clientela diariamente.
+          </Text>
+        </View>
+      </View>
 
       {/* BUTTONS SECTION */}
       <View style={styles.buttonsContainer}>
         <CustomButton
-          label="Criar cadastro"
-          onPress={() => router.push("/profile/signup")}
+          label="Vamos começar"
+          onPress={() =>
+            router.push({
+              pathname: "/profile/signup/cellphone",
+              params: { accountType: "professional" },
+            })
+          }
         />
-        <CustomButton label="Entrar" onPress={handleSignin} />
       </View>
     </SafeAreaView>
   );
@@ -40,6 +44,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   textContainer: {
+    width: 300,
+    alignSelf: "center",
     alignItems: "center",
     gap: 4,
   },
@@ -47,10 +53,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
   },
+  text: {
+    textAlign: "center",
+  },
   image: {
     width: 160,
     height: 160,
     alignSelf: "center",
+    marginBottom: 20,
   },
   buttonsContainer: {
     gap: 10,

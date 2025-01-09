@@ -3,11 +3,12 @@ import MaskedInput from "@/src/components/MaskedInput";
 import { colors } from "@/src/constants/colors";
 import { PHONE_REGEX } from "@/src/constants/validationRegex";
 import axios from "axios";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, SafeAreaView, Text, View, Alert } from "react-native";
 
 export default function CellphonePage() {
+  const params = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [cellphone, setCellphone] = useState("");
 
@@ -27,7 +28,7 @@ export default function CellphonePage() {
 
       router.push({
         pathname: "/profile/signup/email",
-        params: { cellphone: cellphone },
+        params: { ...params, cellphone: cellphone },
       });
     } catch (error) {
       console.log(error);
