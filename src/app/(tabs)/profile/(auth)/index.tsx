@@ -20,13 +20,14 @@ import GenderPicker, { GENDER_OPTIONS } from "@/src/components/GenderPicker";
 import MaskedInput from "@/src/components/MaskedInput";
 import CurrencyInput from "@/src/components/CurrencyInput";
 import {
-  CEP_REGEX,
+  // CEP_REGEX,
   EMAIL_REGEX,
   PHONE_REGEX,
 } from "@/src/constants/validationRegex";
 import { normalizeString } from "@/src/utils/stringUtils";
 import CustomButton from "@/src/components/CustomButton";
 import { colors } from "@/src/constants/colors";
+import React from "react";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -51,6 +52,8 @@ export default function EditUserPage() {
 
   const [picture, setPicture] = useState("");
   const [mimeType, setMimeType] = useState("");
+
+  const isProfessional = serviceCategory !== "";
 
   useEffect(() => {
     (async () => {
@@ -102,14 +105,16 @@ export default function EditUserPage() {
         number: normalizeString(number),
         complement: normalizeString(complement),
       },
-      service: {
-        description: normalizeString(serviceDescription),
-        price: price,
-      },
     };
 
-    setIsSaving(true);
+    if (isProfessional) {
+      (updatedUserData as any).service = {
+        description: normalizeString(serviceDescription),
+        price: price,
+      };
+    }
 
+    setIsSaving(true);
     try {
       const { data: updatedUser } = await axios.patch(
         `${API_URL}/users/${user!._id}`,
@@ -121,9 +126,9 @@ export default function EditUserPage() {
     } catch (error) {
       console.error(error);
       Alert.alert("Oops", "Ocorreu um erro.");
+    } finally {
+      setIsSaving(false);
     }
-
-    setIsSaving(false);
   }
 
   async function handlePictureUpdate() {
@@ -244,33 +249,37 @@ export default function EditUserPage() {
         </View>
 
         {/* SERVICE SECTION */}
-        <View style={styles.sectionTitleContainer}>
-          <Text style={[styles.title, { width: 300 }]}>Meu serviço</Text>
-        </View>
-        <View style={styles.inputsContainer}>
-          <Text style={styles.title}>Descrição</Text>
-          <TextInput
-            style={styles.input}
-            multiline
-            numberOfLines={4}
-            maxLength={300}
-            textAlignVertical="top"
-            onChangeText={setServiceDescription}
-            value={serviceDescription}
-          />
+        {isProfessional && (
+          <>
+            <View style={styles.sectionTitleContainer}>
+              <Text style={[styles.title, { width: 300 }]}>Meu serviço</Text>
+            </View>
+            <View style={styles.inputsContainer}>
+              <Text style={styles.title}>Descrição</Text>
+              <TextInput
+                style={styles.input}
+                multiline
+                numberOfLines={4}
+                maxLength={300}
+                textAlignVertical="top"
+                onChangeText={setServiceDescription}
+                value={serviceDescription}
+              />
 
-          <Text style={styles.title}>Valor do serviço</Text>
-          <CurrencyInput
-            style={styles.input}
-            onChangeText={setPrice}
-            value={price}
-          />
+              <Text style={styles.title}>Valor do serviço</Text>
+              <CurrencyInput
+                style={styles.input}
+                onChangeText={setPrice}
+                value={price}
+              />
 
-          <Text style={styles.title}>{serviceCategory}</Text>
-          <Text style={[styles.title, { marginLeft: 20 }]}>
-            {serviceSubcategory}
-          </Text>
-        </View>
+              <Text style={styles.title}>{serviceCategory}</Text>
+              <Text style={[styles.title, { marginLeft: 20 }]}>
+                {serviceSubcategory}
+              </Text>
+            </View>
+          </>
+        )}
 
         {/* PERSONAL DATA SECTION */}
         <View style={styles.sectionTitleContainer}>
